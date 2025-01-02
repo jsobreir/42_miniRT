@@ -29,4 +29,3 @@ Tasks:
   [] Function color_pixel_hit = diffuse + ambient light
 [] Graficos basicos
   [] Criate window and add functions esc e cross (exit)
-* 
