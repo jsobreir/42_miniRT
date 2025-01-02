@@ -1,0 +1,9 @@
+{
+	"files.associations": {
+		"mini_rt.h": "c",
+		"ft_printf.h": "c",
+		"keysym.h": "c",
+		"mlx.h": "c",
+		"minirt.h": "c"
+	}
+}
