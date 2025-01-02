@@ -23,11 +23,34 @@ typedef struct s_img
 	int		endian;
 }				t_img;
 
-typedef struct s_solid
+typedef struct s_scene
 {
 	void 	*mlx_win;
 	void	*mlx;
 	t_img 	img;
-} t_solid ;
+} 	t_scene ;
+
+typedef struct s_point
+{
+	float	x;
+	float	y;
+	float	z;
+} 	t_point;
+
+typedef struct s_vector
+{
+	t_point start;
+	float	x;
+	float	y;
+	float	z;
+}	t_vector;
+
+
+int			clean_exit(t_scene *solid);
+void		setup_hooks(t_scene *scene);
+t_vector 	add_vectors(t_vector *one, t_vector *two);
+t_vector 	subtract_vectors(t_vector *one, t_vector *two);
+t_vector 	multiply_vectors(t_vector *one, t_vector *two);
+t_vector 	divide_vectors(t_vector *one, t_vector *two);
 
 #endif
