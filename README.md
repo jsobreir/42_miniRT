@@ -33,7 +33,7 @@ Tasks:
   - [ ] Criate window and add functions esc e cross (exit)  
 
 ## References
-* https://github.com/Jburlama/miniRT?tab=readme-ov-file
+* jburlama: https://github.com/Jburlama/miniRT?tab=readme-ov-file
 * Ray Tracing by Joao Manuel Brisson Lopes: https://disciplinas.ist.utl.pt/leic-cg/textos/livro/Ray%20Tracing.pdf
 * The Raytracer Challenge: https://www.bharatchan.com/images/uploads/g/173159035800090.pdf
 * Shader Toy: https://www.shadertoy.com/view/tl23Rm
