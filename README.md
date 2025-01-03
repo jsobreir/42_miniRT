@@ -29,8 +29,6 @@ Tasks:
   - [ ] Diffuse_light = object_color * light_intensity * dot_product(normal_vector, light_vector)  
   - [ ] Function color_pixel_hit = diffuse + ambient light
   - [ ] Shadows - Implement shadowing
-- [ ] Graficos basicos  
-  - [ ] Criate window and add functions esc e cross (exit)  
 
 ## References
 * jburlama: https://github.com/Jburlama/miniRT?tab=readme-ov-file
