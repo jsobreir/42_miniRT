@@ -1,5 +1,8 @@
 #include "minirt.h"
 
+/// @brief Window clean exit.
+/// @param scene 
+/// @return 
 int	clean_exit(t_scene *scene)
 {
 	ft_putstr_fd("Exiting program cleanly.\n", 1);
@@ -16,5 +19,16 @@ int	clean_exit(t_scene *scene)
 		free(scene->mlx);
 	}
 	exit(0);
+	return (0);
+}
+
+int	free_array(char	**arr, int len)
+{
+	while (arr[len])
+	{
+		free(arr[len]);
+		len--;
+	}
+	free(arr);
 	return (0);
 }

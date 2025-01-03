@@ -1,8 +1,8 @@
 #include "minirt.h"
 
-t_vector add_vectors(t_vector *one, t_vector *two)
+t_vec3 add_vectors(t_vec3 *one, t_vec3 *two)
 {
-	t_vector new;
+	t_vec3 new;
 
 	new.x = one->x + two->x;
 	new.y = one->y + two->y;
@@ -10,9 +10,9 @@ t_vector add_vectors(t_vector *one, t_vector *two)
 	return (new);
 }
 
-t_vector subtract_vectors(t_vector *one, t_vector *two)
+t_vec3 subtract_vec3s(t_vec3 *one, t_vec3 *two)
 {
-	t_vector new;
+	t_vec3 new;
 
 	new.x = one->x - two->x;
 	new.y = one->y - two->y;
@@ -20,9 +20,9 @@ t_vector subtract_vectors(t_vector *one, t_vector *two)
 	return (new);
 }
 
-t_vector multiply_vectors(t_vector *one, t_vector *two)
+t_vec3 multiply_vectors(t_vec3 *one, t_vec3 *two)
 {
-	t_vector new;
+	t_vec3 new;
 
 	new.x = one->x * two->x;
 	new.y = one->y * two->y;
@@ -30,9 +30,9 @@ t_vector multiply_vectors(t_vector *one, t_vector *two)
 	return (new);
 }
 
-t_vector divide_vectors(t_vector *one, t_vector *two)
+t_vec3 divide_vectors(t_vec3 *one, t_vec3 *two)
 {
-	t_vector new;
+	t_vec3 new;
 
 	new.x = one->x / two->x;
 	new.y = one->y / two->y;
