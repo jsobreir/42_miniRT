@@ -59,6 +59,9 @@ pl 0,0,0 0,1.0,0 255,0,225
 sp 0,0,20 20 255,0,0
 cy 50.0,0.0,20.6 0,0,1.0 14.2 21.42 10,0,255
 ```
+## Documentation
+### Overall program structure
+
 ## Tasks
 - [ ] Minilibx - Set up functional window management: opening, free, closing, ESC
 - [ ] Parser - Analyze the file and create structures for each object and light.  
@@ -83,7 +86,11 @@ cy 50.0,0.0,20.6 0,0,1.0 14.2 21.42 10,0,255
 
 
 ## Installing and Using
-To download, clone the repository into your device and navigate inside using `cd push_swap`, then typing  `make` to compile all the functions and generate the executable push_swap, which you can run as follows:
+To download, clone the repository into your device and navigate inside using `cd minirt`, then typing  `make` to compile all the functions and generate the executable push_swap, which you can run as follows:
+```
+./minirt path_to_.rt_file
+```
+where the path_to_.rt_file is the path to a file with a .rt extension that contains the scene parameters shown above.
 
 ## Disclaimer
 At 42 School our projects have to adhere to the 42 Norm of coding standards and good practices. These include:
