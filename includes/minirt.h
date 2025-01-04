@@ -9,7 +9,7 @@
 # include "./libft/printf/ft_printf.h"
 # include <X11/keysym.h>
 # include <X11/X.h>
-// # include "keys.h"
+# include <X11/keysym.h>
 
 # define HEIGHT 800
 # define WIDTH 800
@@ -92,6 +92,7 @@ typedef struct s_scene
 } 	t_scene ;
 
 // Windows
+int			handle_keys(int key, t_scene *scene);
 int			clean_exit(t_scene *solid);
 void		init_vars(t_scene *scene);
 void		init(t_scene *scene);
