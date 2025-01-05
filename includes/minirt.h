@@ -13,6 +13,7 @@
 
 # define HEIGHT 800
 # define WIDTH 800
+# define PI 3.14159265358979323846
 
 typedef struct s_img
 {
@@ -49,8 +50,8 @@ typedef struct s_object
 {
 	t_obj_type	type;
 	t_point		rgb;
-	t_point		position;
-	t_point		orientation;
+	t_point		position; // centro?
+	t_point		orientation; // ??
 	float		radius; // Spheres and cylinders
 	float		height; // Only cylinders
 }	t_object;
@@ -69,10 +70,8 @@ typedef struct s_light
 	int			ambient_color_rgb[3];
 	t_point		position;
 	float		brightness;
-	int			color_rgb[3];
+	int			color_rgb[3]; // isto é so para o bonus :)
 }	t_light;
-
-
 
 typedef struct s_ray
 {
@@ -106,8 +105,16 @@ t_vec3 		add_vectors(t_vec3 *one, t_vec3 *two);
 t_vec3 		subtract_vec3s(t_vec3 *one, t_vec3 *two);
 t_vec3 		multiply_vectors(t_vec3 *one, t_vec3 *two);
 t_vec3 		divide_vectors(t_vec3 *one, t_vec3 *two);
+float		dot_product(t_vec3 a, t_vec3 b);
+t_vec3 		normalize(t_vec3 *a);
+t_vec3 		mult_byscalar(t_vec3 *vec, float scalar);
+t_vec3 		cross_product(t_vec3 a, t_vec3 b);
 
 // Utils
 int			arr_len(char **arr);
+void		my_mlx_pixel_put(t_img *img, int x, int y, int color);
+
+// Rendering
+int make_sphere(int x, int y, t_camera *camera);
 
 #endif

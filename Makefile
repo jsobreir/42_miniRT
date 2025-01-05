@@ -21,18 +21,20 @@ SRC_DIR = main
 WINDOWS = hooks free init
 MATHS = maths
 UTILS = utils
+RENDER = render
 
 VPATHS =	src/windows/		\
 			src/parser/		\
 			src/maths/		\
 			src/utils/		\
+			src/render/		\
 
 SRC	=	$(addsuffix .c, $(SRC_DIR)) \
 		$(addsuffix .c, $(WINDOWS)) \
 		$(addsuffix .c, $(PARSER)) \
 		$(addsuffix .c, $(MATHS)) \
-		$(addsuffix .c, $(UILS)) \
-
+		$(addsuffix .c, $(UTILS)) \
+		$(addsuffix .c, $(RENDER)) \
 
 # Convert source files to object files in the obj directory
 OBJ = $(SRC:%.c=$(OBJ_DIR)/%.o)
