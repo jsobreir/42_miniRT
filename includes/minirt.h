@@ -11,9 +11,10 @@
 # include <X11/X.h>
 # include <X11/keysym.h>
 
-# define HEIGHT 800
+# define HEIGHT 400
 # define WIDTH 800
 # define PI 3.14159265358979323846
+#define ASPECT_RATIO ((float)HEIGHT / (float)WIDTH)
 
 typedef struct s_img
 {
@@ -60,7 +61,10 @@ typedef struct s_object
 typedef struct s_camera
 {
 	t_point		position;
-	t_vec3	orientation;
+	t_vec3		orientation;
+	float		viewport_height;
+	float		viewport_width;
+	float		focal_length;
 	int			fov;
 }	t_camera;
 
@@ -76,8 +80,16 @@ typedef struct s_light
 typedef struct s_ray
 {
 	t_point		origin;
-	t_vec3	direction;
+	t_vec3		direction;
 }	t_ray;
+
+/// Livro pagina 64
+typedef struct s_intersections
+{
+	float					t[2];
+	t_object 				*object;
+	struct t_intersections	*next;
+}	t_intersections;
 
 typedef struct s_scene
 {
@@ -86,7 +98,8 @@ typedef struct s_scene
 	t_img 		img;
 	t_camera 	camera;
 	t_light		light;
-	t_object	*objects;
+	t_object	**objects;
+
 
 } 	t_scene ;
 

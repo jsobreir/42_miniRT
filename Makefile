@@ -19,7 +19,7 @@ CC = cc
 
 SRC_DIR = main
 WINDOWS = hooks free init
-MATHS = maths
+MATHS = maths maths1
 UTILS = utils
 RENDER = render
 

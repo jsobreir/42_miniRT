@@ -20,13 +20,13 @@ void	init_vars(t_scene *scene)
 void	init(t_scene *scene)
 {
 	init_vars(scene);
-	scene->mlx_win = mlx_new_window(scene->mlx, 800, 800, "MiniRT");
+	scene->mlx_win = mlx_new_window(scene->mlx, WIDTH, HEIGHT, "MiniRT");
 	if (scene->mlx_win == NULL)
 	{
 		ft_putstr_fd("Error creating window\n", 2);
 		exit(EXIT_FAILURE);
 	}
-	scene->img.img = mlx_new_image(scene->mlx, HEIGHT, WIDTH);
+	scene->img.img = mlx_new_image(scene->mlx, WIDTH, HEIGHT);
 	if (scene->img.img == NULL)
 	{
 		ft_putstr_fd("Error creating image\n", 2);
