@@ -8,6 +8,8 @@ void	init_vars(t_scene *scene)
 	scene->mlx_win = NULL;
 	scene->img.img = NULL;
 	scene->mlx = mlx_init();
+	scene->objects[0] = malloc(sizeof(t_object *));
+	scene->objects[1] = NULL;
 	if (scene->mlx == NULL)
 	{
 		ft_putstr_fd("Error initializing MiniLibX\n", 2);

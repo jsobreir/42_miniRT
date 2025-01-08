@@ -15,32 +15,16 @@ static void init_camera(t_camera *c)
 	c->viewport_height = ASPECT_RATIO * c->viewport_width;
 }
 
-static void render_img(t_scene *scene, t_camera *camera)
-{
-	int			x;
-	int			y;
-
-	x = 0;
-	while (x < WIDTH)
-	{
-		y = 0;
-		while (y < HEIGHT)
-		{
-			mlx_pixel_put(scene->mlx, scene->mlx_win, x, y, make_sphere(x, y, camera));
-			y++;
-		}
-		x++;
-	}
-}
-
 int main(int argc, char **argv)
 {
 	(void)argc;
 	(void)argv;
 	t_scene scene;
 	t_camera camera;
+
 	init(&scene);
 	init_camera(&camera);
+	scene.camera = &camera;
 	setup_hooks(&scene);
 	render_img(&scene, &camera);
 	mlx_loop(scene.mlx);

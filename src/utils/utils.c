@@ -21,3 +21,12 @@ void	my_mlx_pixel_put(t_img *img, int x, int y, int color)
 	offset = ((y * img->line_len) + (x * (img->bpp / 8)));
 	*(unsigned int *)(img->addr + offset) = color;
 }
+
+void	print_intersect_ray(t_intersections *intersections)
+{
+	while (intersections)
+	{
+		printf("%f\n%f\n", intersections->t[0], intersections->t[1]);
+		intersections = intersections->next;
+	}	
+}
