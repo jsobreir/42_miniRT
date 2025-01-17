@@ -12,7 +12,7 @@
 # include <X11/keysym.h>
 # include <stdbool.h>
 
-# define HEIGHT 400
+# define HEIGHT 800
 # define WIDTH 800
 # define PI 3.14159265358979323846
 #define ASPECT_RATIO ((float)HEIGHT / (float)WIDTH)
@@ -45,7 +45,7 @@ typedef t_vec3 t_point3;
 typedef struct s_object
 {
 	t_obj_type	type;
-	t_point3	rgb;
+	int			rgb[3];
 	t_point3	position; // centro?
 	t_point3	orientation; // ??
 	float		radius; // Spheres and cylinders
@@ -55,7 +55,7 @@ typedef struct s_object
 
 typedef struct s_camera
 {
-	t_point3		position;
+	t_point3	position;
 	t_vec3		orientation;
 	float		viewport_height;
 	float		viewport_width;
@@ -67,7 +67,7 @@ typedef struct s_light
 {
 	float		ambient_lighting_ratio;
 	int			ambient_color_rgb[3];
-	t_point3		position;
+	t_point3	position;
 	float		brightness;
 	int			color_rgb[3]; // isto é so para o bonus :)
 }	t_light;
@@ -93,47 +93,55 @@ typedef struct s_scene
 {
 	void 		*mlx_win;
 	void		*mlx;
+	int			num_objects;
 	t_img 		img;
 	t_light		light;
-	t_object	**objects;
+	t_object	*objects;
 	t_camera	*camera;
 } 	t_scene ;
 
 // Windows
-int			handle_keys(int key, t_scene *scene);
-int			clean_exit(t_scene *solid);
-void		init_vars(t_scene *scene);
-void		init(t_scene *scene);
-void		setup_hooks(t_scene *scene);
+int					handle_keys(int key, t_scene *scene);
+int					clean_exit(t_scene *solid);
+void				init_vars(t_scene *scene);
+void				init(t_scene *scene);
+void				setup_hooks(t_scene *scene);
 
 // Free
-int			free_array(char	**arr, int len);
+int					free_array(char	**arr, int len);
 
 // Maths
-t_vec3 		add_vectors(t_vec3 *one, t_vec3 *two);
-t_vec3 		subtract_vec3s(t_vec3 *one, t_vec3 *two);
-t_vec3 		multiply_vectors(t_vec3 *one, t_vec3 *two);
-t_vec3 		divide_vectors(t_vec3 *one, t_vec3 *two);
-float		dot_product(t_vec3 a, t_vec3 b);
-t_vec3 		normalize(t_vec3 *a);
-t_vec3 		mult_byscalar(t_vec3 *vec, float scalar);
-t_vec3 		cross_product(t_vec3 a, t_vec3 b);
+t_vec3 				add_vectors(t_vec3 *one, t_vec3 *two);
+t_vec3 				subtract_vec3s(t_vec3 *one, t_vec3 *two);
+t_vec3 				multiply_vectors(t_vec3 *one, t_vec3 *two);
+t_vec3 				divide_vectors(t_vec3 *one, t_vec3 *two);
+float				dot_product(t_vec3 a, t_vec3 b);
+t_vec3 				normalize(t_vec3 *a);
+t_vec3 				mult_byscalar(t_vec3 *vec, float scalar);
+t_vec3 				cross_product(t_vec3 a, t_vec3 b);
+t_vec3				normal_sphere(t_point3 *point, t_object *object);
+t_vec3				reflect(t_vec3 in, t_vec3 normal);
+t_point3			point_on_vec3(float t, t_vec3 *vector);
 
 //Camera
-t_ray*		generate_ray(int x, int y, t_camera *camera, t_ray *ray);
+t_ray*				generate_ray(int x, int y, t_camera *camera, t_ray *ray);
 
 //Intersections
-int				hit_sphere(t_object *sphere, t_ray *ray);
-t_intersections	*intersect(t_ray *ray, t_scene *world);
-void			add_intersect_list(t_ray *ray, t_object *object, float *t);
+int					hit_sphere(t_object *sphere, t_ray *ray, t_intersections **intersections);
+t_intersections		*intersect(t_ray *ray, t_scene *world);
+t_intersections		*add_intersect_list(t_intersections **intersections, t_object *object, float *t);
+t_intersections		*new_inters_node(t_object *object, float *t);
+t_intersections 	*last_inters_node(t_intersections *inters);
 
 // Utils
-int			arr_len(char **arr);
-void		my_mlx_pixel_put(t_img *img, int x, int y, int color);
-void		print_intersect_ray(t_intersections *intersections);
+int					arr_len(char **arr);
+void				my_mlx_pixel_put(t_img *img, int x, int y, int color);
+void				print_intersect_ray(int x, int y, t_intersections *intersections);
 
 // Rendering
-void		render_img(t_scene *scene, t_camera *camera);
-int			make_sphere(int x, int y, t_camera *camera);
+void				render_img(t_scene *scene, t_camera *camera);
+int					make_sphere(int x, int y, t_camera *camera);
+int					calculate_diffuse(t_intersections *intersection, t_scene world, t_ray *ray);
+int					rgb_to_hex(int rgb[3]);
 
 #endif

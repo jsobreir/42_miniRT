@@ -22,11 +22,13 @@ void	my_mlx_pixel_put(t_img *img, int x, int y, int color)
 	*(unsigned int *)(img->addr + offset) = color;
 }
 
-void	print_intersect_ray(t_intersections *intersections)
+void	print_intersect_ray(int x, int y, t_intersections *intersections)
 {
-	while (intersections)
+	while (intersections != NULL)
 	{
-		printf("%f\n%f\n", intersections->t[0], intersections->t[1]);
+		printf("x = %i | y = %i: t[0] = %f, t[1] = %f\n", x, y, intersections->t[0], intersections->t[1]);
 		intersections = intersections->next;
-	}	
+	}
+	// if (intersections && intersections->t && x == WIDTH/2 && y == HEIGHT/2)
+	// 	printf("xxx = %i | y = %i: t[0] = %f, t[1] = %f\n", x, y, intersections->t[0], intersections->t[1]);
 }

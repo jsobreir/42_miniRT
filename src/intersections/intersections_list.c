@@ -26,20 +26,20 @@ t_intersections *last_inters_node(t_intersections *inters)
 	return (inters);
 }
 
-void add_intersect_list(t_ray *ray, t_object *object, float *t)
+t_intersections *add_intersect_list(t_intersections **intersections, t_object *object, float *t)
 {
     t_intersections *last;
     t_intersections *new;
 
     new = new_inters_node(object, t);
     if (!new)
-        return;
-    if (ray->intersections)
+        return NULL;
+    if (*intersections && (*intersections)->t[0] != INFINITY && (*intersections)->t[1] != INFINITY)
     {
-        last = last_inters_node(ray->intersections);
+        last = last_inters_node(*intersections);
         last->next = new;
-        new->prev = last;
     }
     else
-        ray->intersections = new;
+		*intersections = new;
+	return (*intersections);
 }

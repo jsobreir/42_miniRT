@@ -19,9 +19,9 @@ CC = cc
 
 SRC_DIR = main
 WINDOWS = hooks free init
-MATHS = maths maths1
+MATHS = maths maths1 maths2
 UTILS = utils
-RENDER = render
+RENDER = render colors
 INTERSECTIONS = intersections intersections_list
 CAMERA = camera
 

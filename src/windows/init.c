@@ -8,13 +8,24 @@ void	init_vars(t_scene *scene)
 	scene->mlx_win = NULL;
 	scene->img.img = NULL;
 	scene->mlx = mlx_init();
-	scene->objects[0] = malloc(sizeof(t_object *));
-	scene->objects[1] = NULL;
 	if (scene->mlx == NULL)
 	{
 		ft_putstr_fd("Error initializing MiniLibX\n", 2);
 		exit(EXIT_FAILURE);
 	}
+	scene->objects = malloc(2 * sizeof(t_object));
+	scene->objects[0].type = SPHERE;
+	scene->objects[0].radius = 1;
+	scene->objects[0].position.x = 0.0;
+	scene->objects[0].position.y = 0.0;
+	scene->objects[0].position.z = 0.0;
+	scene->objects[0].rgb[0] = 255;
+	scene->objects[0].rgb[1] = 1;
+	scene->objects[0].rgb[2] = 1;
+	scene->light.ambient_color_rgb[0] = 137;
+	scene->light.ambient_color_rgb[1] = 107;
+	scene->light.ambient_color_rgb[2] = 240;
+	scene->num_objects = 1;
 }
 
 /// @brief Initiallize mlx.

@@ -4,7 +4,7 @@ float	dot_product(t_vec3 a, t_vec3 b)
 {
 	float dot;
 
-	dot = (a.x * b.x) + (a.y + b.y) + (a.z * b.z);
+	dot = (a.x * b.x) + (a.y * b.y) + (a.z * b.z);
 	return (dot);
 }
 

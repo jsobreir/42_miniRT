@@ -1,28 +1,30 @@
 #include "minirt.h"
 
-//apagar depois do parser estar pronto
-static t_object *init_sphere(t_object *sphere)
-{
-	sphere->type = SPHERE;
-	sphere->radius = 5;
-	sphere->position.x = 0.0;
-	sphere->position.y = 0.0;
-	sphere->position.z = 0.0;
-	sphere->rgb.x = 1;
-	sphere->rgb.y = 0;
-	sphere->rgb.z = 0;
-	return (sphere);
-}
-
 int	color_pixel(int x, int y, t_scene *world)
 {
 	t_ray	ray;
+	t_intersections	intersections;
+	int diffuse;
+	int ambient;
 
-	ray.intersections = NULL;
+	intersections.t[0] = INFINITY;
+	intersections.t[1] = INFINITY;
+	intersections.next = NULL;
+	intersections.object = NULL;
+	ray.intersections = &intersections;
 	generate_ray(x, y, world->camera, &ray);
-	intersect(&ray, world);
-	print_intersect_ray(ray.intersections);
-	return (0);
+	intersections = *intersect(&ray, world);
+	diffuse = 0;
+	if (intersections.t[0] != INFINITY)
+	{
+		ambient = rgb_to_hex(world->light.ambient_color_rgb);
+		diffuse = calculate_diffuse(&intersections, *world, &ray);
+	}
+	else
+	{
+		ambient = 0;
+	}
+	return (ambient + diffuse);
 }
 
 void render_img(t_scene *world, t_camera *camera)
@@ -31,7 +33,6 @@ void render_img(t_scene *world, t_camera *camera)
 	int			y;
 	(void)camera;
 	x = 0;
-	world->objects[0] = init_sphere(world->objects[0]);
 	while (x < WIDTH)
 	{
 		y = 0;
