@@ -35,9 +35,21 @@ typedef struct s_img
 
 typedef struct s_vec3
 {
-	float	x;
-	float	y;
-	float	z;
+	union
+	{
+		struct 
+		{
+			float	x;
+			float	y;
+			float	z;
+		};
+		struct
+		{
+			float	r;
+			float	g;
+			float	b;
+		};
+	} ;
 }	t_vec3;
 
 typedef t_vec3 t_point3;
@@ -45,7 +57,7 @@ typedef t_vec3 t_point3;
 typedef struct s_object
 {
 	t_obj_type	type;
-	int			rgb[3];
+	t_vec3		rgb;
 	t_point3	position; // centro?
 	t_point3	orientation; // ??
 	float		radius; // Spheres and cylinders
@@ -66,10 +78,10 @@ typedef struct s_camera
 typedef struct s_light
 {
 	float		ambient_lighting_ratio;
-	int			ambient_color_rgb[3];
+	t_vec3		ambient_color_rgb;
 	t_point3	position;
 	float		brightness;
-	int			color_rgb[3]; // isto é so para o bonus :)
+	t_vec3		color_rgb; // isto é so para o bonus :)
 }	t_light;
 
 /// Livro pagina 64
@@ -79,14 +91,14 @@ typedef struct s_intersections
 	t_object 				*object;
 	struct s_intersections	*next;
 	struct s_intersections	*prev;
-}	t_intersections;
+}	t_intersections ;
 
 typedef struct s_ray
 {
 	t_point3			origin;
 	t_vec3			direction;
 	t_intersections *intersections;
-}	t_ray;
+}	t_ray ;
 
 
 typedef struct s_scene
@@ -122,6 +134,7 @@ t_vec3 				cross_product(t_vec3 a, t_vec3 b);
 t_vec3				normal_sphere(t_point3 *point, t_object *object);
 t_vec3				reflect(t_vec3 in, t_vec3 normal);
 t_point3			point_on_vec3(float t, t_vec3 *vector);
+t_vec3				fill_vec3(t_vec3 *vector, float x, float y, float z);
 
 //Camera
 t_ray*				generate_ray(int x, int y, t_camera *camera, t_ray *ray);
@@ -137,11 +150,18 @@ t_intersections 	*last_inters_node(t_intersections *inters);
 int					arr_len(char **arr);
 void				my_mlx_pixel_put(t_img *img, int x, int y, int color);
 void				print_intersect_ray(int x, int y, t_intersections *intersections);
+void				print_vec3(t_vec3 *vector);
 
 // Rendering
 void				render_img(t_scene *scene, t_camera *camera);
 int					make_sphere(int x, int y, t_camera *camera);
-int					calculate_diffuse(t_intersections *intersection, t_scene world, t_ray *ray);
-int					rgb_to_hex(int rgb[3]);
+t_vec3				calculate_diffuse(t_intersections *intersection, t_scene world, t_ray *ray);
+
+// Colors
+int					rgb_to_hex(t_vec3 *rgb);
+t_vec3				change_brightness(t_vec3 *color, float factor);
+t_vec3				add_colors(t_vec3 *color1, t_vec3 *color2);
+void				set_color(t_vec3 *color, int red, int green, int blue);
+t_vec3				multiply_colors(t_vec3 *color1, t_vec3 *color2);
 
 #endif

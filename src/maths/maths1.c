@@ -7,12 +7,18 @@ t_vec3 mult_byscalar(t_vec3 *vec, float scalar)
 	new.x = scalar * vec->x;
 	new.y = scalar * vec->y;
 	new.z = scalar * vec->z;
+
 	return (new);
 }
 
 t_vec3 normalize(t_vec3 *a)
 {
+	t_vec3	vector;
+
+	(void)vector;
     double length = sqrt(a->x * a->x + a->y * a->y + a->z * a->z);
+	if (length == 0)
+		return (fill_vec3(&vector, 0.0, 0.0, 0.0));
 	*a = mult_byscalar(a, 1.0 / length);
     return (*a);
 }

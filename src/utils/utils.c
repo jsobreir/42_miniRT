@@ -32,3 +32,10 @@ void	print_intersect_ray(int x, int y, t_intersections *intersections)
 	// if (intersections && intersections->t && x == WIDTH/2 && y == HEIGHT/2)
 	// 	printf("xxx = %i | y = %i: t[0] = %f, t[1] = %f\n", x, y, intersections->t[0], intersections->t[1]);
 }
+
+void	print_vec3(t_vec3 *vector)
+{
+	printf("%f\n", vector->x);
+	printf("%f\n", vector->y);
+	printf("%f\n", vector->z);
+}

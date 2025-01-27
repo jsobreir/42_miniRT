@@ -19,12 +19,12 @@ void	init_vars(t_scene *scene)
 	scene->objects[0].position.x = 0.0;
 	scene->objects[0].position.y = 0.0;
 	scene->objects[0].position.z = 0.0;
-	scene->objects[0].rgb[0] = 255;
-	scene->objects[0].rgb[1] = 1;
-	scene->objects[0].rgb[2] = 1;
-	scene->light.ambient_color_rgb[0] = 137;
-	scene->light.ambient_color_rgb[1] = 107;
-	scene->light.ambient_color_rgb[2] = 240;
+	set_color(&scene->objects[0].rgb, 255, 1, 1);
+	set_color(&scene->light.ambient_color_rgb, 255, 255, 255);
+	scene->light.ambient_lighting_ratio = 0.2;
+	scene->light.position.x = 0;
+	scene->light.position.y = 0;
+	scene->light.position.z = -10;
 	scene->num_objects = 1;
 }
 

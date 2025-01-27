@@ -5,6 +5,8 @@
 		"keysym.h": "c",
 		"mlx.h": "c",
 		"minirt.h": "c",
-		"math.h": "c"
+		"math.h": "c",
+		"string_view": "c",
+		"random": "c"
 	}
 }

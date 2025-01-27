@@ -59,6 +59,7 @@
 //     return ray;
 // }
 
+// Nao tamos ainda a usar a camera. Os rays sao estaticos
 t_ray *generate_ray(int x, int y, t_camera *camera, t_ray *ray)
 {
 	float wall_size = 7;
