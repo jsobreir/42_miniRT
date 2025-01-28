@@ -16,11 +16,10 @@ t_vec3 normalize(t_vec3 *a)
 	t_vec3	vector;
 
 	(void)vector;
-    double length = sqrt(a->x * a->x + a->y * a->y + a->z * a->z);
+    double length = sqrtf((a->x * a->x) + (a->y * a->y) + (a->z * a->z));
 	if (length == 0)
 		return (fill_vec3(&vector, 0.0, 0.0, 0.0));
-	*a = mult_byscalar(a, 1.0 / length);
-    return (*a);
+    return (mult_byscalar(a, 1.0 / (float)length));
 }
 
 t_vec3 cross_product(t_vec3 a, t_vec3 b)
@@ -45,13 +44,13 @@ t_vec3	normal_sphere(t_point3 *point, t_object *object)
 
 t_vec3	reflect(t_vec3 in, t_vec3 normal)
 {
-	t_vec3	out;
+	t_vec3	ret;
 	float	k;
 	t_vec3	temp;
 
 	k = 2 * dot_product(in, normal);
-	temp = mult_byscalar(&in, k);
-	out = subtract_vec3s(&in, &temp);
-	out = normalize(&out);
-	return (out);
+	temp = mult_byscalar(&normal, k);
+	ret = subtract_vec3s(&in, &temp);
+	// normalize(&ret);
+	return (ret);
 }

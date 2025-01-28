@@ -23,7 +23,7 @@ void	init_vars(t_scene *scene)
 	set_color(&scene->light.ambient_color_rgb, 255, 255, 255);
 	scene->light.ambient_lighting_ratio = 0.2;
 	scene->light.position.x = 0;
-	scene->light.position.y = 0;
+	scene->light.position.y = 5;
 	scene->light.position.z = -10;
 	scene->num_objects = 1;
 }

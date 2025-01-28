@@ -3,22 +3,21 @@
 /*                                                        :::      ::::::::   */
 /*   maths2.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jsobreir <jsobreir@student.42.fr>          +#+  +:+       +#+        */
+/*   By: bpaiva-f <bpaiva-f@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/16 16:19:34 by jsobreir          #+#    #+#             */
-/*   Updated: 2025/01/18 17:52:35 by jsobreir         ###   ########.fr       */
+/*   Updated: 2025/01/28 13:50:24 by bpaiva-f         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minirt.h"
 
-t_point3	point_on_vec3(float t, t_vec3 *vector)
+t_point3	point_on_vec3(float t, t_ray *ray)
 {
 	t_point3	ret;
-	*vector = normalize(vector);
-	ret.x =vector->x * t;
-	ret.y =vector->y * t;
-	ret.z =vector->z * t;
+	ret.x = ray->origin.x + ray->direction.x * t;
+	ret.y = ray->origin.y + ray->direction.y * t;
+	ret.z = ray->origin.z + ray->direction.z * t;
 	return (ret);
 }
 

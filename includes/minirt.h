@@ -133,7 +133,7 @@ t_vec3 				mult_byscalar(t_vec3 *vec, float scalar);
 t_vec3 				cross_product(t_vec3 a, t_vec3 b);
 t_vec3				normal_sphere(t_point3 *point, t_object *object);
 t_vec3				reflect(t_vec3 in, t_vec3 normal);
-t_point3			point_on_vec3(float t, t_vec3 *vector);
+t_point3			point_on_vec3(float t, t_ray *ray);
 t_vec3				fill_vec3(t_vec3 *vector, float x, float y, float z);
 
 //Camera
@@ -156,6 +156,7 @@ void				print_vec3(t_vec3 *vector);
 void				render_img(t_scene *scene, t_camera *camera);
 int					make_sphere(int x, int y, t_camera *camera);
 t_vec3				calculate_diffuse(t_intersections *intersection, t_scene world, t_ray *ray);
+t_vec3				calculate_specular(t_intersections *intersection, t_scene world, t_ray *ray);
 
 // Colors
 int					rgb_to_hex(t_vec3 *rgb);
