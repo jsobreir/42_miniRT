@@ -18,7 +18,8 @@ int	color_pixel(int x, int y, t_scene *world)
 	intersections = *intersect(&ray, world);
 	if (intersections.t[0] != INFINITY)
 	{
-		ambient_rgb = change_brightness(&world->light.ambient_color_rgb, 0.2); // 0.2 e uma percentagem de ambient lighting
+		// set_color(&ambient_rgb, 0, 0 ,0);
+		ambient_rgb = change_brightness(&world->light->ambient_color_rgb, 0.2);
 		diffuse = calculate_diffuse(&intersections, *world, &ray);
 		diffuse = change_brightness(&diffuse, 0.6);
 		specular = calculate_specular(&intersections, *world, &ray);

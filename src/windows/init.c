@@ -13,19 +13,25 @@ void	init_vars(t_scene *scene)
 		ft_putstr_fd("Error initializing MiniLibX\n", 2);
 		exit(EXIT_FAILURE);
 	}
-	scene->objects = malloc(2 * sizeof(t_object));
-	scene->objects[0].type = SPHERE;
-	scene->objects[0].radius = 1;
-	scene->objects[0].position.x = 0.0;
-	scene->objects[0].position.y = 0.0;
-	scene->objects[0].position.z = 0.0;
-	set_color(&scene->objects[0].rgb, 255, 1, 1);
-	set_color(&scene->light.ambient_color_rgb, 255, 255, 255);
-	scene->light.ambient_lighting_ratio = 0.2;
-	scene->light.position.x = 0;
-	scene->light.position.y = 5;
-	scene->light.position.z = -10;
-	scene->num_objects = 1;
+	ft_memset(scene->objects, 0, sizeof(scene->objects));
+	scene->num_objects = 0;
+	scene->objects->next = NULL;
+	scene->camera = malloc(sizeof(t_camera));
+	scene->light = malloc(sizeof(t_light));
+	// scene->camera->position = malloc(sizeof(t_vec3));
+	// scene->objects = malloc(2 * sizeof(t_object));
+	// scene->objects[0].type = SPHERE;
+	// scene->objects[0].radius = 1;
+	// scene->objects[0].position.x = 0.0;
+	// scene->objects[0].position.y = 0.0;
+	// scene->objects[0].position.z = 0.0;
+	// set_color(&scene->objects[0].rgb, 255, 1, 1);
+	// set_color(&scene->light.ambient_color_rgb, 255, 255, 255);
+	// scene->light.ambient_lighting_ratio = 0.2;
+	// scene->light.position.x = 0;
+	// scene->light.position.y = 0;
+	// scene->light.position.z = -10;
+	// scene->num_objects = 1;
 }
 
 /// @brief Initiallize mlx.

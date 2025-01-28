@@ -56,12 +56,13 @@ typedef t_vec3 t_point3;
 
 typedef struct s_object
 {
-	t_obj_type	type;
-	t_vec3		rgb;
-	t_point3	position; // centro?
-	t_point3	orientation; // ??
-	float		radius; // Spheres and cylinders
-	float		height; // Only cylinders
+	t_obj_type		type;
+	t_vec3			rgb;
+	t_point3		position; // centro?
+	t_point3		orientation; // ??
+	float			radius; // Spheres and cylinders
+	float			height; // Only cylinders
+	struct s_object	*next;
 }	t_object;
 
 
@@ -107,7 +108,7 @@ typedef struct s_scene
 	void		*mlx;
 	int			num_objects;
 	t_img 		img;
-	t_light		light;
+	t_light		*light;
 	t_object	*objects;
 	t_camera	*camera;
 } 	t_scene ;
@@ -118,6 +119,14 @@ int					clean_exit(t_scene *solid);
 void				init_vars(t_scene *scene);
 void				init(t_scene *scene);
 void				setup_hooks(t_scene *scene);
+
+// Parser
+int					parse_file(int argc, char **argv, t_scene *scene);
+void				fill_ambient(char **args, t_scene *scene);
+void				fill_light(char **args, t_scene *scene);
+void				fill_camera(char **args, t_scene *scene);
+void				fill_sphere(char **args, t_object *sphere);
+
 
 // Free
 int					free_array(char	**arr, int len);
@@ -151,6 +160,8 @@ int					arr_len(char **arr);
 void				my_mlx_pixel_put(t_img *img, int x, int y, int color);
 void				print_intersect_ray(int x, int y, t_intersections *intersections);
 void				print_vec3(t_vec3 *vector);
+char				**ft_split_multiple(char const *s, char *tokens);
+float		ft_atof1(char *nbr);
 
 // Rendering
 void				render_img(t_scene *scene, t_camera *camera);

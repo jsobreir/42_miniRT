@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   libft.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jsobreir <jsobreir@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jsobreir <jsobreir@student.42porto.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/19 10:20:00 by jsobreir          #+#    #+#             */
-/*   Updated: 2024/06/28 12:55:37 by jsobreir         ###   ########.fr       */
+/*   Updated: 2025/01/28 14:01:48 by jsobreir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,7 @@ size_t		ft_strlcpy(char *dst, const char *src, size_t size);
 char		*ft_strrchr(const char *s, int c);
 int			ft_isdigit(int c);
 int			ft_strncmp(const char *s1, const char *s2, size_t n);
+float		ft_atof(char *nbr);
 
 // Part 2 //
 char		*ft_substr(char const *s, unsigned int start, size_t len);
