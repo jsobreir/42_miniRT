@@ -18,13 +18,29 @@ CC = cc
 # ------------------------------------------------------------------- #
 
 SRC_DIR = main
-WINDOWS = hooks free
-MATHS = maths
+WINDOWS = hooks free init
+MATHS = maths maths1 maths2
+UTILS = utils
+RENDER = render colors
+INTERSECTIONS = intersections intersections_list
+CAMERA = camera
 
 VPATHS =	src/windows/		\
- 
+			src/parser/		\
+			src/maths/		\
+			src/utils/		\
+			src/render/		\
+			src/intersections/	\
+			src/camera/	\
+
 SRC	=	$(addsuffix .c, $(SRC_DIR)) \
 		$(addsuffix .c, $(WINDOWS)) \
+		$(addsuffix .c, $(PARSER)) \
+		$(addsuffix .c, $(MATHS)) \
+		$(addsuffix .c, $(UTILS)) \
+		$(addsuffix .c, $(RENDER)) \
+		$(addsuffix .c, $(INTERSECTIONS)) \
+		$(addsuffix .c, $(CAMERA)) \
 
 # Convert source files to object files in the obj directory
 OBJ = $(SRC:%.c=$(OBJ_DIR)/%.o)

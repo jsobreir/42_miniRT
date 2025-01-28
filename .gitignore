@@ -1,1 +1,4 @@
-fract-ol
+fract-ol/
+includes/minilibx-linux/
+*.o
+.vscode
