@@ -20,10 +20,11 @@ CC = cc
 SRC_DIR = main
 WINDOWS = hooks free init
 MATHS = maths maths1 maths2
-UTILS = utils
+UTILS = utils split
 RENDER = render colors
 INTERSECTIONS = intersections intersections_list
 CAMERA = camera
+PARSER = parse_file fill_data_structs
 
 VPATHS =	src/windows/		\
 			src/parser/		\

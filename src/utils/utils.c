@@ -39,3 +39,37 @@ void	print_vec3(t_vec3 *vector)
 	printf("%f\n", vector->y);
 	printf("%f\n", vector->z);
 }
+
+float	ft_atof1(char *nbr)
+{
+	float	ret;
+	int		int_part;
+	float	frac_part;
+	int		frac_pow;
+	int		i;
+
+	i = 0;
+	frac_part = 0.1;
+	int_part = 0;
+	frac_pow = 1;
+	int_part = ft_atoi(nbr);
+	while (*nbr && *nbr != '.')
+	{
+		if (!nbr)
+			return (printf("%i\n", int_part), (float) int_part);
+		nbr++;
+	}
+	if (nbr && *nbr && *nbr == '.')
+		nbr++;
+	else
+		return (printf("%i\n", int_part), (float) int_part);
+	frac_part = ft_atoi(nbr);
+	while (nbr && *nbr && (*nbr >= '0' && *nbr <= '9'))
+	{
+		nbr++;
+		frac_pow *= 10;
+	}
+	ret = int_part + frac_part/frac_pow;
+	printf("%f\n", ret);
+	return (ret);
+}

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   colors.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jsobreir <jsobreir@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jsobreir <jsobreir@student.42porto.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/16 16:02:27 by jsobreir          #+#    #+#             */
-/*   Updated: 2025/01/18 23:25:07 by jsobreir         ###   ########.fr       */
+/*   Updated: 2025/01/28 18:07:59 by jsobreir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ t_vec3	calculate_diffuse(t_intersections *intersection, t_scene world, t_ray *ra
 {
 	t_point3 point;
 	t_vec3	point_to_light;
-	t_light	light;
+	t_light	*light;
 	float	light_dot_normal;
 	t_vec3	normal;
 	t_vec3	object_color;
@@ -25,10 +25,11 @@ t_vec3	calculate_diffuse(t_intersections *intersection, t_scene world, t_ray *ra
 	object_color = intersection->object->rgb;
 	light = world.light;
 	point = point_on_vec3(intersection->t[0], &ray->direction);
+	// printf("intersect = %f\n", point.z);
 	normal = normal_sphere(&point, intersection->object);
-	point_to_light.x =  light.position.x - point.x;
-	point_to_light.y =  light.position.y - point.y;
-	point_to_light.z =  light.position.z - point.z;
+	point_to_light.x =  light->position.x - point.x;
+	point_to_light.y =  light->position.y - point.y;
+	point_to_light.z =  light->position.z - point.z;
 	point_to_light = normalize(&point_to_light);
 	light_dot_normal = dot_product(point_to_light, normal);
 	if (light_dot_normal < 0)

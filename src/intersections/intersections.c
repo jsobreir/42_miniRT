@@ -65,6 +65,7 @@ t_intersections *intersect(t_ray *ray, t_scene *world)
 
     i = 0;
     objects = &world->objects;
+
     while (i < world->num_objects)
     {
         if (objects[i]->type == SPHERE)

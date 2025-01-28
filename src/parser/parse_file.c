@@ -1,5 +1,28 @@
 #include "minirt.h"
 
+t_object	*add_object(t_object *object_node)
+{
+	t_object *new;
+
+	new = malloc(sizeof(t_object));
+	new->next = NULL;
+	if (object_node)
+	{
+		while (object_node)
+		{
+			if (!(object_node->next))
+			{
+				object_node->next = new;
+				break ;
+			}
+			object_node = object_node->next;
+		}
+	}
+	else
+		object_node = new;
+	return (object_node);
+}
+
 /// @brief Check if the arg provided as parameter is of the right format (.rt file) and if it exists.
 /// @param argc 
 /// @param argv 
@@ -7,7 +30,6 @@
 int	check_args(int argc, char **argv)
 {
 	int		fd;
-	char	*filename;
 	char	*file_extension;
 
 	if (argc != 2)
@@ -16,32 +38,37 @@ int	check_args(int argc, char **argv)
 		fd = -1;
 		return (fd);
 	}
-	file_extension = ft_strrchr(argv[1], ".");
+	file_extension = ft_strrchr(argv[1], '.');
 	fd = open(argv[1], O_RDONLY);
 	if (fd < 0)
 		return (printf("Could't open file %s!\n", argv[1]), fd);
 	else if (ft_strncmp(file_extension, ".rt", 3))
-		return (printf("Please enter a .rt file!\n"), -1);
+		return (printf("Please enter a .rt file!\n"));
 	else if (fd && !ft_strncmp(file_extension, ".rt", 3))
 		return (fd);
 	else
-		return (printf("Error occured during parsing!\n", -1));
+		return (printf("Error occured during parsing!\n"));
 }
 
 void	fill_structs(t_scene *scene, char **args)
 {
 	if (!ft_strncmp(args[0], "A", 2))
-		fill_light("A", args, scene);
+		fill_ambient(args, scene);
 	else if (!ft_strncmp(args[0], "C", 2))
 		fill_camera(args, scene);
 	else if (!ft_strncmp(args[0], "L", 2))
-		fill_light("L", args, scene);
-	else if (!ft_strncmp(args[0], "sp", 3))
-		fill_sphere(args, scene);
-	else if (!ft_strncmp(args[0], "pl", 3))
-		fill_plane(args, scene);
-	else if (!ft_strncmp(args[0], "cy", 3))
-		fill_cylinder(args, scene);
+		fill_light(args, scene);
+	else if (!ft_strncmp(args[0], "sp", 3) || !ft_strncmp(args[0], "pl", 3)
+		|| !ft_strncmp(args[0], "cy", 3))
+	{
+		scene->num_objects++;
+		if (!ft_strncmp(args[0], "sp", 3))
+			fill_sphere(args, add_object(scene->objects));
+		// else if (!ft_strncmp(args[0], "pl", 3))
+		// 	fill_plane(args, scene);
+		// else if (!ft_strncmp(args[0], "cy", 3))
+		// 	fill_cylinder(args, scene);
+	}
 	else
 		return (printf("Error during parsing!\n"), exit(1));
 }
@@ -50,12 +77,11 @@ void	fill_structs(t_scene *scene, char **args)
 /// @param argc 
 /// @param argv 
 /// @return 
-int	parse_file(int argc, char **argv)
+int	parse_file(int argc, char **argv, t_scene *scene)
 {
 	char	*line;
 	char	**args_line;
 	int		fd;
-	t_scene	*scene;
 
 	fd = check_args(argc, argv);
 	if (fd <= 0)
@@ -63,9 +89,10 @@ int	parse_file(int argc, char **argv)
 	line = get_next_line(fd);
 	while (line)
 	{
-		args_line = ft_split(line, " ");
+		args_line = ft_split_multiple(line, " \t");
 		fill_structs(scene, args_line);
 		line = get_next_line(fd);
 		free_array(args_line, arr_len(args_line));
 	}
+	return (0);
 }
