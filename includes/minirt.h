@@ -164,7 +164,7 @@ char				**ft_split_multiple(char const *s, char *tokens);
 float		ft_atof1(char *nbr);
 
 // Rendering
-void				render_img(t_scene *scene, t_camera *camera);
+void				render_img(t_scene *scene);
 int					make_sphere(int x, int y, t_camera *camera);
 t_vec3				calculate_diffuse(t_intersections *intersection, t_scene world, t_ray *ray);
 t_vec3				calculate_specular(t_intersections *intersection, t_scene world, t_ray *ray);

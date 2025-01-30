@@ -19,13 +19,11 @@ int main(int argc, char **argv)
 {
 	(void)argv;
 	t_scene scene;
-	t_camera camera;
 
 	init(&scene);
 	parse_file(argc, argv, &scene);
 	// init_camera(&camera);
-	scene.camera = &camera;
 	setup_hooks(&scene);
-	render_img(&scene, &camera);
+	render_img(&scene);
 	mlx_loop(scene.mlx);
 }

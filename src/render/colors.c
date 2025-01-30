@@ -75,16 +75,15 @@ t_vec3	calculate_specular(t_intersections *intersection, t_scene world, t_ray *r
 	}
 	return (specular);
 }
+#include <math.h>
+
 int rgb_to_hex(t_vec3 *rgb)
 {
-    int ret;
-	int color[3];
+    int r = fmin(fmax(roundf(rgb->r * 255), 0), 255);
+    int g = fmin(fmax(roundf(rgb->g * 255), 0), 255);
+    int b = fmin(fmax(roundf(rgb->b * 255), 0), 255);
 
-	color[0] = (int) roundf(rgb->r * 255);
-	color[1] = (int) roundf(rgb->g * 255);
-	color[2] = (int) roundf(rgb->b * 255);
-    ret = (color[0] << 16) | (color[1] << 8) | color[2];
-    return (ret);
+    return (r << 16) | (g << 8) | b;
 }
 
 t_vec3 change_brightness(t_vec3 *color, float factor)

@@ -73,6 +73,24 @@ void	fill_structs(t_scene *scene, char **args)
 		return (printf("Error during parsing!\n"), exit(1));
 }
 
+static void print_args(t_scene *scene)
+{
+	printf("camera pos x = %f\n", scene->camera->position.x);
+	printf("camera pos y = %f\n", scene->camera->position.y);
+	printf("camera pos z = %f\n", scene->camera->position.z);
+
+	printf("camera orientation x = %f\n", scene->camera->orientation.x);
+	printf("camera orientation y = %f\n", scene->camera->orientation.y);
+	printf("camera orientation z = %f\n", scene->camera->orientation.z);
+
+	printf("sphere pos x = %f\n", scene->objects->position.x);
+	printf("sphere pos y = %f\n", scene->camera->position.y);
+	printf("sphere pos z = %f\n", scene->camera->position.z);
+	printf("sphere radius x = %f\n", scene->objects->radius);
+
+	printf("fov = %d\n", scene->camera->fov);
+}
+
 /// @brief Main parsing handling function.
 /// @param argc 
 /// @param argv 
@@ -94,5 +112,6 @@ int	parse_file(int argc, char **argv, t_scene *scene)
 		line = get_next_line(fd);
 		free_array(args_line, arr_len(args_line));
 	}
+	print_args(scene);
 	return (0);
 }

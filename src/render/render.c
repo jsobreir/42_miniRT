@@ -59,11 +59,11 @@ void	handle_pixel(t_scene *world, int pix, int piy)
 	put_pixel(pix, piy, world, color);
 }
 
-void render_img(t_scene *world, t_camera *camera)
+void render_img(t_scene *world)
 {
 	int	x;
 	int	y;
-	(void)camera;
+	printf("FOV = %f\n", world->camera->position.z);
 	mlx_clear_window(world->mlx, world->mlx_win);
 	y = 0;
 	while (y < HEIGHT)
