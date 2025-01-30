@@ -8,7 +8,8 @@ int	hit_sphere(t_object *sphere, t_ray *ray, t_intersections **intersections)
 	int		ret;
 	t_vec3 oc;
 
-	oc = ray->origin; // assumimos que a esfera esta no centro,
+	oc = ray->origin;
+	//oc = translate(ray->origin, sphere->position); // assumimos que a esfera esta no centro,
 	// sempre que fizer estes calculos vou fazer transformacoes com matrizes
     float a = dot_product(ray->direction, ray->direction);
     float b = 2 * dot_product(ray->direction, oc);

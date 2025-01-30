@@ -60,6 +60,7 @@
 // }
 
 // Nao tamos ainda a usar a camera. Os rays sao estaticos
+
 t_ray *generate_ray(int x, int y, t_camera *camera, t_ray *ray)
 {
 	float wall_size = 7;
@@ -73,9 +74,7 @@ t_ray *generate_ray(int x, int y, t_camera *camera, t_ray *ray)
 	ray->direction.x = world_x;
 	ray->direction.y = world_y;
 	ray->direction.z = wall_z;
-	ray->origin.x = 0;
-	ray->origin.y = 0;
-	ray->origin.z = -5;
+	ray->origin = camera->position;
 	ray->direction = normalize(&ray->direction);
 	return ray;
 }

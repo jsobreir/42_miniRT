@@ -16,3 +16,4 @@ t_vec3	fill_vec3(t_vec3 *vector, float x, float y, float z)
 	vector->z = z;
 	return (*vector);
 }
+

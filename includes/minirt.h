@@ -144,6 +144,9 @@ t_vec3				normal_sphere(t_point3 *point, t_object *object);
 t_vec3				reflect(t_vec3 in, t_vec3 normal);
 t_point3			point_on_vec3(float t, t_ray *ray);
 t_vec3				fill_vec3(t_vec3 *vector, float x, float y, float z);
+t_point3			translate(t_point3 point, t_vec3 trans);
+t_point3			rotate(t_point3 point, double angl, char axis);
+t_point3			scaling(t_point3 point, t_vec3 trans);
 
 //Camera
 t_ray*				generate_ray(int x, int y, t_camera *camera, t_ray *ray);
