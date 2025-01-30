@@ -5,7 +5,7 @@ t_vec3 get_light_vec(t_intersections *intersection, t_scene world, t_vec3 point,
 	t_light	light;
 	t_vec3	point_to_light;
 	
-	light = world.light;
+	light = *world.light;
 	point = point_on_vec3(intersection->t[0], ray);
 	point_to_light = subtract_vec3s(&light.position, &point);
 	point_to_light = normalize(&point_to_light);
@@ -29,12 +29,11 @@ t_vec3	calculate_diffuse(t_intersections *intersection, t_scene world, t_ray *ra
 	t_vec3	normal;
 	t_vec3	object_color;
 	t_vec3 ret;
-	t_vec3	point_to_light;
 
 	point = point_on_vec3(intersection->t[0], ray);
 	object_color = intersection->object->rgb;
-	light = world.light;
-	point = point_on_vec3(intersection->t[0], &ray->direction);
+	light = *world.light;
+	point = point_on_vec3(intersection->t[0], ray);
 	normal = normal_sphere(&point, intersection->object);
 	point_to_light.x =  light.position.x - point.x;
 	point_to_light.y =  light.position.y - point.y;
