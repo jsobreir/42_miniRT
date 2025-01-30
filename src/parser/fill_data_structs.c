@@ -28,18 +28,19 @@ void	fill_light(char **args, t_scene *scene)
 
 void	fill_camera(char **args, t_scene *scene)
 {
-	char	**split_commas;
+	char	**sp;
 
-	split_commas = ft_split(args[1], ',');
-	scene->camera->position.x = ft_atof1(split_commas[0]);
-	scene->camera->position.y = ft_atof1(split_commas[1]);
-	scene->camera->position.z = ft_atof1(split_commas[2]);
-	free_array(split_commas, arr_len(split_commas));
-	split_commas = ft_split(args[2], ',');
-	scene->camera->orientation.x = ft_atof1(split_commas[0]);
-	scene->camera->orientation.y = ft_atof1(split_commas[1]);
-	scene->camera->orientation.z = ft_atof1(split_commas[2]);
-	free_array(split_commas, arr_len(split_commas));
+	sp = ft_split(args[1], ',');
+	scene->camera->position.x = ft_atof1(sp[0]);
+	scene->camera->position.y = ft_atof1(sp[1]);
+	scene->camera->position.z = ft_atof1(sp[2]);
+	free_array(sp, arr_len(sp));
+	sp = ft_split(args[2], ',');
+	scene->camera->orientation.x = ft_atof1(sp[0]);
+	scene->camera->orientation.y = ft_atof1(sp[1]);
+	scene->camera->orientation.z = ft_atof1(sp[2]);
+	normalize(&scene->camera->orientation);
+	free_array(sp, arr_len(sp));
 	scene->camera->fov = ft_atoi(args[3]);
 }
 

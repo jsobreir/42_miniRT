@@ -53,11 +53,11 @@ vpath %.c $(VPATHS)
 
 all: $(NAME)
 
+$(NAME): $(OBJ_DIR) $(LIBFT) $(MLX) $(OBJ)
+	$(CC) $(OBJ) -o $(NAME) $(FLAGS) $(LIBFT)
+
 $(OBJ_DIR):
 	mkdir -p $(OBJ_DIR)
-
-$(NAME): $(LIBFT) $(MLX) $(OBJ)
-	$(CC) $(OBJ) -o $(NAME) $(FLAGS) $(LIBFT)
 
 $(OBJ_DIR)/%.o: %.c $(OBJ_DIR)
 	$(CC) -g -Wall -Wextra -Werror -c -I$(MLX_DIR) -I./includes $< -o $@
@@ -72,7 +72,7 @@ clone:
 	git clone https://github.com/42Paris/minilibx-linux.git
 
 clean:
-	rm -rf $(OBJ)
+	rm -rf $(OBJ_DIR)
 	$(MAKE) -C $(LIBFT_DIR) clean
 	$(MAKE) -C $(MLX_DIR) clean
 

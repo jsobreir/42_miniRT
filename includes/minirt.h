@@ -157,6 +157,7 @@ t_intersections		*intersect(t_ray *ray, t_scene *world);
 t_intersections		*add_intersect_list(t_intersections **intersections, t_object *object, float *t);
 t_intersections		*new_inters_node(t_object *object, float *t);
 t_intersections 	*last_inters_node(t_intersections *inters);
+void				free_intersections(t_intersections *intersections);
 
 // Utils
 int					arr_len(char **arr);
@@ -167,7 +168,7 @@ char				**ft_split_multiple(char const *s, char *tokens);
 float		ft_atof1(char *nbr);
 
 // Rendering
-void				render_img(t_scene *scene, t_camera *camera);
+void				render_img(t_scene *scene);
 int					make_sphere(int x, int y, t_camera *camera);
 t_vec3				calculate_diffuse(t_intersections *intersection, t_scene world, t_ray *ray);
 t_vec3				calculate_specular(t_intersections *intersection, t_scene world, t_ray *ray);
