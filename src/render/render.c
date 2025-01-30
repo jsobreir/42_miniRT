@@ -6,7 +6,7 @@ int	color_pixel(int x, int y, t_scene *world)
 	t_vec3			ambient_rgb;
 	t_intersections	intersections;
 	t_vec3 			diffuse;
-	t_vec3 			specular;
+//	t_vec3 			specular;
 	int final_color;
 
 	intersections.t[0] = INFINITY;
@@ -22,16 +22,16 @@ int	color_pixel(int x, int y, t_scene *world)
 		ambient_rgb = change_brightness(&world->light->ambient_color_rgb, 0.2);
 		diffuse = calculate_diffuse(&intersections, *world, &ray);
 		diffuse = change_brightness(&diffuse, 0.6);
-		specular = calculate_specular(&intersections, *world, &ray);
+		//specular = calculate_specular(&intersections, *world, &ray);
 	}
 	else
 	{
 		set_color(&diffuse, 0, 0, 0);
-		set_color(&specular, 0, 0, 0);
+		//set_color(&specular, 0, 0, 0);
 		set_color(&ambient_rgb, 0, 0 ,0);
 	}
 	ambient_rgb = add_colors(&ambient_rgb, &diffuse);
-	ambient_rgb = add_colors(&ambient_rgb, &specular);
+//	ambient_rgb = add_colors(&ambient_rgb, &specular);
 	final_color = rgb_to_hex(&ambient_rgb);
 	// free_intersections(ray.intersections);
 	return (final_color);

@@ -8,13 +8,11 @@ int	hit_sphere(t_object *sphere, t_ray *ray, t_intersections **intersections)
 	int		ret;
 	t_vec3 	oc;
 
-	oc = ray->origin;
-	//oc = translate(ray->origin, sphere->position); // assumimos que a esfera esta no centro,
-	// sempre que fizer estes calculos vou fazer transformacoes com matrizes
-    float a = dot_product(ray->direction, ray->direction);
-    float b = 2 * dot_product(ray->direction, oc);
-    float c = dot_product(oc, oc) - sphere->radius*sphere->radius;
-    float discriminant = b*b - 4*a*c;
+	oc = subtract_vec3s(&ray->origin, &sphere->position);
+	float a = dot_product(ray->direction, ray->direction);
+	float b = 2 * dot_product(ray->direction, oc);
+	float c = dot_product(oc, oc) - 1;
+	float discriminant = b*b - 4*a*c;
 	if (discriminant < 0)
 		return (0);
 	i1 = (-b - sqrtf(discriminant)) / (2 * a);
@@ -65,9 +63,9 @@ t_intersections *intersect(t_ray *ray, t_scene *world)
     t_object        *objects;
 
     objects = world->objects;
-
     while (objects)
     {
+	//ray->origin = translate(ray->origin, mult_byscalar(&objects->position, -1));
         if (objects->type == SPHERE)
    			hit_sphere(objects, ray, &ray->intersections);
 		objects = objects->next;
