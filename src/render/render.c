@@ -2,11 +2,11 @@
 
 int	color_pixel(int x, int y, t_scene *world)
 {
-	t_ray	ray;
-	t_vec3	ambient_rgb;
+	t_ray			ray;
+	t_vec3			ambient_rgb;
 	t_intersections	intersections;
-	t_vec3 	diffuse;
-	t_vec3 	specular;
+	t_vec3 			diffuse;
+	t_vec3 			specular;
 	int final_color;
 
 	intersections.t[0] = INFINITY;
@@ -33,6 +33,7 @@ int	color_pixel(int x, int y, t_scene *world)
 	ambient_rgb = add_colors(&ambient_rgb, &diffuse);
 	ambient_rgb = add_colors(&ambient_rgb, &specular);
 	final_color = rgb_to_hex(&ambient_rgb);
+	// free_intersections(ray.intersections);
 	return (final_color);
 }
 

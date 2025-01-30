@@ -6,7 +6,6 @@ t_intersections	*new_inters_node(t_object *object, float *t)
 
 	new = malloc(sizeof(t_intersections));
 	new->object = object;
-	// new->t = malloc(2 * sizeof(float));
 	new->t[0] = t[0];
 	new->t[1] = t[1];
 	new->next = NULL;
@@ -42,4 +41,21 @@ t_intersections *add_intersect_list(t_intersections **intersections, t_object *o
     else
 		*intersections = new;
 	return (*intersections);
+}
+
+void	free_intersections(t_intersections *intersections)
+{
+	t_intersections *current;
+	t_intersections *temp;
+
+	if (!intersections)
+		return ;
+	current = intersections;
+	while (current != NULL)
+	{
+		temp = current->next;
+		free(current);
+		current = temp;
+	}
+	intersections = NULL;
 }

@@ -154,6 +154,7 @@ t_intersections		*intersect(t_ray *ray, t_scene *world);
 t_intersections		*add_intersect_list(t_intersections **intersections, t_object *object, float *t);
 t_intersections		*new_inters_node(t_object *object, float *t);
 t_intersections 	*last_inters_node(t_intersections *inters);
+void				free_intersections(t_intersections *intersections);
 
 // Utils
 int					arr_len(char **arr);

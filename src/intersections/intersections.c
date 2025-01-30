@@ -6,7 +6,7 @@ int	hit_sphere(t_object *sphere, t_ray *ray, t_intersections **intersections)
 	float	i2;
 	float	t[2];
 	int		ret;
-	t_vec3 oc;
+	t_vec3 	oc;
 
 	oc = ray->origin; // assumimos que a esfera esta no centro,
 	// sempre que fizer estes calculos vou fazer transformacoes com matrizes
@@ -61,17 +61,15 @@ int	hit_sphere(t_object *sphere, t_ray *ray, t_intersections **intersections)
 
 t_intersections *intersect(t_ray *ray, t_scene *world)
 {
-    t_object        **objects;
-    int             i;
+    t_object        *objects;
 
-    i = 0;
-    objects = &world->objects;
+    objects = world->objects;
 
-    while (i < world->num_objects)
+    while (objects)
     {
-        if (objects[i]->type == SPHERE)
-   			hit_sphere(objects[i], ray, &ray->intersections);
-        i++;
+        if (objects->type == SPHERE)
+   			hit_sphere(objects, ray, &ray->intersections);
+		objects = objects->next;
     }
     return (ray->intersections);
 }

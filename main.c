@@ -24,6 +24,8 @@ int main(int argc, char **argv)
 	parse_file(argc, argv, &scene);
 	// init_camera(&camera);
 	setup_hooks(&scene);
+	printf("objects = %u\n", scene.objects->next->type);
+	printf("%f\n", scene.objects->next->position.y);
 	render_img(&scene);
 	mlx_loop(scene.mlx);
 }
