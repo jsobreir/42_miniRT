@@ -1,61 +1,44 @@
 #include "minirt.h"
 
+static void	ft_swap(float *a, float *b)
+{
+	float *temp;
+
+	temp = a;
+	*a = *b;
+	*b = *temp;
+}
+
 int	hit_sphere(t_object *sphere, t_ray *ray, t_intersections **intersections)
 {
-	float	i1;
-	float	i2;
+	float	t1;
+	float	t2;
 	float	t[2];
-	int		ret;
 	t_vec3 	oc;
 
-	oc = subtract_vec3s(&ray->origin, &sphere->position);
+	oc = subtract_vec3s(ray->origin, sphere->position);
 	float a = dot_product(ray->direction, ray->direction);
 	float b = 2 * dot_product(ray->direction, oc);
 	float c = dot_product(oc, oc) - 1;
 	float discriminant = b*b - 4*a*c;
 	if (discriminant < 0)
 		return (0);
-	i1 = (-b - sqrtf(discriminant)) / (2 * a);
-	i2 = (-b + sqrtf(discriminant)) / (2 * a);
-	if (i1 < 0 && i2 > 0)
+	t1 = (-b - sqrtf(discriminant)) / (2 * a);
+	t2 = (-b + sqrtf(discriminant)) / (2 * a);
+	if (t1 > t2)
+		ft_swap(&t1, &t2);
+	if (t2 < 0)
+		return (0);
+	if (t1 < 0)
 	{
-		t[0] = i2;
-		t[1] = i1;
-		ret = 1;
+		t[0] = t2;
+		add_intersect_list(intersections, sphere, t);
+		return (1);
 	}
-	else if (i2 < 0 && i1 > 0)
-	{
-		t[0] = i1;
-		t[1] = i2;
-		ret = 1;
-	}
-	else if (i1 < 0 && i2 < 0)
-	{
-		if (i1 < i2)
-		{
-			t[0] = i1;
-			t[1] = i2;
-		}
-		else
-		{
-			t[0] = i1;
-			t[1] = i2;	
-		}
-		ret = 0;	
-	}
-	else if (i1 > i2)
-	{
-		t[0] = i2;
-		t[1] = i1;
-		ret = 2;
-	}
-	else
-	{
-		t[0] = i1;
-		t[1] = i2;
-		ret = 2;
-	}
-	return (add_intersect_list(intersections, sphere, t), ret);
+	t[0] = t1;
+	t[1] = t2;
+	add_intersect_list(intersections, sphere, t);
+	return (2);
 }
 
 t_intersections *intersect(t_ray *ray, t_scene *world)
@@ -63,9 +46,8 @@ t_intersections *intersect(t_ray *ray, t_scene *world)
     t_object        *objects;
 
     objects = world->objects;
-    while (objects)
+    while (objects && objects->type != NONE)
     {
-	//ray->origin = translate(ray->origin, mult_byscalar(&objects->position, -1));
         if (objects->type == SPHERE)
    			hit_sphere(objects, ray, &ray->intersections);
 		objects = objects->next;

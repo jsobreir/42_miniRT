@@ -65,10 +65,10 @@ void	fill_structs(t_scene *scene, char **args)
 		scene->num_objects++;
 		if (!ft_strncmp(args[0], "sp", 3))
 			fill_sphere(args, add_object(scene->objects));
+		else if (!ft_strncmp(args[0], "cy", 3))
+			fill_cylinder(args, scene);
 		// else if (!ft_strncmp(args[0], "pl", 3))
 		// 	fill_plane(args, scene);
-		// else if (!ft_strncmp(args[0], "cy", 3))
-		// 	fill_cylinder(args, scene);
 	}
 	else
 		return (printf("Error during parsing!\n"), exit(1));

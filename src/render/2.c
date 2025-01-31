@@ -33,11 +33,11 @@ static t_ray* generate_ray(int x, int y, t_camera *camera, t_ray *ray)
 	pixel_delta_u = mult_byscalar(viewport_u, 1/WIDTH);
 	pixel_delta_v = mult_byscalar(viewport_v, 1/HEIGHT);
 
-	viewport_upper_left = subtract_vec3s(&camera->position, &camera->orientation);
+	viewport_upper_left = subtract_vec3s(camera->position, camera->orientation);
 	viewport_u_divided = mult_byscalar(viewport_u, 0.5);
 	viewport_v_divided = mult_byscalar(viewport_v, 0.5);
-	viewport_upper_left = subtract_vec3s(&viewport_upper_left, &viewport_u_divided);
-	viewport_upper_left = subtract_vec3s(&viewport_upper_left, &viewport_v_divided);
+	viewport_upper_left = subtract_vec3s(viewport_upper_left, viewport_u_divided);
+	viewport_upper_left = subtract_vec3s(viewport_upper_left, viewport_v_divided);
     t_vec3	pix00;
 	pix00.x = viewport_upper_left.x + 0.5 * (pixel_delta_u.x + pixel_delta_v.x);
 	pix00.y = viewport_upper_left.y + 0.5 * (pixel_delta_u.y + pixel_delta_v.y);

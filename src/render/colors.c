@@ -7,7 +7,7 @@ t_vec3 get_light_vec(t_intersections *intersection, t_scene world, t_vec3 point,
 	
 	light = *world.light;
 	point = point_on_vec3(intersection->t[0], ray);
-	point_to_light = subtract_vec3s(&light.position, &point);
+	point_to_light = subtract_vec3s(light.position, point);
 	point_to_light = normalize(&point_to_light);
 	return (point_to_light);
 }
@@ -15,7 +15,7 @@ t_vec3 get_light_vec(t_intersections *intersection, t_scene world, t_vec3 point,
 t_vec3 get_reflect_vec(t_vec3 vec, t_vec3 normal)
 {
 	t_vec3 ret;
-	ret = subtract_vec3s(&vec, &normal);
+	ret = subtract_vec3s(vec, normal);
 	ret = mult_byscalar(&ret, 2 * dot_product(vec, normal));
 	return (ret);
 }

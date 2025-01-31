@@ -18,13 +18,13 @@ t_vec3 add_vectors(t_vec3 *one, t_vec3 *two)
 	return (new);
 }
 
-t_vec3 subtract_vec3s(t_vec3 *one, t_vec3 *two)
+t_vec3 subtract_vec3s(t_vec3 one, t_vec3 two)
 {
 	t_vec3 new;
 
-	new.x = one->x - two->x;
-	new.y = one->y - two->y;
-	new.z = one->z - two->z;
+	new.x = one.x - two.x;
+	new.y = one.y - two.y;
+	new.z = one.z - two.z;
 	return (new);
 }
 

@@ -19,6 +19,7 @@
 
 typedef enum e_obj_type
 {
+	NONE ,
 	SPHERE ,
 	PLANE ,
 	CYLINDER
@@ -133,7 +134,7 @@ int					free_array(char	**arr, int len);
 
 // Maths
 t_vec3 				add_vectors(t_vec3 *one, t_vec3 *two);
-t_vec3 				subtract_vec3s(t_vec3 *one, t_vec3 *two);
+t_vec3 				subtract_vec3s(t_vec3 one, t_vec3 two);
 t_vec3 				multiply_vectors(t_vec3 *one, t_vec3 *two);
 t_vec3 				divide_vectors(t_vec3 *one, t_vec3 *two);
 float				dot_product(t_vec3 a, t_vec3 b);
@@ -165,7 +166,7 @@ void				my_mlx_pixel_put(t_img *img, int x, int y, int color);
 void				print_intersect_ray(int x, int y, t_intersections *intersections);
 void				print_vec3(t_vec3 *vector);
 char				**ft_split_multiple(char const *s, char *tokens);
-float		ft_atof1(char *nbr);
+float				ft_atof1(char *nbr);
 
 // Rendering
 void				render_img(t_scene *scene);

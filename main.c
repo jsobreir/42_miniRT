@@ -24,11 +24,8 @@ int main(int argc, char **argv)
 	if (parse_file(argc, argv, &scene))
 		return (0);
 	// init_camera(&camera);
-	printf("color = %f\n", scene.objects->rgb.r);
-	printf("color = %f\n", scene.objects->next->rgb.r);
+	printf("num objects = %d\n", scene.num_objects);
 	setup_hooks(&scene);
-	printf("objects = %u\n", scene.objects->next->type);
-	printf("%f\n", scene.objects->next->position.y);
 	render_img(&scene);
 	mlx_loop(scene.mlx);
 }

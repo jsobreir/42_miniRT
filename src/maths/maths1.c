@@ -50,7 +50,7 @@ t_vec3	reflect(t_vec3 in, t_vec3 normal)
 
 	k = 2 * dot_product(in, normal);
 	temp = mult_byscalar(&normal, k);
-	ret = subtract_vec3s(&in, &temp);
+	ret = subtract_vec3s(in, temp);
 	// normalize(&ret);
 	return (ret);
 }
