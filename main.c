@@ -21,8 +21,11 @@ int main(int argc, char **argv)
 	t_scene scene;
 
 	init(&scene);
-	parse_file(argc, argv, &scene);
+	if (parse_file(argc, argv, &scene))
+		return (0);
 	// init_camera(&camera);
+	printf("color = %f\n", scene.objects->rgb.r);
+	printf("color = %f\n", scene.objects->next->rgb.r);
 	setup_hooks(&scene);
 	printf("objects = %u\n", scene.objects->next->type);
 	printf("%f\n", scene.objects->next->position.y);

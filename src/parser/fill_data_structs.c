@@ -59,5 +59,6 @@ void	fill_sphere(char **args, t_object *sphere)
 	sphere->radius = ft_atof1(args[2]) / 2;
 	sp = ft_split(args[3], ',');
 	set_color(&sphere->rgb, ft_atoi(sp[0]), ft_atoi(sp[1]), ft_atoi(sp[2]));
+	printf("object color = %f\n", sphere->rgb.r);
 	free_array(sp, arr_len(sp));
 }

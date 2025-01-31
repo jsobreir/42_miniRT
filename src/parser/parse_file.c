@@ -34,7 +34,7 @@ int	check_args(int argc, char **argv)
 
 	if (argc != 2)
 	{
-		printf("Please enter the correct arguments!\n\n./minirt path_to_.rt_file\n");
+		ft_putstr_fd("Please enter the correct arguments!\n\n./minirt path_to_.rt_file\n", 2);
 		fd = -1;
 		return (fd);
 	}
@@ -52,6 +52,7 @@ int	check_args(int argc, char **argv)
 
 void	fill_structs(t_scene *scene, char **args)
 {
+	printf("%s\n", args[0]);
 	if (!ft_strncmp(args[0], "A", 2))
 		fill_ambient(args, scene);
 	else if (!ft_strncmp(args[0], "C", 2))
@@ -110,8 +111,12 @@ int	parse_file(int argc, char **argv, t_scene *scene)
 		args_line = ft_split_multiple(line, " \t");
 		fill_structs(scene, args_line);
 		line = get_next_line(fd);
+		while (line && *line == '\n')
+			line = get_next_line(fd);
 		free_array(args_line, arr_len(args_line));
 	}
+	if (!scene->num_objects)
+		return (ft_putstr_fd("No objects to draw!\n", 2), 1);
 	print_args(scene);
 	return (0);
 }

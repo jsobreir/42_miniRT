@@ -123,7 +123,7 @@ t_vec3	multiply_colors(t_vec3 *color1, t_vec3 *color2)
 
 void	set_color(t_vec3 *color, int red, int green, int blue)
 {
-	color->r = red/255;
-	color->g = green/255;
-	color->b = blue/255;
+	color->r = (float) red/255;
+	color->g = (float) green/255;
+	color->b = (float) blue/255;
 }
