@@ -46,9 +46,9 @@ float	ft_atof1(char *nbr)
 	int		int_part;
 	float	frac_part;
 	int		frac_pow;
-	int		i;
+	//int		i;
 
-	i = 0;
+	//i = 0;
 	frac_part = 0.1;
 	int_part = 0;
 	frac_pow = 1;

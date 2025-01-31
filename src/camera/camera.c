@@ -11,7 +11,7 @@ t_ray* generate_ray(int x, int y, t_camera *camera, t_ray *ray)
 	float	viewport_height;
 	float	px;
 	float	py;
-	float	pixel_size;
+	//float	pixel_size;
     float	fov = camera->fov * (PI / 180.0);
 
 	forward = camera->orientation;//Already normalized
@@ -30,7 +30,7 @@ t_ray* generate_ray(int x, int y, t_camera *camera, t_ray *ray)
 		viewport_width = 2 * tan(fov / 2.0f);
 		viewport_height = viewport_width / ASPECT_RATIO;
 	}
-	pixel_size  = viewport_width / WIDTH;
+	//pixel_size  = viewport_width / WIDTH;
 	px = ((x + 0.5) / WIDTH) * viewport_width - (viewport_width / 2.0);
 	py = (viewport_height / 2.0) - ((y + 0.5) / HEIGHT) * viewport_height;
 	direction.x = px * right.x + py * up.x + forward.x;

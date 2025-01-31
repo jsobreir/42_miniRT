@@ -47,9 +47,9 @@ void	fill_camera(char **args, t_scene *scene)
 void	fill_sphere(char **args, t_object *sphere)
 {
 	char	**sp;
-	int		i;
+	//int		i;
 
-	i = 0;
+	//i = 0;
 	sphere->type = SPHERE;
 	sp = ft_split(args[1], ',');
 	sphere->position.x = ft_atof1(sp[0]);
@@ -65,9 +65,9 @@ void	fill_sphere(char **args, t_object *sphere)
 void	fill_cylinder(char **args, t_object *cylinder)
 {
 	char	**sp;
-	int		i;
+	//int		i;
 
-	i = 0;
+	//i = 0;
 	cylinder->type = CYLINDER;
 	sp = ft_split(args[1], ',');
 	cylinder->position.x = ft_atof1(sp[0]);

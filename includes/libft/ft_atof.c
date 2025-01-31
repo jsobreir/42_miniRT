@@ -6,9 +6,9 @@ float	ft_atof(char *nbr)
 	int		int_part;
 	int		frac_part;
 	int		frac_pow;
-	int		i;
+	//int		i;
 
-	i = 0;
+	//i = 0;
 	frac_part = 0;
 	frac_pow = 1;
 	int_part = ft_atoi(nbr);

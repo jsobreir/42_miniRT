@@ -127,7 +127,7 @@ void				fill_ambient(char **args, t_scene *scene);
 void				fill_light(char **args, t_scene *scene);
 void				fill_camera(char **args, t_scene *scene);
 void				fill_sphere(char **args, t_object *sphere);
-
+void	fill_cylinder(char **args, t_object *cylinder);
 
 // Free
 int					free_array(char	**arr, int len);
