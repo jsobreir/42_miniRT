@@ -1,6 +1,6 @@
 #include "minirt.h"
 
-t_intersections	*new_inters_node(t_object *object, float *t)
+t_intersections	*new_inters_node(t_object *object, float *t, t_ray *ray)
 {
 	t_intersections *new;
 
@@ -9,6 +9,7 @@ t_intersections	*new_inters_node(t_object *object, float *t)
 	new->t[0] = t[0];
 	new->t[1] = t[1];
 	new->next = NULL;
+	new->point = point_on_vec3(t[0], ray);
 	return (new);
 }
 
@@ -25,12 +26,12 @@ t_intersections *last_inters_node(t_intersections *inters)
 	return (inters);
 }
 
-t_intersections *add_intersect_list(t_intersections **intersections, t_object *object, float *t)
+t_intersections *add_intersect_list(t_intersections **intersections, t_object *object, float *t, t_ray *ray)
 {
     t_intersections *last;
     t_intersections *new;
 
-    new = new_inters_node(object, t);
+    new = new_inters_node(object, t, ray);
     if (!new)
         return NULL;
     if (*intersections && (*intersections)->t[0] != INFINITY && (*intersections)->t[1] != INFINITY)

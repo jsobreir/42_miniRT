@@ -16,7 +16,9 @@ t_vec3 normalize(t_vec3 *a)
 	t_vec3	vector;
 
 	(void)vector;
-    double length = sqrtf((a->x * a->x) + (a->y * a->y) + (a->z * a->z));
+    double length;
+
+	length = magnitude(*a);
 	if (length == 0)
 		return (fill_vec3(&vector, 0.0, 0.0, 0.0));
     return (mult_byscalar(a, 1.0 / (float)length));

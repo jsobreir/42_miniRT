@@ -60,9 +60,6 @@ void	fill_sphere(char **args, t_object *sphere)
 	sp = ft_split(args[3], ',');
 	set_color(&sphere->rgb, ft_atoi(sp[0]), ft_atoi(sp[1]), ft_atoi(sp[2]));
 	free_array(sp, arr_len(sp));
-	printf("sphere->center.x =%f\n", sphere->position.x);
-	printf("sphere->center.y =%f\n", sphere->position.y);
-	printf("sphere->center.z =%f\n", sphere->position.z);
 }
 
 void	fill_cylinder(char **args, t_object *cylinder)

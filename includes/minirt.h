@@ -15,6 +15,7 @@
 # define HEIGHT 800
 # define WIDTH 800
 # define PI 3.14159265358979323846
+# define EPSILON  0.0001
 #define ASPECT_RATIO ((float)HEIGHT / (float)WIDTH)
 
 typedef enum e_obj_type
@@ -89,6 +90,7 @@ typedef struct s_light
 /// Livro pagina 64
 typedef struct s_intersections
 {
+	t_point3				point;
 	float					t[2];
 	t_object 				*object;
 	struct s_intersections	*next;
@@ -121,6 +123,9 @@ void				init_vars(t_scene *scene);
 void				init(t_scene *scene);
 void				setup_hooks(t_scene *scene);
 
+// Init
+void				init_intersections(t_intersections *inter);
+
 // Parser
 int					parse_file(int argc, char **argv, t_scene *scene);
 void				fill_ambient(char **args, t_scene *scene);
@@ -148,6 +153,7 @@ t_vec3				fill_vec3(t_vec3 *vector, float x, float y, float z);
 t_point3			translate(t_point3 point, t_vec3 trans);
 t_point3			rotate(t_point3 point, double angl, char axis);
 t_point3			scaling(t_point3 point, t_vec3 trans);
+float				magnitude(t_vec3 a);
 
 //Camera
 t_ray*				generate_ray(int x, int y, t_camera *camera, t_ray *ray);
@@ -155,8 +161,8 @@ t_ray*				generate_ray(int x, int y, t_camera *camera, t_ray *ray);
 //Intersections
 int					hit_sphere(t_object *sphere, t_ray *ray, t_intersections **intersections);
 t_intersections		*intersect(t_ray *ray, t_scene *world);
-t_intersections		*add_intersect_list(t_intersections **intersections, t_object *object, float *t);
-t_intersections		*new_inters_node(t_object *object, float *t);
+t_intersections		*add_intersect_list(t_intersections **intersections, t_object *object, float *t, t_ray *ray);
+t_intersections		*new_inters_node(t_object *object, float *t, t_ray *ray);
 t_intersections 	*last_inters_node(t_intersections *inters);
 void				free_intersections(t_intersections *intersections);
 
@@ -170,9 +176,9 @@ float				ft_atof1(char *nbr);
 
 // Rendering
 void				render_img(t_scene *scene);
-int					make_sphere(int x, int y, t_camera *camera);
-t_vec3				calculate_diffuse(t_intersections *intersection, t_scene world, t_ray *ray);
+t_vec3				calculate_diffuse(t_intersections *intersection, t_scene world);
 t_vec3				calculate_specular(t_intersections *intersection, t_scene world, t_ray *ray);
+int					is_shadow(t_intersections *inter1, t_scene *world);
 
 // Colors
 int					rgb_to_hex(t_vec3 *rgb);
@@ -180,5 +186,6 @@ t_vec3				change_brightness(t_vec3 *color, float factor);
 t_vec3				add_colors(t_vec3 *color1, t_vec3 *color2);
 void				set_color(t_vec3 *color, int red, int green, int blue);
 t_vec3				multiply_colors(t_vec3 *color1, t_vec3 *color2);
+t_vec3				get_light_vec(t_intersections *intersection, t_scene world, t_vec3 point, t_ray *ray);
 
 #endif

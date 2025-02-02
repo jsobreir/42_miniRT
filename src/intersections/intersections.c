@@ -32,12 +32,12 @@ int	hit_sphere(t_object *sphere, t_ray *ray, t_intersections **intersections)
 	if (t1 < 0)
 	{
 		t[0] = t2;
-		add_intersect_list(intersections, sphere, t);
+		add_intersect_list(intersections, sphere, t, ray);
 		return (1);
 	}
 	t[0] = t1;
 	t[1] = t2;
-	add_intersect_list(intersections, sphere, t);
+	add_intersect_list(intersections, sphere, t, ray);
 	return (2);
 }
 

@@ -17,3 +17,10 @@ t_vec3	fill_vec3(t_vec3 *vector, float x, float y, float z)
 	return (*vector);
 }
 
+float	magnitude(t_vec3 a)
+{
+	float	mag;
+	mag = sqrtf((a.x * a.x) + (a.y * a.y) + (a.z * a.z));
+	return (mag);
+}
+

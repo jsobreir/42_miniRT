@@ -9,18 +9,16 @@ int	color_pixel(int x, int y, t_scene *world)
 	t_vec3 			specular;
 	int final_color;
 
-	intersections.t[0] = INFINITY;
-	intersections.t[1] = INFINITY;
-	intersections.next = NULL;
-	intersections.object = NULL;
+	init_intersections(&intersections);
 	ray.intersections = &intersections;
 	generate_ray(x, y, world->camera, &ray);
 	intersections = *intersect(&ray, world);
 	if (intersections.t[0] != INFINITY)
 	{
-		// set_color(&ambient_rgb, 0, 0 ,0);
 		ambient_rgb = change_brightness(&world->light->ambient_color_rgb, 0.2);
-		diffuse = calculate_diffuse(&intersections, *world, &ray);
+		if (is_shadow(&intersections, world))
+			return (rgb_to_hex(&ambient_rgb));
+		diffuse = calculate_diffuse(&intersections, *world);
 		diffuse = change_brightness(&diffuse, world->light->brightness);
 		specular = calculate_specular(&intersections, *world, &ray);
 	}
@@ -37,6 +35,32 @@ int	color_pixel(int x, int y, t_scene *world)
 	return (final_color);
 }
 
+int	is_shadow(t_intersections *inter1, t_scene *world)
+{
+	t_vec3			v;
+	t_intersections inter2;
+	float			distance;
+	t_vec3			direction;
+	t_ray			ray;
+	t_point3		overpoint;
+	t_vec3			normal;
+
+	normal = normal_sphere(&inter1->point, inter1->object);
+	normal = mult_byscalar(&normal, EPSILON);
+	overpoint = add_vectors(&inter1->point, &normal);
+	init_intersections(&inter2);
+	v = subtract_vec3s(world->light->position, inter1->point);
+	distance = magnitude(v);
+	direction = normalize(&v);
+	ray.origin = overpoint;
+	ray.direction = direction;
+	ray.intersections = &inter2;
+	inter2 = *intersect(&ray, world);
+	if (inter2.t[0] != INFINITY && inter2.t[0] < distance)
+		return (1);
+	else
+		return (0);
+}
 
 void	put_pixel(int pix, int piy, t_scene *world, int iterations)
 {
@@ -64,7 +88,6 @@ void render_img(t_scene *world)
 {
 	int	x;
 	int	y;
-	printf("FOV = %f\n", world->camera->position.z);
 	mlx_clear_window(world->mlx, world->mlx_win);
 	y = 0;
 	while (y < HEIGHT)

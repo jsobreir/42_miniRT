@@ -61,3 +61,11 @@ void	init(t_scene *scene)
 		exit(EXIT_FAILURE);
 	}
 }
+
+void	init_intersections(t_intersections *inter)
+{
+	(*inter).t[0] = INFINITY;
+	(*inter).t[1] = INFINITY;
+	(*inter).next = NULL;
+	(*inter).object = NULL;
+}
