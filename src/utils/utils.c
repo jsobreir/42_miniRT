@@ -46,13 +46,15 @@ float	ft_atof1(char *nbr)
 	int		int_part;
 	float	frac_part;
 	int		frac_pow;
-	//int		i;
+	int		neg;
 
-	//i = 0;
 	frac_part = 0.1;
 	int_part = 0;
 	frac_pow = 1;
+	neg = 1;
 	int_part = ft_atoi(nbr);
+	if (nbr[0] == '-')
+		neg = -1;
 	while (*nbr && *nbr != '.')
 	{
 		if (!nbr)
@@ -69,7 +71,6 @@ float	ft_atof1(char *nbr)
 		nbr++;
 		frac_pow *= 10;
 	}
-	ret = int_part + frac_part/frac_pow;
-	printf("%f\n", ret);
+	ret = int_part + (frac_part/frac_pow * neg);
 	return (ret);
 }

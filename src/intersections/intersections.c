@@ -19,7 +19,7 @@ int	hit_sphere(t_object *sphere, t_ray *ray, t_intersections **intersections)
 	oc = subtract_vec3s(ray->origin, sphere->position);
 	float a = dot_product(ray->direction, ray->direction);
 	float b = 2 * dot_product(ray->direction, oc);
-	float c = dot_product(oc, oc) - 1;
+	float c = dot_product(oc, oc) - (sphere->radius*sphere->radius);
 	float discriminant = b*b - 4*a*c;
 	if (discriminant < 0)
 		return (0);
