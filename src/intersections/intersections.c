@@ -29,24 +29,6 @@ int	check_intersections(float t1, float t2, t_intersections **intersections, t_o
 	return (2);
 }
 
-int	hit_sphere(t_object *sphere, t_ray *ray, t_intersections **intersections)
-{
-	float	t1;
-	float	t2;
-	t_vec3 	oc;
-
-	oc = subtract_vec3s(ray->origin, sphere->position);
-	float a = dot_product(ray->direction, ray->direction);
-	float b = 2 * dot_product(ray->direction, oc);
-	float c = dot_product(oc, oc) - (sphere->radius*sphere->radius);
-	float discriminant = b*b - 4*a*c;
-	if (discriminant < 0)
-		return (0);
-	t1 = (-b - sqrtf(discriminant)) / (2 * a);
-	t2 = (-b + sqrtf(discriminant)) / (2 * a);
-	return (check_intersections(t1, t2, intersections, sphere, ray));
-}
-
 t_intersections *intersect(t_ray *ray, t_scene *world)
 {
     t_object        *objects;
@@ -56,6 +38,8 @@ t_intersections *intersect(t_ray *ray, t_scene *world)
     {
         if (objects->type == SPHERE)
    			hit_sphere(objects, ray, &ray->intersections);
+		else if (objects->type == PLANE)
+   			hit_plane(objects, ray, &ray->intersections);
 		// else if (objects->type == CYLINDER)
 		// 	hit_cylinder(objects, ray, &ray->intersections);
 		objects = objects->next;
