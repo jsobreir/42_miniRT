@@ -54,5 +54,5 @@ int	hit_cylinder(t_object *cyl, t_ray *ray, t_intersections **inters)
 		return (0);
 	i1 = (-b*b - sqrtf(b * b - 4 * a * c))/(2 * a);
 	i2 = (-b*b + sqrtf(b * b - 4 * a * c))/(2 * a);
-	return (check_intersections(i1, i2, inters, cyl));
+	return (check_intersections(i1, i2, inters, cyl, ray));
 }

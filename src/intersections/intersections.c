@@ -56,8 +56,8 @@ t_intersections *intersect(t_ray *ray, t_scene *world)
     {
         if (objects->type == SPHERE)
    			hit_sphere(objects, ray, &ray->intersections);
-		else if (objects->type == CYLINDER)
-			hit_cylinder(objects, ray, &ray->intersections);
+		// else if (objects->type == CYLINDER)
+		// 	hit_cylinder(objects, ray, &ray->intersections);
 		objects = objects->next;
     }
     return (ray->intersections);

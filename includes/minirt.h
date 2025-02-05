@@ -157,6 +157,7 @@ t_vec3				normal_object(t_point3 *point, t_object *object);
 t_vec3				reflect(t_vec3 in, t_vec3 normal);
 t_point3			point_on_vec3(float t, t_ray *ray);
 t_vec3				fill_vec3(t_vec3 *vector, float x, float y, float z);
+float				magnitude(t_vec3 a);
 
 // Matrices
 t_matrix			*new_mtx(int rows, int cols);
@@ -187,7 +188,7 @@ t_intersections		*add_intersect_list(t_intersections **intersections, t_object *
 t_intersections		*new_inters_node(t_object *object, float *t, t_ray *ray);
 t_intersections 	*last_inters_node(t_intersections *inters);
 void				free_intersections(t_intersections *intersections);
-int					check_intersections(float t1, float t2, t_intersections **intersections, t_object *object);
+int					check_intersections(float t1, float t2, t_intersections **intersections, t_object *object, t_ray *ray);
 
 // Utils
 int					arr_len(char **arr);
