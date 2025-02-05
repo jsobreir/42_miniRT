@@ -10,7 +10,7 @@ NAME = minirt
 MAKE = make
 # -L flag indicates which directories need to be searched for libraries (.a files)
 # -I flad adds a directory that needs to be searched for Header files (.h files)
-FLAGS = -Wall -Wextra -Werror -g -L$(MLX_DIR) -lmlx_Linux -L/usr/lib -I$(MLX_DIR) -lXext -lX11 -lm -lz -I./includes -L$(LIBFT_DIR) -lft
+FLAGS = -g -L$(MLX_DIR) -lmlx_Linux -L/usr/lib -I$(MLX_DIR) -lXext -lX11 -lm -lz -I./includes -L$(LIBFT_DIR) -lft
 CC = cc
 
 # ------------------------------------------------------------------- #
@@ -19,10 +19,10 @@ CC = cc
 
 SRC_DIR = main
 WINDOWS = hooks free init
-MATHS = maths maths1 maths2 matrices
+MATHS = maths maths1 maths2 matrix matrix_transform matrix2 matrix3
 UTILS = utils split
 RENDER = render colors
-INTERSECTIONS = intersections intersections_list
+INTERSECTIONS = intersections intersections_list cylinder
 CAMERA = camera
 PARSER = parse_file fill_data_structs
 
@@ -60,7 +60,7 @@ $(OBJ_DIR):
 	mkdir -p $(OBJ_DIR)
 
 $(OBJ_DIR)/%.o: %.c $(OBJ_DIR)
-	$(CC) -g -Wall -Wextra -Werror -c -I$(MLX_DIR) -I./includes $< -o $@
+	$(CC) -Wall -Wextra -Werror -g -c -I$(MLX_DIR) -I./includes $< -o $@
 
 $(LIBFT):
 	$(MAKE) -C $(LIBFT_DIR)

@@ -3,9 +3,12 @@
 /// @brief Window clean exit.
 /// @param scene 
 /// @return 
-int	clean_exit(t_scene *scene)
+int	clean_exit(t_scene *scene, char *msg)
 {
-	ft_putstr_fd("Exiting program cleanly.\n", 1);
+	if (!msg)
+		ft_putstr_fd("Exiting program cleanly.\n", 1);
+	else
+		ft_putstr_fd(msg, 2);
 	if (!scene)
 		exit(0);
 	if (scene->img.img)
@@ -18,7 +21,10 @@ int	clean_exit(t_scene *scene)
 		mlx_destroy_display(scene->mlx);
 		free(scene->mlx);
 	}
-	exit(0);
+	if (!msg)
+		exit(0);
+	else
+		exit(1);
 	return (0);
 }
 

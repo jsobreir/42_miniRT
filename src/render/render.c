@@ -20,7 +20,10 @@ int	color_pixel(int x, int y, t_scene *world)
 			return (rgb_to_hex(&ambient_rgb));
 		diffuse = calculate_diffuse(&intersections, *world);
 		diffuse = change_brightness(&diffuse, world->light->brightness);
-		specular = calculate_specular(&intersections, *world, &ray);
+		if (diffuse.r || diffuse.g || diffuse.b)
+			specular = calculate_specular(&intersections, *world, &ray);
+		else
+			set_color(&diffuse, 0, 0, 0);
 	}
 	else
 	{

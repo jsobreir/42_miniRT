@@ -104,7 +104,7 @@ int	parse_file(int argc, char **argv, t_scene *scene)
 
 	fd = check_args(argc, argv);
 	if (fd <= 0)
-		clean_exit(scene);
+		clean_exit(scene, NULL);
 	line = get_next_line(fd);
 	while (line)
 	{
