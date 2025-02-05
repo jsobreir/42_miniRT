@@ -1,19 +1,4 @@
-#include "./includes/minirt.h"
-
-// apagar depois do parser estar pronto
-// static void init_camera(t_camera *c)
-// {
-// 	c->fov = 60;
-// 	c->position.x = 0.0;
-// 	c->position.y = 0.0;
-// 	c->position.z = 0.0;
-// 	c->orientation.x = 0.0;
-// 	c->orientation.y = 0.0;
-// 	c->orientation.z = 1.0;
-// 	c->focal_length = 1.0;
-// 	c->viewport_width = 2 * tan(c->fov/2)/c->focal_length;
-// 	c->viewport_height = ASPECT_RATIO * c->viewport_width;
-// }
+#include "minirt.h"
 
 int main(int argc, char **argv)
 {
@@ -23,9 +8,65 @@ int main(int argc, char **argv)
 	init(&scene);
 	if (parse_file(argc, argv, &scene))
 		return (0);
-	// init_camera(&camera);
 	printf("num objects = %d\n", scene.num_objects);
 	setup_hooks(&scene);
 	render_img(&scene);
 	mlx_loop(scene.mlx);
+	clean_exit(&scene, NULL);
 }
+
+/*
+	------------------
+	For Matrix testing
+	------------------
+*/
+
+
+// float **fill_data(void)
+// {
+// 	int i = 0;
+// 	int	j = 0;
+// 	float dt[3][3] = {
+//     {1, 2.3f, 2},
+//     {23, 2, 1},
+// 	{3, 2.4, 65}};
+// 	float **data;
+
+// 	data = malloc(sizeof(float *) * 3);
+// 	while (i < 3)
+// 	{
+// 		data[i] = malloc(3 * sizeof(float));
+// 		j = 0;
+// 		while (j < 3)
+// 		{
+// 			data[i][j] = dt[i][j];
+// 			j++;
+// 		}
+// 		i++;
+// 	}
+// 	return (data);
+// }
+
+// int main(void)
+// {
+// 	t_matrix *a;
+// 	float **data;
+// 	t_scene scene;
+
+// 	init(&scene);
+// 	data = fill_data();
+// 	a = mtx_create_fill(data, 3, 3);
+// 	// t_matrix *b = mtx_transpose(a);
+// 	// printf("Matrix A:\n");
+// 	mtx_print(a);
+// 	// printf("\n\n");
+// 	// printf("Transpose of matrix A:\n");
+// 	// mtx_print(b);
+// 	// t_matrix *minor = mtx_minor(2, 1, a);
+// 	// mtx_print(minor);
+// 	// t_matrix *cof = mtx_cofactor(a);
+// 	// mtx_print(cof);
+// 	t_matrix *inv = mtx_inverse(&scene, a);
+// 	printf("Inverse of A:\n");
+// 	mtx_print(inv);
+// }

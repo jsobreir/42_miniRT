@@ -31,14 +31,21 @@ t_vec3 cross_product(t_vec3 a, t_vec3 b)
     return (result);
 }
 
-t_vec3	normal_sphere(t_point3 *point, t_object *object)
+t_vec3	normal_object(t_point3 *point, t_object *object)
 {
 	t_point3 op;
 
-	op.x = point->x - object->position.x;
-	op.y = point->y - object->position.y;
-	op.z = point->z - object->position.z;
-	op = normalize(&op);
+	// if (object->type == SPHERE)
+	// {
+		op.x = point->x - object->position.x;
+		op.y = point->y - object->position.y;
+		op.z = point->z - object->position.z;
+		op = normalize(&op);
+	// }
+	// else if (object->type == CYLINDER)
+	// {
+		
+	// }
 	return (op);
 }
 

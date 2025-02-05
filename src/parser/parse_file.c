@@ -66,7 +66,7 @@ void	fill_structs(t_scene *scene, char **args)
 		if (!ft_strncmp(args[0], "sp", 3))
 			fill_sphere(args, add_object(scene->objects));
 		else if (!ft_strncmp(args[0], "cy", 3))
-			fill_cylinder(args, scene);
+			fill_cylinder(args, scene->objects);
 		// else if (!ft_strncmp(args[0], "pl", 3))
 		// 	fill_plane(args, scene);
 	}
@@ -104,7 +104,7 @@ int	parse_file(int argc, char **argv, t_scene *scene)
 
 	fd = check_args(argc, argv);
 	if (fd <= 0)
-		clean_exit(scene);
+		clean_exit(scene, NULL);
 	line = get_next_line(fd);
 	while (line)
 	{

@@ -55,6 +55,13 @@ typedef struct s_vec3
 
 typedef t_vec3 t_point3;
 
+typedef	struct s_matrix
+{
+	int		n_rows;
+	int		n_cols;
+	float	**matrix;
+}	t_matrix;
+
 typedef struct s_object
 {
 	t_obj_type		type;
@@ -116,7 +123,7 @@ typedef struct s_scene
 
 // Windows
 int					handle_keys(int key, t_scene *scene);
-int					clean_exit(t_scene *solid);
+int					clean_exit(t_scene *solid, char *msg);
 void				init_vars(t_scene *scene);
 void				init(t_scene *scene);
 void				setup_hooks(t_scene *scene);
@@ -127,7 +134,7 @@ void				fill_ambient(char **args, t_scene *scene);
 void				fill_light(char **args, t_scene *scene);
 void				fill_camera(char **args, t_scene *scene);
 void				fill_sphere(char **args, t_object *sphere);
-
+void				fill_cylinder(char **args, t_object *cylinder);
 
 // Free
 int					free_array(char	**arr, int len);
@@ -141,24 +148,41 @@ float				dot_product(t_vec3 a, t_vec3 b);
 t_vec3 				normalize(t_vec3 *a);
 t_vec3 				mult_byscalar(t_vec3 *vec, float scalar);
 t_vec3 				cross_product(t_vec3 a, t_vec3 b);
-t_vec3				normal_sphere(t_point3 *point, t_object *object);
+t_vec3				normal_object(t_point3 *point, t_object *object);
 t_vec3				reflect(t_vec3 in, t_vec3 normal);
 t_point3			point_on_vec3(float t, t_ray *ray);
 t_vec3				fill_vec3(t_vec3 *vector, float x, float y, float z);
-t_point3			translate(t_point3 point, t_vec3 trans);
-t_point3			rotate(t_point3 point, double angl, char axis);
-t_point3			scaling(t_point3 point, t_vec3 trans);
+
+// Matrices
+t_matrix			*new_mtx(int rows, int cols);
+void				mtx_free(t_matrix *mtx);
+t_matrix			*mtx_create_fill(float **data, int rows, int cols);
+t_matrix 			*mtx_identity(int rows, int cols);
+t_matrix 			*mtx_multiply(t_matrix a, t_matrix b);
+t_matrix			*mtx_minor(int row, int col, t_matrix *mtx);
+t_matrix			*mtx_transpose(t_matrix *mtx);
+t_matrix			*mtx_cofactor(t_matrix *mtx);
+void	mtx_print(t_matrix *mtx);
+void				mtx_rotate_x(t_matrix *mtx, int degrees);
+void				mtx_rotate_y(t_matrix *mtx, int degrees);
+void				mtx_rotate_z(t_matrix *mtx, int degrees);
+t_matrix			*translate(float dx, float dy, float dz);
+t_matrix			 *mtx_inverse(t_scene *scene, t_matrix *mtx);
+float				mtx_determinant(t_matrix *mtx);
+t_matrix			*mtx_mult_by_float(t_matrix *mtx, float value);
 
 //Camera
 t_ray*				generate_ray(int x, int y, t_camera *camera, t_ray *ray);
 
 //Intersections
 int					hit_sphere(t_object *sphere, t_ray *ray, t_intersections **intersections);
+int					hit_cylinder(t_object *cyl, t_ray *ray, t_intersections **inters);
 t_intersections		*intersect(t_ray *ray, t_scene *world);
 t_intersections		*add_intersect_list(t_intersections **intersections, t_object *object, float *t);
 t_intersections		*new_inters_node(t_object *object, float *t);
 t_intersections 	*last_inters_node(t_intersections *inters);
 void				free_intersections(t_intersections *intersections);
+int					check_intersections(float t1, float t2, t_intersections **intersections, t_object *object);
 
 // Utils
 int					arr_len(char **arr);
