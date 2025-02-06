@@ -106,15 +106,16 @@ t_matrix	*rotation_matrix(t_object *obj)
 	t_vec3		world_up;
 	t_matrix	*trans;
 
-
 	forward = obj->orientation;
-	fill_vec3(&world_up, 0, 1, 0);
-    right = cross_product(forward, world_up);
-	if (fabs(dot_product(forward, world_up)) > 0.9999)
+	// If forward is too close to world_up, use (0,0,1) instead
+	if (fabs(forward.y) > 0.9999)
 		fill_vec3(&world_up, 0, 0, 1);
-    right = normalize(&right);
-    up = cross_product(right, forward);
-    up = normalize(&up);
+	else
+		fill_vec3(&world_up, 0, 1, 0);
+	right = cross_product(forward, world_up);
+	right = normalize(&right);
+	up = cross_product(right, forward);
+	up = normalize(&up);
 	trans = new_mtx(4,4);
 	trans->matrix[0][0] = right.x;
 	trans->matrix[0][1] = right.y;

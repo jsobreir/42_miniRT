@@ -83,5 +83,6 @@ void	fill_cylinder(char **args, t_object *cylinder)
 	cylinder->height = ft_atof1(args[4]);
 	sp = ft_split(args[5], ',');
 	set_color(&cylinder->rgb, ft_atoi(sp[0]), ft_atoi(sp[1]), ft_atoi(sp[2]));
+	normalize(&cylinder->orientation);
 	free_array(sp, arr_len(sp));
 }
