@@ -187,10 +187,10 @@ t_matrix			*mtx_mult_by_float(t_matrix *mtx, float value);
 t_ray*				generate_ray(int x, int y, t_camera *camera, t_ray *ray);
 
 //Intersections
-int					hit_plane(t_object *plane, t_ray *ray, t_intersections **inter);
+int					hit_plane(t_object *plane,t_ray *ray, t_ray *trans_ray, t_intersections **inter);
 int					hit_sphere(t_object *sphere, t_ray *ray, t_ray *trans_ray, t_intersections **intersections);
 int					hit_cylinder(t_object *cyl, t_ray *ray, t_ray *trans_ray, t_intersections **inters);
-t_intersections		*intersect(t_ray *ray, t_scene *world);
+t_intersections *intersect(t_ray *ray, t_scene *world, int light);
 t_intersections		*add_intersect_list(t_intersections **intersections, t_object *object, float *t, t_ray *ray);
 t_intersections		*new_inters_node(t_object *object, float *t, t_ray *ray);
 t_intersections 	*last_inters_node(t_intersections *inters);

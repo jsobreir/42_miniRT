@@ -50,19 +50,34 @@ int	hit_sphere(t_object *sphere, t_ray *ray, t_ray *trans_ray, t_intersections *
 	return (check_int);
 }
 
-t_intersections *intersect(t_ray *ray, t_scene *world)
+t_intersections *intersect(t_ray *ray, t_scene *world, int light)
 {
     t_object        *objects;
 
     objects = world->objects;
+	if (!light)
+	{
     while (objects && objects->type != NONE)
     {
         if (objects->type == SPHERE)
    			hit_sphere(objects, ray, transform_ray(objects, world, ray), &ray->intersections);
+		if (objects->type == PLANE)
+   			hit_plane(objects, ray, transform_ray(objects, world, ray), &ray->intersections);
 		// else if (objects->type == CYLINDER)
 		// 	hit_cylinder(objects, ray, transform_ray(objects, world, ray),  &ray->intersections);
 		objects = objects->next;
     }
+	}
+	else
+	{
+		if (objects->type == SPHERE)
+   			hit_sphere(objects, ray, ray, &ray->intersections);
+		if (objects->type == PLANE)
+   			hit_plane(objects, ray, ray, &ray->intersections);
+		// else if (objects->type == CYLINDER)
+		// 	hit_cylinder(objects, ray, transform_ray(objects, world, ray),  &ray->intersections);
+		objects = objects->next;
+	}
     return (ray->intersections);
 }
 

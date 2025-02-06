@@ -55,38 +55,32 @@ int	hit_cylinder(t_object *cyl, t_ray *ray, t_ray *trans_ray, t_intersections **
 	return (check_intersections(i1, i2, inters, cyl, ray));
 }
 
-int	hit_plane(t_object *plane, t_ray *ray, t_intersections **inter)
-{
-	float i;
-	float d;
-	t_vec3 normal = normalize(&plane->orientation);
-	t_vec3 point = plane->position;
-	float numerator;
-	float denominator;
+// int	hit_plane(t_object *plane,t_ray *ray, t_ray *trans_ray, t_intersections **inter)
+// {
+// 	float i;
+// 	float d;
+// 	t_vec3 normal = normalize(&plane->orientation);
+// 	t_vec3 point = plane->position;
+// 	float numerator;
+// 	float denominator;
 
-	d = -(normal.x * point.x + normal.y * point.y + normal.z * point.z);
-	denominator = normal.x * ray->direction.x + normal.y * ray->direction.y + normal.z * ray->direction.z;
-	if (fabs(denominator) < EPSILON)
+// 	d = -(normal.x * point.x + normal.y * point.y + normal.z * point.z);
+// 	denominator = normal.x * trans_ray->direction.x + normal.y * trans_ray->direction.y + normal.z * trans_ray->direction.z;
+// 	if (fabs(denominator) < EPSILON)
+// 		return (0);
+// 	numerator = d - (normal.x * ray->origin.x + normal.y * ray->origin.y + normal.z * ray->origin.z);
+// 	i = numerator / denominator;
+// 	return (check_intersections(i, i, inter, plane, ray));
+// }
+
+int	hit_plane(t_object *plane, t_ray *original, t_ray *ray, t_intersections **inter)
+{
+	float i[2];
+
+	if (fabs(ray->direction.y) < EPSILON)
 		return (0);
-	numerator = d - (normal.x * ray->origin.x + normal.y * ray->origin.y + normal.z * ray->origin.z);
-	i = numerator / denominator;
-	return (check_intersections(i, i, inter, plane, ray));
+	i[0] = -ray->origin.y / ray->direction.y;
+	i[1] = -ray->origin.y / ray->direction.y;
+	return (check_intersections(i[0], i[1], inter, plane, original));
 }
 
-int	hit_sphere(t_object *sphere, t_ray *ray, t_intersections **intersections)
-{
-	float	t1;
-	float	t2;
-	t_vec3 	oc;
-
-	oc = subtract_vec3s(ray->origin, sphere->position);
-	float a = dot_product(ray->direction, ray->direction);
-	float b = 2 * dot_product(ray->direction, oc);
-	float c = dot_product(oc, oc) - (sphere->radius*sphere->radius);
-	float discriminant = b*b - 4*a*c;
-	if (discriminant < 0)
-		return (0);
-	t1 = (-b - sqrtf(discriminant)) / (2 * a);
-	t2 = (-b + sqrtf(discriminant)) / (2 * a);
-	return (check_intersections(t1, t2, intersections, sphere, ray));
-}

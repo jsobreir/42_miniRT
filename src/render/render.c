@@ -12,7 +12,8 @@ int	color_pixel(int x, int y, t_scene *world)
 	init_intersections(&intersections);
 	ray.intersections = &intersections;
 	generate_ray(x, y, world->camera, &ray);
-	intersections = *intersect(&ray, world);
+	intersections = *intersect(&ray, world, 0);
+
 	if (intersections.t[0] != INFINITY)
 	{
 		ambient_rgb = change_brightness(&world->light->ambient_color_rgb, 0.2);
@@ -48,7 +49,10 @@ int	is_shadow(t_intersections *inter1, t_scene *world)
 	t_point3		overpoint;
 	t_vec3			normal;
 
-	normal = normal_object(&inter1->point, inter1->object);
+	if (inter1->object->type == PLANE)
+		normal = normalize(&inter1->object->orientation);
+	else
+		normal = normal_object(&inter1->point, inter1->object);
 	normal = mult_byscalar(&normal, EPSILON);
 	overpoint = add_vectors(&inter1->point, &normal);
 	init_intersections(&inter2);
@@ -58,7 +62,7 @@ int	is_shadow(t_intersections *inter1, t_scene *world)
 	ray.origin = overpoint;
 	ray.direction = direction;
 	ray.intersections = &inter2;
-	inter2 = *intersect(&ray, world);
+	inter2 = *intersect(&ray, world, 1);
 	if (inter2.t[0] != INFINITY && inter2.t[0] < distance)
 		return (1);
 	else
