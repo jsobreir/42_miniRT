@@ -59,8 +59,8 @@ t_intersections *intersect(t_ray *ray, t_scene *world)
     {
         if (objects->type == SPHERE)
    			hit_sphere(objects, ray, transform_ray(objects, world, ray), &ray->intersections);
-		// else if (objects->type == CYLINDER)
-		// 	hit_cylinder(objects, ray, transform_ray(objects, world, ray),  &ray->intersections);
+		else if (objects->type == CYLINDER)
+			hit_cylinder(objects, ray, transform_ray(objects, world, ray),  &ray->intersections);
 		objects = objects->next;
     }
     return (ray->intersections);
@@ -73,22 +73,22 @@ t_ray	*transform_ray(t_object *obj, t_scene *scene, t_ray *ray)
 
 	if (!obj->cached_transform || !obj->cached_rot_transform)
 	{
-		// printf("=====Object=====\n");
-		// printf("position: x = %f, y = %f, z = %f\n", obj->position.x, obj->position.y, obj->position.z);
+		printf("=====Object=====\n");
+		printf("position: x = %f, y = %f, z = %f\n", obj->position.x, obj->position.y, obj->position.z);
 		trans = translate(obj->position.x, obj->position.y, obj->position.z);
-		// printf("trans:\n");
-		// mtx_print(trans);
+		printf("trans:\n");
+		mtx_print(trans);
 		if (obj->type == SPHERE)
 			obj->cached_rot_transform = mtx_identity(4,4);
 		else
 			obj->cached_rot_transform = rotation_matrix(obj);
 		obj->cached_transform = mtx_multiply(*obj->cached_rot_transform, *trans);
 		obj->cached_transform = mtx_inverse(scene, obj->cached_transform);
-		// printf("rotation:\n");
-		// mtx_print(obj->cached_rot_transform);
-		// printf("trans final:\n");
-		// mtx_print(obj->cached_transform);
-		// printf("\n");
+		printf("rotation:\n");
+		mtx_print(obj->cached_rot_transform);
+		printf("trans final:\n");
+		mtx_print(obj->cached_transform);
+		printf("\n");
 		free(trans);
 	}
 	new_ray->origin = mtx_mult_point3(obj->cached_transform, &ray->origin);
