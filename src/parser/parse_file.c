@@ -6,6 +6,9 @@ t_object	*add_object(t_object *object_node)
 
 	new = malloc(sizeof(t_object));
 	new->next = NULL;
+	new->type = NONE;
+	new->cached_transform = NULL;
+	new->cached_rot_transform = NULL;
 	if (object_node)
 	{
 		while (object_node)
@@ -66,7 +69,7 @@ void	fill_structs(t_scene *scene, char **args)
 		if (!ft_strncmp(args[0], "sp", 3))
 			fill_sphere(args, add_object(scene->objects));
 		else if (!ft_strncmp(args[0], "cy", 3))
-			fill_cylinder(args, scene->objects);
+			fill_cylinder(args, add_object(scene->objects));
 		// else if (!ft_strncmp(args[0], "pl", 3))
 		// 	fill_plane(args, scene);
 	}

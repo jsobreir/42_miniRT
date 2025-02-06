@@ -60,6 +60,8 @@
 	"array": "c",
 	"string": "c",
 	"string_view": "c",
-	"span": "c"
+	"span": "c",
+	"optional": "c",
+	"vector": "c"
 }
 }

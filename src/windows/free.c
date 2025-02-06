@@ -1,10 +1,26 @@
 #include "minirt.h"
 
+static void	clean_objects(t_object *obj)
+{
+	t_object	*temp;
+	while (obj && obj->type != NONE)
+	{
+		temp = obj;
+		if (obj->cached_rot_transform)
+			mtx_free(obj->cached_rot_transform);
+		if (obj->cached_transform)
+			mtx_free(obj->cached_transform);
+		obj = obj->next;
+		free(temp);
+	}
+}
 /// @brief Window clean exit.
 /// @param scene 
 /// @return 
 int	clean_exit(t_scene *scene, char *msg)
 {
+	if (scene->objects)
+		clean_objects(scene->objects);
 	if (!msg)
 		ft_putstr_fd("Exiting program cleanly.\n", 1);
 	else
