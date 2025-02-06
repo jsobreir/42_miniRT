@@ -64,15 +64,17 @@ t_matrix *mtx_multiply(t_matrix a, t_matrix b)
 	t_matrix	*c;
 
 	i = 0;
-	j = 0;
+	if (a.n_cols != b.n_rows)
+		return (NULL); // Ensure valid multiplication
 	c = new_mtx(a.n_rows, b.n_cols);
 	while (i < a.n_rows)
 	{
+		j = 0;
 		while (j < b.n_cols)
 		{
 			k = -1;
 			sum = 0;
-			while (k++ < a.n_cols)
+			while (++k < a.n_cols)
 				sum += a.matrix[i][k] * b.matrix[k][j];
 			c->matrix[i][j] = sum;
 			j++;  

@@ -36,18 +36,16 @@
 // 		return (0);
 // }
 
-int	hit_cylinder(t_object *cyl, t_ray *ray, t_intersections **inters)
+int	hit_cylinder(t_object *cyl, t_ray *ray, t_ray *trans_ray, t_intersections **inters)
 {
 	float	a;
 	float	b;
 	float	c;
-	t_vec3	ray3;
 	float	i1;
 	float	i2;
 
-	ray3 = ray->direction;
-	a = ray3.x * ray3.x + ray3.y * ray3.y;
-	b = 2*(ray3.x * ray->origin.x + ray3.y * ray->origin.y);
+	a = trans_ray->direction.x * trans_ray->direction.x + trans_ray->direction.y * trans_ray->direction.y;
+	b = 2*(trans_ray->direction.x * ray->origin.x + trans_ray->direction.y * ray->origin.y);
 	c = ray->origin.x * ray->origin.x + ray->origin.y * ray->origin.y;
 	c -= cyl->radius * cyl->radius;
 	if (b * b - 4 * a * c < 0)

@@ -16,7 +16,6 @@ float	ft_atof(char *nbr)
 		nbr++;
 	if (nbr && *nbr && *nbr == '.')
 		nbr++;
-	printf("Here\n");
 	while (nbr && *nbr && (*nbr >= '0' && *nbr <= '9'))
 	{
 		nbr++;

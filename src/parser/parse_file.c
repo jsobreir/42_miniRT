@@ -6,6 +6,9 @@ t_object	*add_object(t_object *object_node)
 
 	new = malloc(sizeof(t_object));
 	new->next = NULL;
+	new->type = NONE;
+	new->cached_transform = NULL;
+	new->cached_rot_transform = NULL;
 	if (object_node)
 	{
 		while (object_node)
