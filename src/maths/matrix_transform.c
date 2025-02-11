@@ -1,30 +1,30 @@
 #include "minirt.h"
 
-void	mtx_rotate_x(t_matrix *mtx, int degrees)
+void	mtx_rotate_x(t_matrix *mtx, float degrees)
 {
-	degrees *= PI/180;
-	mtx->matrix[1][1] *= cosf(degrees);
-	mtx->matrix[1][2] *= sinf(degrees) * -1;
-	mtx->matrix[2][1] *= sinf(degrees);
-	mtx->matrix[2][2] *= cosf(degrees);
+	//degrees *= PI/180;
+	mtx->matrix[1][1] = cosf(degrees);
+	mtx->matrix[1][2] = sinf(degrees) * -1;
+	mtx->matrix[2][1] = sinf(degrees);
+	mtx->matrix[2][2] = cosf(degrees);
 }
 
-void	mtx_rotate_y(t_matrix *mtx, int degrees)
+void	mtx_rotate_y(t_matrix *mtx, float degrees)
 {
-	degrees *= PI/180;
-	mtx->matrix[0][0] *= cosf(degrees);
-	mtx->matrix[0][2] *= sinf(degrees);
-	mtx->matrix[2][0] *= sinf(degrees) * -1;
-	mtx->matrix[2][2] *= cosf(degrees);
+	//degrees *= PI/180;
+	mtx->matrix[0][0] = cosf(degrees);
+	mtx->matrix[0][2] = sinf(degrees);
+	mtx->matrix[2][0] = sinf(degrees) * -1;
+	mtx->matrix[2][2] = cosf(degrees);
 }
 
-void	mtx_rotate_z(t_matrix *mtx, int degrees)
+void	mtx_rotate_z(t_matrix *mtx, float degrees)
 {
-	degrees *= PI/180;
-	mtx->matrix[0][0] *= cosf(degrees);
-	mtx->matrix[0][1] *= sinf(degrees) * -1;
-	mtx->matrix[1][0] *= sinf(degrees);
-	mtx->matrix[1][1] *= cosf(degrees);
+	//degrees *= PI/180;
+	mtx->matrix[0][0] = cosf(degrees);
+	mtx->matrix[0][1] = sinf(degrees) * -1;
+	mtx->matrix[1][0] = sinf(degrees);
+	mtx->matrix[1][1] = cosf(degrees);
 }
 
 t_matrix	*translate(float dx, float dy, float dz)

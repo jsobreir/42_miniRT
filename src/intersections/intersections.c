@@ -60,7 +60,10 @@ t_intersections *intersect(t_ray *ray, t_scene *world)
         if (objects->type == SPHERE)
    			hit_sphere(objects, ray, transform_ray(objects, world, ray), &ray->intersections);
 		else if (objects->type == CYLINDER)
+		{
 			hit_cylinder(objects, ray, transform_ray(objects, world, ray),  &ray->intersections);
+			// printf("%f and %f\n", ray->intersections->t[0], ray->intersections->t[1]);
+		}
 		objects = objects->next;
     }
     return (ray->intersections);
@@ -75,6 +78,7 @@ t_ray	*transform_ray(t_object *obj, t_scene *scene, t_ray *ray)
 	{
 		printf("=====Object=====\n");
 		printf("position: x = %f, y = %f, z = %f\n", obj->position.x, obj->position.y, obj->position.z);
+		printf("orientation: x = %f, y = %f, z = %f\n", obj->orientation.x, obj->orientation.y, obj->orientation.z);
 		trans = translate(obj->position.x, obj->position.y, obj->position.z);
 		printf("trans:\n");
 		mtx_print(trans);
@@ -82,6 +86,8 @@ t_ray	*transform_ray(t_object *obj, t_scene *scene, t_ray *ray)
 			obj->cached_rot_transform = mtx_identity(4,4);
 		else
 			obj->cached_rot_transform = rotation_matrix(obj);
+		printf("HERRRRRRRRRRRRE\n");
+		mtx_print(obj->cached_rot_transform);
 		obj->cached_transform = mtx_multiply(*obj->cached_rot_transform, *trans);
 		obj->cached_transform = mtx_inverse(scene, obj->cached_transform);
 		printf("rotation:\n");
@@ -94,47 +100,98 @@ t_ray	*transform_ray(t_object *obj, t_scene *scene, t_ray *ray)
 	new_ray->origin = mtx_mult_point3(obj->cached_transform, &ray->origin);
 	// ray->direction = mtx_mult_vec3(obj->cached_rot_transform, &ray->direction);
 	new_ray->intersections = NULL;
-	new_ray->direction = mtx_mult_vec3(obj->cached_rot_transform, &ray->direction);
+	new_ray->direction = mtx_mult_vec3(obj->cached_transform, &ray->direction);
 	return (new_ray);
 }
 
+t_matrix	*execute_rot_z(t_vec3 *orient, t_matrix *rotation)
+{
+	t_matrix	*rot_z;
+
+	rot_z = mtx_identity(4, 4);
+	mtx_rotate_x(rot_z, orient->z * M_PI / 2);
+	if (orient->x || orient->y)
+		rotation = mtx_multiply(*rotation, *rot_z);
+	else
+	{
+		mtx_free(rotation);
+		rotation = rot_z;
+	}
+	return (rotation);
+}
+
+t_matrix	*execute_rot_y(t_vec3 *orient, t_matrix *rotation)
+{
+	t_matrix	*rot_y;
+
+	rot_y = mtx_identity(4, 4);
+	mtx_rotate_y(rot_y, orient->y * M_PI / 2);
+	if (orient->x)
+		rotation = mtx_multiply(*rotation, *rot_y);
+	else
+	{
+		mtx_free(rotation);
+		rotation = rot_y;
+	}
+	return (rotation);
+}
+
+
 t_matrix	*rotation_matrix(t_object *obj)
 {
-	t_vec3		up;
-	t_vec3		forward;
-	t_vec3		right;
-	t_vec3		world_up;
-	t_matrix	*trans;
+	t_matrix	*rotation;
 
-	forward = obj->orientation;
-	// If forward is too close to world_up, use (0,0,1) instead
-	if (fabs(forward.y) > 0.9999)
-		fill_vec3(&world_up, 0, 0, 1);
-	else
-		fill_vec3(&world_up, 0, 1, 0);
-	right = cross_product(forward, world_up);
-	right = normalize(&right);
-	up = cross_product(right, forward);
-	up = normalize(&up);
-	trans = new_mtx(4,4);
-	trans->matrix[0][0] = right.x;
-	trans->matrix[0][1] = right.y;
-	trans->matrix[0][2] = right.z;
-	trans->matrix[0][3] = 0;
-	trans->matrix[1][0] = up.x;
-	trans->matrix[1][1] = up.y;
-	trans->matrix[1][2] = up.z;
-	trans->matrix[1][3] = 0;
-	trans->matrix[2][0] = forward.x;
-	trans->matrix[2][1] = forward.y;
-	trans->matrix[2][2] = forward.z;
-	trans->matrix[2][3] = 0;
-	trans->matrix[3][0] = 0;
-	trans->matrix[3][1] = 0;
-	trans->matrix[3][2] = 0;
-	trans->matrix[3][3] = 1;
-	return (trans);
+	rotation = mtx_identity(4, 4);
+	printf("Identity\n");
+	mtx_print(rotation);
+	printf("%f\n", obj->orientation.x * M_PI / 2);
+	if (obj->orientation.x)
+		mtx_rotate_z(rotation, obj->orientation.x * M_PI / 2);
+	// if (obj->orientation.y)
+	// 	rotation = execute_rot_y(&obj->orientation, rotation);
+	// if (obj->orientation.z)
+	// 	rotation = execute_rot_z(&obj->orientation, rotation);
+	return (rotation);
 }
+
+// t_matrix	*rotation_matrix(t_object *obj)
+// {
+// 	t_vec3		up;
+// 	t_vec3		forward;
+// 	t_vec3		right;
+// 	t_vec3		world_up;
+// 	t_matrix	*trans;
+
+// 	forward = obj->orientation;
+
+// 	if (fabs(forward.y) > 0.9999)
+// 		return (mtx_identity(4, 4));
+// 	else
+// 		fill_vec3(&world_up, 0, 1, 0);
+// 	right = cross_product(forward, world_up);
+// 	right = normalize(&right);
+// 	up = cross_product(right, forward);
+// 	up = normalize(&up);
+// 	trans = new_mtx(4,4);
+// 	trans->matrix[0][0] = right.x;
+// 	trans->matrix[0][1] = right.y;
+// 	trans->matrix[0][2] = right.z;
+// 	trans->matrix[0][3] = 0;
+// 	trans->matrix[1][0] = up.x;
+// 	trans->matrix[1][1] = up.y;
+// 	trans->matrix[1][2] = up.z;
+// 	trans->matrix[1][3] = 0;
+// 	trans->matrix[2][0] = forward.x;
+// 	trans->matrix[2][1] = forward.y;
+// 	trans->matrix[2][2] = forward.z;
+// 	trans->matrix[2][3] = 0;
+// 	trans->matrix[3][0] = 0;
+// 	trans->matrix[3][1] = 0;
+// 	trans->matrix[3][2] = 0;
+// 	trans->matrix[3][3] = 1;
+// 	return (trans);
+// }
+
 
 // int	check_obj_transform(t_object *obj)
 // {

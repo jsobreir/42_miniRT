@@ -16,7 +16,10 @@ t_ray* generate_ray(int x, int y, t_camera *camera, t_ray *ray)
 
 	forward = camera->orientation;//Already normalized
     ray->origin = camera->position;
-	fill_vec3(&world_up, 0, 1, 0);
+	if (fabs(forward.y) > 0.9999)
+		fill_vec3(&world_up, 0, 0, 1);
+	else
+		fill_vec3(&world_up, 0, 1, 0);
     right = cross_product(forward, world_up);
     right = normalize(&right);
     up = cross_product(right, forward);// Calculate Up vector (of the camera window)

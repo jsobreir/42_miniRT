@@ -36,41 +36,78 @@
 // 		return (0);
 // }
 
+static float	cylinder_cap_intersection(t_ray *ray, t_object *cyl, float cap_y)
+{
+	float		t;
+	t_point3	point;
+
+	if (ray->direction.y == 0)
+		return (0);
+	t = (cap_y - ray->origin.y) / ray->direction.y;
+	point = point_on_vec3(t, ray);
+	if (point.x * point.x + point.z * point.z <= cyl->radius * cyl->radius)
+		return (t);
+	return (-INFINITY);
+}
+
+static float	cylinder_caps(t_ray *ray, t_object *cyl, float cap_y)
+{
+	float	i;
+	i = cylinder_cap_intersection(ray, cyl, cap_y);
+	if (i != -INFINITY)
+		return (i);
+	i = cylinder_cap_intersection(ray, cyl, -cap_y);
+	if (i != -INFINITY)
+		return (i);
+	return (-INFINITY);
+}
+
+int	check_cyl_intersections(float i[4], t_intersections **intersections, t_object *cyl, t_ray *ray)
+{
+	float	t[2];
+
+	t[0] = i[0];
+	t[1] = i[1];
+	if (i[2] > 0 && i[2] < t[0])
+		t[0] = i[2];
+	else if (i[2] > 0 && i[2] < t[1])
+		t[1] = i[2];
+	if (i[3] > 0 && i[3] < t[0])
+		t[0] = i[3];
+	else if (i[3] > 0 && i[3] < t[1])
+		t[1] = i[3];
+	return (check_intersections(t[0], t[1], intersections, cyl, ray));	
+}
+
 int	hit_cylinder(t_object *cyl, t_ray *ray, t_ray *trans_ray, t_intersections **inters)
 {
 	float	a;
 	float	b;
 	float	c;
-	float	i1;
-	float	i2;
+	float	discriminant;
+	float	i[4];
 	int		num_inters;
+	(void)ray;
 
 	a = trans_ray->direction.x * trans_ray->direction.x + trans_ray->direction.z * trans_ray->direction.z;
-	b = 2*(trans_ray->direction.x * ray->origin.x + trans_ray->direction.z * ray->origin.z);
-	c = ray->origin.x * ray->origin.x + ray->origin.z * ray->origin.z;
-	c -= cyl->radius * cyl->radius;
-	if (b * b - 4 * a * c < 0)
-		return (0);
-	i1 = (-b * b - sqrtf(b * b - 4 * a * c))/(2 * a);
-	i2 = (-b * b + sqrtf(b * b - 4 * a * c))/(2 * a);
-	num_inters = check_intersections(i1, i2, inters, cyl, ray);
-	return (num_inters);
-}
-
-int	cylinder_caps(t_ray *ray)
-{
-	t_point3		inters;
-	t_intersections *intersection;
-	t_object		*cyl;
-	float			cap_max;
-	float			cap_min;
-
-	cyl = ray->intersections->object;
-	intersection = ray->intersections;
-	inters = point_on_vec3(intersection->t[0], ray);
-	cap_max = cyl->position.y
-	if (cyl->z < inters.z || cyl->z > inters.z)
+	b = 2 * (trans_ray->origin.x * trans_ray->direction.x + trans_ray->origin.z * trans_ray->direction.z);
+	c = trans_ray->origin.x * trans_ray->origin.x + trans_ray->origin.z * trans_ray->origin.z - cyl->radius * cyl->radius;
+	if (a == 0)
 	{
-		caps.z
+		i[0] = -1;
+		i[1] = -1;
+		i[2] = cylinder_caps(ray, cyl, cyl->height / 2);
+		i[3] = cylinder_caps(ray, cyl, -cyl->height / 2);
+		num_inters = check_cyl_intersections(i, inters, cyl, trans_ray);
+		return (num_inters);
 	}
+	discriminant = b * b - 4 * a * c;
+	if (discriminant < 0)
+		return (0);
+	i[0] = (-b - sqrtf(discriminant)) / (2 * a);
+	i[1] = (-b + sqrtf(discriminant)) / (2 * a);
+	i[2] = cylinder_caps(ray, cyl, cyl->height / 2);
+	i[3] = cylinder_caps(ray, cyl, -cyl->height / 2);
+	num_inters = check_cyl_intersections(i, inters, cyl, trans_ray);
+	return (num_inters);
 }
