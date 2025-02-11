@@ -86,8 +86,6 @@ t_ray	*transform_ray(t_object *obj, t_scene *scene, t_ray *ray)
 			obj->cached_rot_transform = mtx_identity(4,4);
 		else
 			obj->cached_rot_transform = rotation_matrix(obj);
-		printf("HERRRRRRRRRRRRE\n");
-		mtx_print(obj->cached_rot_transform);
 		obj->cached_transform = mtx_multiply(*obj->cached_rot_transform, *trans);
 		obj->cached_transform = mtx_inverse(scene, obj->cached_transform);
 		printf("rotation:\n");
@@ -142,15 +140,12 @@ t_matrix	*rotation_matrix(t_object *obj)
 	t_matrix	*rotation;
 
 	rotation = mtx_identity(4, 4);
-	printf("Identity\n");
-	mtx_print(rotation);
-	printf("%f\n", obj->orientation.x * M_PI / 2);
 	if (obj->orientation.x)
 		mtx_rotate_z(rotation, obj->orientation.x * M_PI / 2);
-	// if (obj->orientation.y)
-	// 	rotation = execute_rot_y(&obj->orientation, rotation);
-	// if (obj->orientation.z)
-	// 	rotation = execute_rot_z(&obj->orientation, rotation);
+	if (obj->orientation.y)
+		rotation = execute_rot_y(&obj->orientation, rotation);
+	if (obj->orientation.z)
+		rotation = execute_rot_z(&obj->orientation, rotation);
 	return (rotation);
 }
 

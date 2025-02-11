@@ -173,7 +173,7 @@ t_matrix			*mtx_cofactor(t_matrix *mtx);
 t_matrix			*mtx_add(t_matrix a, t_matrix b);
 t_vec3				mtx_mult_vec3(t_matrix *mtx, t_vec3 *vec);
 t_point3			mtx_mult_point3(t_matrix *mtx, t_point3 *point);
-void	mtx_print(t_matrix *mtx);
+void				mtx_print(t_matrix *mtx);
 void				mtx_rotate_x(t_matrix *mtx, float degrees);
 void				mtx_rotate_y(t_matrix *mtx, float degrees);
 void				mtx_rotate_z(t_matrix *mtx, float degrees);
