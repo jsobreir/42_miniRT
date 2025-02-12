@@ -60,10 +60,7 @@ t_intersections *intersect(t_ray *ray, t_scene *world)
         if (objects->type == SPHERE)
    			hit_sphere(objects, ray, transform_ray(objects, world, ray), &ray->intersections);
 		else if (objects->type == CYLINDER)
-		{
 			hit_cylinder(objects, transform_ray(objects, world, ray),  &ray->intersections);
-			// printf("%f and %f\n", ray->intersections->t[0], ray->intersections->t[1]);
-		}
 		objects = objects->next;
     }
     return (ray->intersections);

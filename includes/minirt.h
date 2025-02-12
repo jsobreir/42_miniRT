@@ -186,7 +186,7 @@ t_ray*				generate_ray(int x, int y, t_camera *camera, t_ray *ray);
 
 //Intersections
 int					hit_sphere(t_object *sphere, t_ray *ray, t_ray *trans_ray, t_intersections **intersections);
-int					hit_cylinder(t_object *cyl, t_ray *trans_ray, t_intersections **inters);
+void				hit_cylinder(t_object *cyl, t_ray *trans_ray, t_intersections **inters);
 t_intersections		*intersect(t_ray *ray, t_scene *world);
 t_intersections		*add_intersect_list(t_intersections **intersections, t_object *object, float *t, t_ray *ray);
 t_intersections		*new_inters_node(t_object *object, float *t, t_ray *ray);
@@ -196,7 +196,7 @@ int					check_intersections(float t1, float t2, t_intersections **intersections,
 t_ray				*transform_ray(t_object *obj, t_scene *scen, t_ray *ray);
 t_matrix			*rotation_matrix(t_object *obj);
 int					cylinder_cap_plane_check(t_ray *ray, float cap_y, float	t[2]);
-// int					check_obj_transform(t_object *obj);
+float				cylinder_cap_intersection(t_ray *ray, t_object *cyl, float cap_y);
 
 // Utils
 int					arr_len(char **arr);

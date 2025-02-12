@@ -13,7 +13,7 @@ int	color_pixel(int x, int y, t_scene *world)
 	ray.intersections = &intersections;
 	generate_ray(x, y, world->camera, &ray);
 	intersections = *intersect(&ray, world);
-	if (intersections.t[0] != INFINITY)
+	if (intersections.t[0] != INFINITY && intersections.t[0] != -INFINITY)
 	{
 		ambient_rgb = change_brightness(&world->light->ambient_color_rgb, world->light->ambient_lighting_ratio);
 		if (is_shadow(&intersections, world))
