@@ -66,7 +66,6 @@ typedef	struct s_matrix
 typedef struct s_object
 {
 	t_matrix		*cached_transform;
-	t_matrix		*cached_rot_transform;
 	t_obj_type		type;
 	t_vec3			rgb;
 	t_point3		position; // centro?
@@ -187,7 +186,7 @@ t_ray*				generate_ray(int x, int y, t_camera *camera, t_ray *ray);
 
 //Intersections
 int					hit_sphere(t_object *sphere, t_ray *ray, t_ray *trans_ray, t_intersections **intersections);
-int					hit_cylinder(t_object *cyl, t_ray *ray, t_ray *trans_ray, t_intersections **inters);
+int					hit_cylinder(t_object *cyl, t_ray *trans_ray, t_intersections **inters);
 t_intersections		*intersect(t_ray *ray, t_scene *world);
 t_intersections		*add_intersect_list(t_intersections **intersections, t_object *object, float *t, t_ray *ray);
 t_intersections		*new_inters_node(t_object *object, float *t, t_ray *ray);

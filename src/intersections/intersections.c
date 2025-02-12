@@ -61,7 +61,7 @@ t_intersections *intersect(t_ray *ray, t_scene *world)
    			hit_sphere(objects, ray, transform_ray(objects, world, ray), &ray->intersections);
 		else if (objects->type == CYLINDER)
 		{
-			hit_cylinder(objects, ray, transform_ray(objects, world, ray),  &ray->intersections);
+			hit_cylinder(objects, transform_ray(objects, world, ray),  &ray->intersections);
 			// printf("%f and %f\n", ray->intersections->t[0], ray->intersections->t[1]);
 		}
 		objects = objects->next;
@@ -72,35 +72,41 @@ t_intersections *intersect(t_ray *ray, t_scene *world)
 t_ray	*transform_ray(t_object *obj, t_scene *scene, t_ray *ray)
 {
 	t_matrix	*trans = NULL;
+	t_matrix	*rot_transform;
+	t_matrix	*temp;
 	t_ray		*new_ray = calloc(1, sizeof(t_ray));
 
-	if (!obj->cached_transform || !obj->cached_rot_transform)
+	if (!obj->cached_transform)
 	{
-		printf("=====Object=====\n");
-		printf("position: x = %f, y = %f, z = %f\n", obj->position.x, obj->position.y, obj->position.z);
-		printf("orientation: x = %f, y = %f, z = %f\n", obj->orientation.x, obj->orientation.y, obj->orientation.z);
+		// printf("=====Object=====\n");
+		// printf("position: x = %f, y = %f, z = %f\n", obj->position.x, obj->position.y, obj->position.z);
+		// printf("orientation: x = %f, y = %f, z = %f\n", obj->orientation.x, obj->orientation.y, obj->orientation.z);
 		trans = translate(obj->position.x, obj->position.y, obj->position.z);
-		printf("trans:\n");
-		mtx_print(trans);
+		// printf("trans:\n");
+		// mtx_print(trans);
 		if (obj->type == SPHERE)
-			obj->cached_rot_transform = mtx_identity(4,4);
+			rot_transform = mtx_identity(4,4);
 		else
-			obj->cached_rot_transform = rotation_matrix(obj);
-		obj->cached_transform = mtx_multiply(*obj->cached_rot_transform, *trans);
-		obj->cached_transform = mtx_inverse(scene, obj->cached_transform);
-		printf("rotation:\n");
-		mtx_print(obj->cached_rot_transform);
-		printf("trans final:\n");
-		mtx_print(obj->cached_transform);
-		printf("\n");
+			rot_transform = rotation_matrix(obj);
+		temp = mtx_multiply(*trans, *rot_transform);
+		obj->cached_transform = mtx_inverse(scene, temp);
+		// printf("rotation:\n");
+		// mtx_print(rot_transform);
+		// printf("trans final:\n");
+		// mtx_print(obj->cached_transform);
+		// printf("\n");
+		free(temp);
 		free(trans);
+		free(rot_transform);
 	}
 	new_ray->origin = mtx_mult_point3(obj->cached_transform, &ray->origin);
-	// ray->direction = mtx_mult_vec3(obj->cached_rot_transform, &ray->direction);
+	// ray->direction = mtx_mult_vec3(rot_transform, &ray->direction);
 	new_ray->intersections = NULL;
 	new_ray->direction = mtx_mult_vec3(obj->cached_transform, &ray->direction);
 	return (new_ray);
 }
+
+
 
 t_matrix	*execute_rot_z(t_vec3 *orient, t_matrix *rotation)
 {
@@ -134,7 +140,6 @@ t_matrix	*execute_rot_y(t_vec3 *orient, t_matrix *rotation)
 	return (rotation);
 }
 
-
 t_matrix	*rotation_matrix(t_object *obj)
 {
 	t_matrix	*rotation;
@@ -148,58 +153,3 @@ t_matrix	*rotation_matrix(t_object *obj)
 		rotation = execute_rot_z(&obj->orientation, rotation);
 	return (rotation);
 }
-
-// t_matrix	*rotation_matrix(t_object *obj)
-// {
-// 	t_vec3		up;
-// 	t_vec3		forward;
-// 	t_vec3		right;
-// 	t_vec3		world_up;
-// 	t_matrix	*trans;
-
-// 	forward = obj->orientation;
-
-// 	if (fabs(forward.y) > 0.9999)
-// 		return (mtx_identity(4, 4));
-// 	else
-// 		fill_vec3(&world_up, 0, 1, 0);
-// 	right = cross_product(forward, world_up);
-// 	right = normalize(&right);
-// 	up = cross_product(right, forward);
-// 	up = normalize(&up);
-// 	trans = new_mtx(4,4);
-// 	trans->matrix[0][0] = right.x;
-// 	trans->matrix[0][1] = right.y;
-// 	trans->matrix[0][2] = right.z;
-// 	trans->matrix[0][3] = 0;
-// 	trans->matrix[1][0] = up.x;
-// 	trans->matrix[1][1] = up.y;
-// 	trans->matrix[1][2] = up.z;
-// 	trans->matrix[1][3] = 0;
-// 	trans->matrix[2][0] = forward.x;
-// 	trans->matrix[2][1] = forward.y;
-// 	trans->matrix[2][2] = forward.z;
-// 	trans->matrix[2][3] = 0;
-// 	trans->matrix[3][0] = 0;
-// 	trans->matrix[3][1] = 0;
-// 	trans->matrix[3][2] = 0;
-// 	trans->matrix[3][3] = 1;
-// 	return (trans);
-// }
-
-
-// int	check_obj_transform(t_object *obj)
-// {
-// 	t_point3	p;
-// 	t_vec3		o;
-// 	int			ret;
-
-// 	p = obj->position;
-// 	o = obj->orientation;
-// 	ret = 0;
-// 	if (p.x != 0 || p.y != 0 || p.z != 0)
-// 		ret++;
-// 	if (obj->type != SPHERE && (o.x != 0 || o.y != 0 || o.z != 1))
-// 		ret++;
-// 	return (ret);
-// }

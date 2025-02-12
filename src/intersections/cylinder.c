@@ -30,15 +30,6 @@ static float	cylinder_cap_intersection(t_ray *ray, t_object *cyl, float cap_y)
 	return (-1);
 }
 
-// static int	cylinder_caps(t_ray *ray, t_object *cyl, float cap_y)
-// {
-// 	if (cylinder_cap_intersection(ray, cyl, cap_y) >= 0)
-// 		return (1);
-// 	if (cylinder_cap_intersection(ray, cyl, -cap_y) >= 0)
-// 		return (1);
-// 	return (0);
-// }
-
 int	check_cyl_intersections(float i[4], t_intersections **intersections, t_object *cyl, t_ray *ray)
 {
 	float	t[2];
@@ -56,14 +47,13 @@ int	check_cyl_intersections(float i[4], t_intersections **intersections, t_objec
 	return (check_intersections(t[0], t[1], intersections, cyl, ray));	
 }
 
-int	hit_cylinder(t_object *cyl, t_ray *ray, t_ray *trans_ray, t_intersections **inters)
+int	hit_cylinder(t_object *cyl, t_ray *trans_ray, t_intersections **inters)
 {
 	float	a;
 	float	b;
 	float	c;
 	float	discriminant;
 	float	i[4];
-	(void)ray;
 
 	a = trans_ray->direction.x * trans_ray->direction.x + trans_ray->direction.z * trans_ray->direction.z;
 	b = 2 * (trans_ray->origin.x * trans_ray->direction.x + trans_ray->origin.z * trans_ray->direction.z);
@@ -77,7 +67,7 @@ int	hit_cylinder(t_object *cyl, t_ray *ray, t_ray *trans_ray, t_intersections **
 	i[1] = (-b + sqrtf(discriminant)) / (2 * a);
 	if (!cylinder_cap_plane_check(trans_ray, cyl->height / 2, i))
 		return (0);
-	i[2] = cylinder_cap_intersection(ray, cyl, cyl->height / 2);
-	i[3] = cylinder_cap_intersection(ray, cyl, -cyl->height / 2);
+	i[2] = cylinder_cap_intersection(trans_ray, cyl, cyl->height / 2);
+	i[3] = cylinder_cap_intersection(trans_ray, cyl, -cyl->height / 2);
 	return (check_cyl_intersections(i, inters, cyl, trans_ray));
 }

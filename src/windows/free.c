@@ -6,8 +6,6 @@ static void	clean_objects(t_object *obj)
 	while (obj && obj->type != NONE)
 	{
 		temp = obj;
-		if (obj->cached_rot_transform)
-			mtx_free(obj->cached_rot_transform);
 		if (obj->cached_transform)
 			mtx_free(obj->cached_transform);
 		obj = obj->next;

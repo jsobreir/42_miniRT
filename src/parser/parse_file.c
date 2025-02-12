@@ -8,7 +8,6 @@ t_object	*add_object(t_object *object_node)
 	new->next = NULL;
 	new->type = NONE;
 	new->cached_transform = NULL;
-	new->cached_rot_transform = NULL;
 	if (object_node)
 	{
 		while (object_node)
