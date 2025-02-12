@@ -81,3 +81,14 @@ int	hit_cylinder(t_object *cyl, t_ray *ray, t_ray *trans_ray, t_intersections **
 	i[3] = cylinder_cap_intersection(ray, cyl, -cyl->height / 2);
 	return (check_cyl_intersections(i, inters, cyl, trans_ray));
 }
+
+int	hit_plane(t_object *plane, t_ray *original, t_ray *ray, t_intersections **inter)
+{
+	float i[2];
+
+	if (fabs(ray->direction.y) < EPSILON)
+		return (0);
+	i[0] = -ray->origin.y / ray->direction.y;
+	i[1] = -ray->origin.y / ray->direction.y;
+	return (check_intersections(i[0], i[1], inter, plane, original));
+}

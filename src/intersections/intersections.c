@@ -64,6 +64,8 @@ t_intersections *intersect(t_ray *ray, t_scene *world)
 			hit_cylinder(objects, ray, transform_ray(objects, world, ray),  &ray->intersections);
 			// printf("%f and %f\n", ray->intersections->t[0], ray->intersections->t[1]);
 		}
+		else if (objects->type == PLANE)
+			hit_plane(objects, ray, transform_ray(objects, world, ray),  &ray->intersections);
 		objects = objects->next;
     }
     return (ray->intersections);

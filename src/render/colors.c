@@ -31,7 +31,11 @@ t_vec3	calculate_diffuse(t_intersections *intersection, t_scene world)
 
 	object_color = intersection->object->rgb;
 	light = *world.light;
-	normal = normal_object(&intersection->point, intersection->object);
+	if (intersection->object->type == PLANE)
+		normal = normalize(&intersection->object->orientation);
+	else
+		normal = normal_object(&intersection->point, intersection->object);
+	//normal = normal_object(&intersection->point, intersection->object);
 	point_to_light.x =  light.position.x - intersection->point.x;
 	point_to_light.y =  light.position.y - intersection->point.y;
 	point_to_light.z =  light.position.z - intersection->point.z;
@@ -56,7 +60,11 @@ t_vec3	calculate_specular(t_intersections *intersection, t_scene world, t_ray *r
 
 	inverse_light = get_light_vec(intersection, world, intersection->point, ray);
 	inverse_light = mult_byscalar(&inverse_light, -1);
-	normal = normal_object(&intersection->point, intersection->object);
+	if (intersection->object->type == PLANE)
+		normal = normalize(&intersection->object->orientation);
+	else
+		normal = normal_object(&intersection->point, intersection->object);
+	//normal = normal_object(&intersection->point, intersection->object);
 	reflect_vec = reflect(inverse_light, normal);
 	eye = mult_byscalar(&ray->direction, -1);
 	reflect_dot_eye = dot_product(reflect_vec, eye);
