@@ -15,7 +15,7 @@ int	color_pixel(int x, int y, t_scene *world)
 	intersections = *intersect(&ray, world);
 	if (intersections.t[0] != INFINITY)
 	{
-		ambient_rgb = change_brightness(&world->light->ambient_color_rgb, 0.2);
+		ambient_rgb = change_brightness(&world->light->ambient_color_rgb, world->light->ambient_lighting_ratio);
 		if (is_shadow(&intersections, world))
 			return (rgb_to_hex(&ambient_rgb));
 		diffuse = calculate_diffuse(&intersections, *world);

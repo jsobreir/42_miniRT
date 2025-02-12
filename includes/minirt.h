@@ -196,6 +196,7 @@ void				free_intersections(t_intersections *intersections);
 int					check_intersections(float t1, float t2, t_intersections **intersections, t_object *object, t_ray *ray);
 t_ray				*transform_ray(t_object *obj, t_scene *scen, t_ray *ray);
 t_matrix			*rotation_matrix(t_object *obj);
+int					cylinder_cap_plane_check(t_ray *ray, float cap_y, float	t[2]);
 // int					check_obj_transform(t_object *obj);
 
 // Utils
@@ -205,6 +206,7 @@ void				print_intersect_ray(int x, int y, t_intersections *intersections);
 void				print_vec3(t_vec3 *vector);
 char				**ft_split_multiple(char const *s, char *tokens);
 float				ft_atof1(char *nbr);
+void				ft_swap(float *a, float *b);
 
 // Rendering
 void				render_img(t_scene *scene);

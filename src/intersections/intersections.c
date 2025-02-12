@@ -1,6 +1,6 @@
 #include "minirt.h"
 
-static void	ft_swap(float *a, float *b)
+void	ft_swap(float *a, float *b)
 {
 	float *temp;
 

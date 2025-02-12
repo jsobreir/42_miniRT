@@ -62,6 +62,7 @@
 	"string_view": "c",
 	"span": "c",
 	"optional": "c",
-	"vector": "c"
+	"vector": "c",
+	"math.h": "c"
 }
 }

@@ -70,7 +70,6 @@ t_vec3	calculate_specular(t_intersections *intersection, t_scene world, t_ray *r
 	}
 	return (specular);
 }
-#include <math.h>
 
 int rgb_to_hex(t_vec3 *rgb)
 {
@@ -107,18 +106,18 @@ t_vec3	add_colors(t_vec3 *color1, t_vec3 *color2)
 	return (new);
 }
 
-t_vec3	multiply_colors(t_vec3 *color1, t_vec3 *color2)
-{
-	t_vec3 new;
-	new.r = color1->r * color2->r;
-	new.g = color1->g * color2->g;
-	new.b = color1->b * color2->b;
-	return (new);
-}
+// t_vec3	multiply_colors(t_vec3 *color1, t_vec3 *color2)
+// {
+// 	t_vec3 new;
+// 	new.r = color1->r * color2->r;
+// 	new.g = color1->g * color2->g;
+// 	new.b = color1->b * color2->b;
+// 	return (new);
+// }
 
 void	set_color(t_vec3 *color, int red, int green, int blue)
 {
-	color->r = (float) red/255;
-	color->g = (float) green/255;
-	color->b = (float) blue/255;
+	color->r = (float) red/255.0f;
+	color->g = (float) green/255.0f;
+	color->b = (float) blue/255.0f;
 }

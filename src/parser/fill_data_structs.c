@@ -4,7 +4,7 @@ void	fill_ambient(char **args, t_scene *scene)
 {
 	char	**sp;
 
-	scene->light->brightness = ft_atof1(args[1]);;
+	scene->light->ambient_lighting_ratio = ft_atof1(args[1]);;
 	sp = ft_split(args[2], ',');
 	set_color(&scene->light->ambient_color_rgb, ft_atoi(sp[0]), ft_atoi(sp[1]), ft_atoi(sp[2]));
 	free_array(sp, arr_len(sp));
