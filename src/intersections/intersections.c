@@ -61,6 +61,8 @@ t_intersections *intersect(t_ray *ray, t_scene *world)
    			hit_sphere(objects, ray, transform_ray(objects, world, ray), &ray->intersections);
 		else if (objects->type == CYLINDER)
 			hit_cylinder(objects, transform_ray(objects, world, ray),  &ray->intersections);
+		else if (objects->type == PLANE)
+			hit_plane(objects, ray, transform_ray(objects, world, ray),  &ray->intersections);
 		objects = objects->next;
     }
     return (ray->intersections);

@@ -48,7 +48,11 @@ int	is_shadow(t_intersections *inter1, t_scene *world)
 	t_point3		overpoint;
 	t_vec3			normal;
 
-	normal = normal_object(&inter1->point, inter1->object);
+	if (inter1->object->type == PLANE)
+		normal = normalize(&inter1->object->orientation);
+	else
+		normal = normal_object(&inter1->point, inter1->object);
+	//normal = normal_object(&inter1->point, inter1->object);
 	normal = mult_byscalar(&normal, EPSILON);
 	overpoint = add_vectors(&inter1->point, &normal);
 	init_intersections(&inter2);
