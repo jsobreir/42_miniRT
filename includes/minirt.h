@@ -181,6 +181,8 @@ t_matrix			*translate(float dx, float dy, float dz);
 t_matrix			 *mtx_inverse(t_scene *scene, t_matrix *mtx);
 float				mtx_determinant(t_matrix *mtx);
 t_matrix			*mtx_mult_by_float(t_matrix *mtx, float value);
+t_matrix			*mtx_skew_symmetric(t_vec3	axis);
+t_matrix			*mtx_skew_symmetric_squared(t_vec3 axis);
 
 //Camera
 t_ray*				generate_ray(int x, int y, t_camera *camera, t_ray *ray);

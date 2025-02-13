@@ -36,7 +36,6 @@ int	hit_sphere(t_object *sphere, t_ray *ray, t_ray *trans_ray, t_intersections *
 	t_vec3 	oc;
 	int		check_int;
 
-	// oc = subtract_vec3s(ray->origin, sphere->position);
 	oc = trans_ray->origin;
 	float a = dot_product(trans_ray->direction, trans_ray->direction);
 	float b = 2 * dot_product(trans_ray->direction, oc);
@@ -94,9 +93,9 @@ t_ray	*transform_ray(t_object *obj, t_scene *scene, t_ray *ray)
 		// printf("trans final:\n");
 		// mtx_print(obj->cached_transform);
 		// printf("\n");
-		free(temp);
+		// free(temp);
 		free(trans);
-		free(rot_transform);
+		// free(rot_transform);
 	}
 	new_ray->origin = mtx_mult_point3(obj->cached_transform, &ray->origin);
 	// ray->direction = mtx_mult_vec3(rot_transform, &ray->direction);
@@ -105,50 +104,37 @@ t_ray	*transform_ray(t_object *obj, t_scene *scene, t_ray *ray)
 	return (new_ray);
 }
 
-
-
-t_matrix	*execute_rot_z(t_vec3 *orient, t_matrix *rotation)
-{
-	t_matrix	*rot_z;
-
-	rot_z = mtx_identity(4, 4);
-	mtx_rotate_x(rot_z, orient->z * M_PI / 2);
-	if (orient->x || orient->y)
-		rotation = mtx_multiply(*rotation, *rot_z);
-	else
-	{
-		mtx_free(rotation);
-		rotation = rot_z;
-	}
-	return (rotation);
-}
-
-t_matrix	*execute_rot_y(t_vec3 *orient, t_matrix *rotation)
-{
-	t_matrix	*rot_y;
-
-	rot_y = mtx_identity(4, 4);
-	mtx_rotate_y(rot_y, orient->y * M_PI / 2);
-	if (orient->x)
-		rotation = mtx_multiply(*rotation, *rot_y);
-	else
-	{
-		mtx_free(rotation);
-		rotation = rot_y;
-	}
-	return (rotation);
-}
-
 t_matrix	*rotation_matrix(t_object *obj)
 {
+	t_vec3		world_up;
+	t_vec3		rotation_axis;
+	t_vec3		orient;
+	t_matrix	*skew_sym;
+	t_matrix	*skew_sym_squared;
 	t_matrix	*rotation;
+	t_matrix	*temp;
+	float		theta;
 
-	rotation = mtx_identity(4, 4);
-	if (obj->orientation.x)
-		mtx_rotate_z(rotation, obj->orientation.x * M_PI / 2);
-	if (obj->orientation.y)
-		rotation = execute_rot_y(&obj->orientation, rotation);
-	if (obj->orientation.z)
-		rotation = execute_rot_z(&obj->orientation, rotation);
+	orient = obj->orientation;
+	// if (orient.x == 0 && orient.y != 0 && orient.z == 0)
+	// 	return (mtx_identity(4,4));
+	// if (orient.x == 0 && orient.y == -1 && orient.z == 0)
+	// {
+	// 	rotation = mtx_identity(4, 4);
+	// 	return (mtx_rotate_x(rotation, M_PI), rotation);
+	// }
+	fill_vec3(&world_up, 0, 1, 0);
+	rotation_axis = cross_product(orient, world_up);
+	theta = acosf(dot_product(orient, world_up) / magnitude(orient));
+	skew_sym = mtx_skew_symmetric(rotation_axis);
+	skew_sym = mtx_mult_by_float(skew_sym, sinf(theta));
+	skew_sym_squared = mtx_skew_symmetric_squared(rotation_axis);
+	skew_sym_squared = mtx_mult_by_float(skew_sym_squared, 1 - cosf(theta));
+	temp = mtx_add(*mtx_identity(4, 4), *skew_sym);
+	rotation = mtx_add(*temp, *skew_sym_squared);
+	mtx_free(temp);
+	mtx_free(skew_sym);
+	mtx_free(skew_sym_squared);
+	mtx_print(rotation);
 	return (rotation);
 }
