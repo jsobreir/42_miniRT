@@ -101,6 +101,7 @@ void	fill_plane(char **args, t_object *plane)
 	plane->orientation.x = ft_atof1(sp[0]);
 	plane->orientation.y = ft_atof1(sp[1]);
 	plane->orientation.z = ft_atof1(sp[2]);
+	plane->orientation = normalize(&plane->orientation);
 	free_array(sp, arr_len(sp));
 	sp = ft_split(args[3], ',');
 	set_color(&plane->rgb, ft_atoi(sp[0]), ft_atoi(sp[1]), ft_atoi(sp[2]));

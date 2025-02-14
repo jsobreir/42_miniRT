@@ -76,9 +76,9 @@ t_ray	*transform_ray(t_object *obj, t_scene *scene, t_ray *ray)
 
 	if (!obj->cached_transform)
 	{
-		// printf("=====Object=====\n");
-		// printf("position: x = %f, y = %f, z = %f\n", obj->position.x, obj->position.y, obj->position.z);
-		// printf("orientation: x = %f, y = %f, z = %f\n", obj->orientation.x, obj->orientation.y, obj->orientation.z);
+		printf("=====Object=====\n");
+		printf("position: x = %f, y = %f, z = %f\n", obj->position.x, obj->position.y, obj->position.z);
+		printf("orientation: x = %f, y = %f, z = %f\n", obj->orientation.x, obj->orientation.y, obj->orientation.z);
 		trans = translate(obj->position.x, obj->position.y, obj->position.z);
 		// printf("trans:\n");
 		// mtx_print(trans);
@@ -116,13 +116,13 @@ t_matrix	*rotation_matrix(t_object *obj)
 	float		theta;
 
 	orient = obj->orientation;
-	// if (orient.x == 0 && orient.y != 0 && orient.z == 0)
-	// 	return (mtx_identity(4,4));
-	// if (orient.x == 0 && orient.y == -1 && orient.z == 0)
-	// {
-	// 	rotation = mtx_identity(4, 4);
-	// 	return (mtx_rotate_x(rotation, M_PI), rotation);
-	// }
+	if (orient.x == 0 && orient.y != 0 && orient.z == 0)
+		return (mtx_identity(4,4));
+	if (orient.x == 0 && orient.y != 0 && orient.z == 0)
+	{
+		rotation = mtx_identity(4, 4);
+		return (mtx_rotate_x(rotation, M_PI), rotation);
+	}
 	fill_vec3(&world_up, 0, 1, 0);
 	rotation_axis = cross_product(orient, world_up);
 	theta = acosf(dot_product(orient, world_up) / magnitude(orient));

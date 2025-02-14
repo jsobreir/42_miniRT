@@ -11,6 +11,7 @@ int main(int argc, char **argv)
 	printf("num objects = %d\n", scene.num_objects);
 	setup_hooks(&scene);
 	render_img(&scene);
+	// printf("Here\n");
 	mlx_loop(scene.mlx);
 	clean_exit(&scene, NULL);
 }

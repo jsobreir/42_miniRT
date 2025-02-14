@@ -1,28 +1,27 @@
 #include "minirt.h"
 
-t_object	*add_object(t_object *object_node)
+static t_object	*add_object(t_object **object_node)
 {
-	t_object *new;
+	t_object 	*new;
+	t_object	*current;
 
 	new = malloc(sizeof(t_object));
-	new->next = NULL;
-	new->type = NONE;
-	new->cached_transform = NULL;
-	if (object_node)
+	if (!new)
+		return (NULL);
+	ft_memset(new, 0, sizeof(t_object));
+	// new->next = NULL;
+	// new->type = NONE;
+	// new->cached_transform = NULL;
+	if (*object_node)
 	{
-		while (object_node)
-		{
-			if (!(object_node->next))
-			{
-				object_node->next = new;
-				break ;
-			}
-			object_node = object_node->next;
-		}
+		current = *object_node;
+		while (current->next)
+			current = current->next;
+		current->next = new;
 	}
 	else
-		object_node = new;
-	return (object_node);
+		*object_node = new;
+	return (new);
 }
 
 /// @brief Check if the arg provided as parameter is of the right format (.rt file) and if it exists.
@@ -52,7 +51,7 @@ int	check_args(int argc, char **argv)
 		return (printf("Error occured during parsing!\n"));
 }
 
-void	fill_structs(t_scene *scene, char **args)
+static void	fill_structs(t_scene *scene, char **args)
 {
 	printf("%s\n", args[0]);
 	if (!ft_strncmp(args[0], "A", 2))
@@ -66,11 +65,11 @@ void	fill_structs(t_scene *scene, char **args)
 	{
 		scene->num_objects++;
 		if (!ft_strncmp(args[0], "sp", 3))
-			fill_sphere(args, add_object(scene->objects));
+			fill_sphere(args, add_object(&scene->objects));
 		else if (!ft_strncmp(args[0], "cy", 3))
-			fill_cylinder(args, add_object(scene->objects));
-		 else if (!ft_strncmp(args[0], "pl", 3))
-		 	fill_plane(args, add_object(scene->objects));
+			fill_cylinder(args, add_object(&scene->objects));
+		else if (!ft_strncmp(args[0], "pl", 3))
+		 	fill_plane(args, add_object(&scene->objects));
 	}
 	else
 		return (printf("Error during parsing!\n"), exit(1));
@@ -86,11 +85,18 @@ static void print_args(t_scene *scene)
 	printf("camera orientation y = %f\n", scene->camera->orientation.y);
 	printf("camera orientation z = %f\n", scene->camera->orientation.z);
 
-	printf("sphere pos x = %f\n", scene->objects->position.x);
-	printf("sphere pos y = %f\n", scene->camera->position.y);
-	printf("sphere pos z = %f\n", scene->camera->position.z);
-	printf("sphere radius x = %f\n", scene->objects->radius);
+	t_object	*obj = scene->objects;
 
+	while (obj->next)
+	{
+		printf("-------------OBJECT-------------\n");
+		printf("type = %u\n", obj->type);
+		printf("position = (%f, %f, %f)\n", obj->position.x, obj->position.y, obj->position.z);
+		printf("orientation = (%f, %f, %f)\n", obj->orientation.x, obj->orientation.y, obj->orientation.z);
+		printf("rgb = (%f, %f, %f)\n", obj->rgb.r, obj->rgb.g, obj->rgb.b);
+		obj = obj->next;
+		printf("\n\n");
+	}
 	printf("fov = %d\n", scene->camera->fov);
 }
 
