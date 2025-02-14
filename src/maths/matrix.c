@@ -42,17 +42,17 @@ t_matrix	*mtx_create_fill(float **data, int rows, int cols)
 	return (new);
 }
 
-void	mtx_free(t_matrix *mtx)
+void mtx_free(t_matrix *mtx)
 {
-	int	i;
+    int i;
 
-	i = mtx->n_rows;
-	while (i)
-	{
-		free(mtx->matrix[i]);
-		i--;
-	}
-	free(mtx->matrix);
+    i = mtx->n_rows - 1;  // Start at the last row
+    while (i >= 0)
+    {
+        free(mtx->matrix[i]);  // Free each row
+        i--;
+    }
+    free(mtx->matrix);  // Finally, free the matrix (the array of rows)
 }
 
 t_matrix *mtx_multiply(t_matrix a, t_matrix b)

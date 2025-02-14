@@ -9,8 +9,8 @@ static t_object	*add_object(t_object **object_node)
 	if (!new)
 		return (NULL);
 	ft_memset(new, 0, sizeof(t_object));
-	// new->next = NULL;
-	// new->type = NONE;
+	new->next = NULL;
+	new->type = NONE;
 	// new->cached_transform = NULL;
 	if (*object_node)
 	{
