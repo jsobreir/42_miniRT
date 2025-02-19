@@ -30,16 +30,16 @@ float	cylinder_cap_intersection(t_ray *ray, t_object *cyl, float cap_y)
 	return (-INFINITY);
 }
 
-static void	check_cyl_cap(t_ray *ray, t_object *cyl)
+static void	check_cyl_cap(t_ray *trans_ray, t_object *cyl, t_ray *ray)
 {
 	float	t[2];
 
-	t[0] = cylinder_cap_intersection(ray, cyl, cyl->height/2);
-	t[1] = cylinder_cap_intersection(ray, cyl, -cyl->height/2);
+	t[0] = cylinder_cap_intersection(trans_ray, cyl, cyl->height/2);
+	t[1] = cylinder_cap_intersection(trans_ray, cyl, -cyl->height/2);
 	check_intersections(t[0], t[1], &ray->intersections, cyl, ray);
 }
 
-void	hit_cylinder(t_object *cyl, t_ray *trans_ray, t_intersections **inters)
+void	hit_cylinder(t_object *cyl, t_ray *trans_ray, t_intersections **inters, t_ray *ray)
 {
 	float	a;
 	float	b;
@@ -47,7 +47,7 @@ void	hit_cylinder(t_object *cyl, t_ray *trans_ray, t_intersections **inters)
 	float	discriminant;
 	float	i[2];
 
-	check_cyl_cap(trans_ray, cyl);
+	check_cyl_cap(trans_ray, cyl, ray);
 	a = trans_ray->direction.x * trans_ray->direction.x + trans_ray->direction.z * trans_ray->direction.z;
 	b = 2 * (trans_ray->origin.x * trans_ray->direction.x + trans_ray->origin.z * trans_ray->direction.z);
 	c = trans_ray->origin.x * trans_ray->origin.x + trans_ray->origin.z * trans_ray->origin.z - cyl->radius * cyl->radius;
@@ -60,16 +60,22 @@ void	hit_cylinder(t_object *cyl, t_ray *trans_ray, t_intersections **inters)
 	i[1] = (-b + sqrtf(discriminant)) / (2 * a);
 	if (!cylinder_cap_plane_check(trans_ray, cyl->height / 2, i))
 		return ;
-	check_intersections(i[0], i[1], inters, cyl, trans_ray);
+	check_intersections(i[0], i[1], inters, cyl, ray);
 }
 
 int	hit_plane(t_object *plane, t_ray *original, t_ray *ray, t_intersections **inter)
 {
 	float i[2];
-
-	if (fabs(ray->direction.y) < EPSILON)
+	(void)original;
+	// printf("Here\n");
+	if (fabs(ray->direction.y) < 1e-8)
 		return (0);
 	i[0] = -ray->origin.y / ray->direction.y;
-	i[1] = -ray->origin.y / ray->direction.y;
-	return (check_intersections(i[0], i[1], inter, plane, original));
+	i[1] = i[0];
+	// printf("origin = %f, direction = %f, i = %f\n", ray->origin.y, ray->direction.y, i);
+	if (i[0] < 0)
+		return (0);
+	if (i[0] > 0)
+		add_intersect_list(inter, plane, i, ray);
+	return (1);
 }

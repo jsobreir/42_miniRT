@@ -81,6 +81,7 @@ t_intersections *add_intersect_list(t_intersections **intersections, t_object *o
 			temp2 = temp->next;
 			new->next = temp2;
 			temp->next = new;
+			return (*intersections);
 		}
 		temp = temp->next;
 	}

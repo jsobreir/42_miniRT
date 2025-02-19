@@ -32,7 +32,7 @@ t_vec3	calculate_diffuse(t_intersections *intersection, t_scene world)
 	object_color = intersection->object->rgb;
 	light = *world.light;
 	if (intersection->object->type == PLANE)
-		normal = normalize(&intersection->object->orientation);
+		normal = intersection->object->orientation;
 	else
 		normal = normal_object(&intersection->point, intersection->object);
 	//normal = normal_object(&intersection->point, intersection->object);
@@ -96,6 +96,12 @@ t_vec3 change_brightness(t_vec3 *color, float factor)
     new.g = color->g * factor;
     new.b = color->b * factor;
 
+	if (new.r > 1)
+		new.r = 1;
+	if (new.g > 1)
+		new.g = 1;
+	if (new.b > 1)
+		new.b = 1;
     return new;
 }
 

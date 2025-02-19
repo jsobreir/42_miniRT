@@ -189,7 +189,7 @@ t_ray*				generate_ray(int x, int y, t_camera *camera, t_ray *ray);
 
 //Intersections
 int					hit_sphere(t_object *sphere, t_ray *ray, t_ray *trans_ray, t_intersections **intersections);
-void				hit_cylinder(t_object *cyl, t_ray *trans_ray, t_intersections **inters);
+void				hit_cylinder(t_object *cyl, t_ray *trans_ray, t_intersections **inters, t_ray *ray);
 int					hit_plane(t_object *plane, t_ray *original, t_ray *ray, t_intersections **inter);
 t_intersections		*intersect(t_ray *ray, t_scene *world);
 t_intersections 	*add_intersect_list(t_intersections **intersections, t_object *object, float *t, t_ray *ray);
