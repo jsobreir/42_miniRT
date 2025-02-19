@@ -3,3 +3,5 @@ includes/minilibx-linux/
 *.o
 .vscode
 minirt
+includes/libft/libft.a
+includes/libft/printf/printf.a
