@@ -28,23 +28,21 @@ t_vec3	calculate_diffuse(t_intersections *intersection, t_scene world)
 	t_vec3	normal;
 	t_vec3	object_color;
 	t_vec3 ret;
-
 	object_color = intersection->object->rgb;
 	light = *world.light;
-	if (intersection->object->type == PLANE)
-		normal = intersection->object->orientation;
-	else
-		normal = normal_object(&intersection->point, intersection->object);
-	//normal = normal_object(&intersection->point, intersection->object);
 	point_to_light.x =  light.position.x - intersection->point.x;
 	point_to_light.y =  light.position.y - intersection->point.y;
 	point_to_light.z =  light.position.z - intersection->point.z;
 	point_to_light = normalize(&point_to_light);
-	light_dot_normal = dot_product(point_to_light, normal);
-	if (light_dot_normal < 0)
-		set_color(&ret, 0, 0, 0);
+	if (intersection->object->type == PLANE)
+		normal = intersection->object->orientation;
 	else
-		ret = change_brightness(&object_color, light_dot_normal);
+		normal = normal_object(&intersection->point, intersection->object);
+	// if (dot_product(normal, point_to_light) < 0)
+	// 	normal = mult_byscalar(&normal, -1);
+	light_dot_normal = dot_product(point_to_light, normal);
+	light_dot_normal = fmax(light_dot_normal, 0.0);
+	ret = change_brightness(&object_color, light_dot_normal);
 	return (ret);
 }
 
@@ -68,7 +66,8 @@ t_vec3	calculate_specular(t_intersections *intersection, t_scene world, t_ray *r
 	reflect_vec = reflect(inverse_light, normal);
 	eye = mult_byscalar(&ray->direction, -1);
 	reflect_dot_eye = dot_product(reflect_vec, eye);
-	reflect_dot_eye = powf(reflect_dot_eye, 100.0);
+	reflect_dot_eye = fmaxf(dot_product(reflect_vec, eye), 0.0);
+	reflect_dot_eye = powf(reflect_dot_eye, 100.0); // 100 is the shininess factor. Store in material properties?
 	if (reflect_dot_eye <= 0)
 		set_color(&specular, 0, 0, 0);
 	else

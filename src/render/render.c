@@ -20,6 +20,8 @@ int	color_pixel(int x, int y, t_scene *world)
 			return (rgb_to_hex(&ambient_rgb));
 		diffuse = calculate_diffuse(&intersections, *world);
 		diffuse = change_brightness(&diffuse, world->light->brightness);
+		// if (intersections.object->type == PLANE)
+		// 	printf("%f, %f")
 		if (diffuse.r || diffuse.g || diffuse.b)
 			specular = calculate_specular(&intersections, *world, &ray);
 		else
@@ -53,7 +55,10 @@ int	is_shadow(t_intersections *inter1, t_scene *world)
 	else
 		normal = normal_object(&inter1->point, inter1->object);
 	//normal = normal_object(&inter1->point, inter1->object);
-	normal = mult_byscalar(&normal, EPSILON);
+	if (inter1->object->type == PLANE && dot_product(normal, subtract_vec3s(world->light->position, inter1->point)) < 0)
+		normal = mult_byscalar(&normal, -EPSILON);
+	else
+		normal = mult_byscalar(&normal, EPSILON);	
 	overpoint = add_vectors(&inter1->point, &normal);
 	init_intersections(&inter2);
 	v = subtract_vec3s(world->light->position, inter1->point);

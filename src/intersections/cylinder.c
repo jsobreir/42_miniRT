@@ -66,9 +66,9 @@ void	hit_cylinder(t_object *cyl, t_ray *trans_ray, t_intersections **inters, t_r
 int	hit_plane(t_object *plane, t_ray *original, t_ray *ray, t_intersections **inter)
 {
 	float i[2];
-	(void)original;
+	// (void)original;
 	// printf("Here\n");
-	if (fabs(ray->direction.y) < 1e-8)
+	if (fabs(ray->direction.y) < 1e-6)
 		return (0);
 	i[0] = -ray->origin.y / ray->direction.y;
 	i[1] = i[0];
@@ -76,6 +76,6 @@ int	hit_plane(t_object *plane, t_ray *original, t_ray *ray, t_intersections **in
 	if (i[0] < 0)
 		return (0);
 	if (i[0] > 0)
-		add_intersect_list(inter, plane, i, ray);
+		add_intersect_list(inter, plane, i, original);
 	return (1);
 }
