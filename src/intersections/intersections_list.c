@@ -58,17 +58,14 @@ t_intersections *add_intersect_list(t_intersections **intersections, t_object *o
 		*intersections = new;
 		return (*intersections);
 	}
-	if (!temp->next)
+	if (t[0] > temp->t[0])
+		temp->next = new;
+	else
 	{
-		if (t[0] > temp->t[0])
-			temp->next = new;
-		else
-		{
-			*intersections = new;
-			new->next = temp;
-		}
-		return (*intersections);
+		*intersections = new;
+		new->next = temp;
 	}
+	return (*intersections);
 	while (temp)
 	{
 		if (!temp->next)
