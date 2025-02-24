@@ -52,16 +52,19 @@ int	hit_sphere(t_object *sphere, t_ray *ray, t_ray *trans_ray, t_intersections *
 t_intersections *intersect(t_ray *ray, t_scene *world)
 {
     t_object        *objects;
+	t_ray			*t_ray;
 
     objects = world->objects;
     while (objects && objects->type != NONE)
     {
+		t_ray = transform_ray(objects, world, ray);
         if (objects->type == SPHERE)
-   			hit_sphere(objects, ray, transform_ray(objects, world, ray), &ray->intersections);
+   			hit_sphere(objects, ray, t_ray, &ray->intersections);
 		else if (objects->type == CYLINDER)
-			hit_cylinder(objects, transform_ray(objects, world, ray),  &ray->intersections, ray);
+			hit_cylinder(objects, t_ray,  &ray->intersections, ray);
 		else if (objects->type == PLANE)
-			hit_plane(objects, ray, transform_ray(objects, world, ray),  &ray->intersections);
+			hit_plane(objects, ray, t_ray,  &ray->intersections);
+		free(t_ray);
 		objects = objects->next;
     }
     return (ray->intersections);
@@ -72,33 +75,33 @@ t_ray	*transform_ray(t_object *obj, t_scene *scene, t_ray *ray)
 	t_matrix	*trans = NULL;
 	t_matrix	*rot_transform;
 	t_matrix	*temp;
-	t_ray		*new_ray = calloc(1, sizeof(t_ray));
+	t_ray		*new_ray;
 
+	new_ray = calloc(1, sizeof(t_ray));
 	if (!obj->cached_transform)
 	{
-		printf("=====Object=====\n");
-		printf("position: x = %f, y = %f, z = %f\n", obj->position.x, obj->position.y, obj->position.z);
-		printf("orientation: x = %f, y = %f, z = %f\n", obj->orientation.x, obj->orientation.y, obj->orientation.z);
+		// printf("=====Object=====\n");
+		// printf("position: x = %f, y = %f, z = %f\n", obj->position.x, obj->position.y, obj->position.z);
+		// printf("orientation: x = %f, y = %f, z = %f\n", obj->orientation.x, obj->orientation.y, obj->orientation.z);
 		trans = translate(obj->position.x, obj->position.y, obj->position.z);
-		printf("trans:\n");
-		mtx_print(trans);
+		// printf("trans:\n");
+		// mtx_print(trans);
 		if (obj->type == SPHERE)
 			rot_transform = mtx_identity(4,4);
 		else
 			rot_transform = rotation_matrix(obj);
 		temp = mtx_multiply(*trans, *rot_transform);
 		obj->cached_transform = mtx_inverse(scene, temp);
-		printf("rotation:\n");
-		mtx_print(rot_transform);
-		printf("trans final:\n");
-		mtx_print(obj->cached_transform);
-		printf("\n");
-		// free(temp);
-		free(trans);
-		// free(rot_transform);
+		// printf("rotation:\n");
+		// mtx_print(rot_transform);
+		// printf("trans final:\n");
+		// mtx_print(obj->cached_transform);
+		// printf("\n");
+		mtx_free(temp);
+		mtx_free(trans);
+		mtx_free(rot_transform);
 	}
 	new_ray->origin = mtx_mult_point3(obj->cached_transform, &ray->origin);
-	// ray->direction = mtx_mult_vec3(rot_transform, &ray->direction);
 	new_ray->intersections = NULL;
 	new_ray->direction = mtx_mult_vec3(obj->cached_transform, &ray->direction);
 	return (new_ray);
@@ -131,11 +134,10 @@ t_matrix	*rotation_matrix(t_object *obj)
 	skew_sym_squared = mtx_skew_symmetric_squared(rotation_axis);
 	skew_sym_squared = mtx_mult_by_float(skew_sym_squared, 1 - cosf(theta));
 	temp = mtx_add(*mtx_identity(4, 4), *skew_sym);
-	rotation = mtx_add(*temp, *skew_sym_squared);
-	rotation->matrix[3][3] = 1.0;
-	mtx_free(temp);
 	mtx_free(skew_sym);
+	rotation = mtx_add(*temp, *skew_sym_squared);
 	mtx_free(skew_sym_squared);
-	// mtx_print(rotation);
+	mtx_free(temp);
+	rotation->matrix[3][3] = 1.0;
 	return (rotation);
 }

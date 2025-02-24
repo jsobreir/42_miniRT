@@ -118,6 +118,7 @@ int	parse_file(int argc, char **argv, t_scene *scene)
 	{
 		args_line = ft_split_multiple(line, " \t");
 		fill_structs(scene, args_line);
+		free(line);
 		line = get_next_line(fd);
 		while (line && *line == '\n')
 			line = get_next_line(fd);

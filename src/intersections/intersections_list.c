@@ -53,7 +53,7 @@ t_intersections *add_intersect_list(t_intersections **intersections, t_object *o
     new = new_inters_node(object, t, ray);
 	if (!new)
 		return NULL;
-	if (!temp || temp->t[0] == INFINITY || temp->t[1] == INFINITY)
+	if (!temp || temp->t[0] == INFINITY)
 	{
 		*intersections = new;
 		return (*intersections);

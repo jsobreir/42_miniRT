@@ -17,15 +17,13 @@ int	color_pixel(int x, int y, t_scene *world)
 	{
 		ambient_rgb = change_brightness(&world->light->ambient_color_rgb, world->light->ambient_lighting_ratio);
 		if (is_shadow(&intersections, world))
-			return (rgb_to_hex(&ambient_rgb));
+			return (free_intersections(ray.intersections), rgb_to_hex(&ambient_rgb));
 		diffuse = calculate_diffuse(&intersections, *world);
 		diffuse = change_brightness(&diffuse, world->light->brightness);
-		// if (intersections.object->type == PLANE)
-		// 	printf("%f, %f")
 		if (diffuse.r || diffuse.g || diffuse.b)
 			specular = calculate_specular(&intersections, *world, &ray);
 		else
-			set_color(&diffuse, 0, 0, 0);
+			set_color(&specular, 0, 0, 0);
 	}
 	else
 	{
@@ -36,7 +34,7 @@ int	color_pixel(int x, int y, t_scene *world)
 	ambient_rgb = add_colors(&ambient_rgb, &diffuse);
 	ambient_rgb = add_colors(&ambient_rgb, &specular);
 	final_color = rgb_to_hex(&ambient_rgb);
-	// free_intersections(ray.intersections);
+	free_intersections(ray.intersections);
 	return (final_color);
 }
 

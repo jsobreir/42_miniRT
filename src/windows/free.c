@@ -68,10 +68,9 @@ int handle_keys(int key, t_scene *scene)
 
 int	free_array(char	**arr, int len)
 {
-	while (arr[len])
+	while (len--)
 	{
 		free(arr[len]);
-		len--;
 	}
 	free(arr);
 	return (0);

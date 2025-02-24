@@ -46,13 +46,16 @@ void mtx_free(t_matrix *mtx)
 {
     int i;
 
-    i = mtx->n_rows - 1;  // Start at the last row
+    if (!mtx)
+        return;
+    i = mtx->n_rows - 1;
     while (i >= 0)
     {
-        free(mtx->matrix[i]);  // Free each row
+        free(mtx->matrix[i]);
         i--;
     }
-    free(mtx->matrix);  // Finally, free the matrix (the array of rows)
+    free(mtx->matrix);
+    free(mtx); // Free the struct itself
 }
 
 t_matrix *mtx_multiply(t_matrix a, t_matrix b)
