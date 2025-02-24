@@ -64,6 +64,7 @@
 	"optional": "c",
 	"vector": "c",
 	"math.h": "c",
-	"minirt.h": "c"
+	"minirt.h": "c",
+	"cstdlib": "c"
 }
 }

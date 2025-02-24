@@ -40,6 +40,11 @@ t_ray* generate_ray(int x, int y, t_camera *camera, t_ray *ray)
 	direction.y = px * right.y + py * up.y + forward.y;
 	direction.z = px * right.z + py * up.z + forward.z;
 	ray->direction = normalize(&direction);
+	// ray->intersections = malloc(sizeof(t_intersections));
+	// ray->intersections->object = NULL;
+	// ray->intersections->t[0] = INFINITY;
+	// ray->intersections->t[1] = INFINITY;
+	// ray->intersections->next = NULL;
     return ray;
 }
 

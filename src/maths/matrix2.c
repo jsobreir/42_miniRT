@@ -59,6 +59,7 @@ t_matrix	*mtx_cofactor(t_matrix *mtx)
 	int			i;
 	int			j;
 	t_matrix	*c;
+	t_matrix	*minor;
 
 	i = 0;
 	c = new_mtx(mtx->n_rows, mtx->n_cols);
@@ -67,7 +68,9 @@ t_matrix	*mtx_cofactor(t_matrix *mtx)
 		j = 0;
 		while (j < mtx->n_cols)
 		{
-			c->matrix[i][j] = powf(-1, i + j) * mtx_determinant(mtx_minor(i, j, mtx));
+			minor = mtx_minor(i, j, mtx);
+			c->matrix[i][j] = powf(-1, i + j) * mtx_determinant(minor);
+			mtx_free(minor);
 			j++;
 		}
 		i++;
@@ -78,17 +81,26 @@ t_matrix	*mtx_cofactor(t_matrix *mtx)
 t_matrix *mtx_inverse(t_scene *scene, t_matrix *mtx)
 {
 	t_matrix	*inv;
+	t_matrix	*cof;
+	float		det;
+	t_matrix	*ret;
 
 	if (mtx->n_cols != mtx->n_rows)
 		clean_exit(scene, "Non-square matrix is not invertible!");
-	inv = mtx_transpose(mtx_cofactor(mtx));
-	return (mtx_mult_by_float(inv, 1/mtx_determinant(mtx)));
+	cof = mtx_cofactor(mtx);
+	inv = mtx_transpose(cof);
+	mtx_free(cof);
+	det = mtx_determinant(mtx);
+	ret = mtx_mult_by_float(inv, 1/det);
+	return (ret);
 }
 
 float	mtx_determinant(t_matrix *mtx)
 {
 	int		j;
 	float	det;
+	float	minor_det;
+	t_matrix	*minor;
 
 	j = 0;
 	det = 0.0f;
@@ -100,7 +112,10 @@ float	mtx_determinant(t_matrix *mtx)
 	{
 		while (j < mtx->n_cols)
 		{
-			det += powf(-1, j) * mtx->matrix[0][j] * mtx_determinant(mtx_minor(0, j, mtx));
+			minor = mtx_minor(0, j, mtx);
+			minor_det = mtx_determinant(minor);
+			mtx_free(minor);
+			det += powf(-1, j) * mtx->matrix[0][j] * minor_det;
 			j++;
 		}
 	}

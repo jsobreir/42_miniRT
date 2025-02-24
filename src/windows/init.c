@@ -17,7 +17,6 @@ void	init_vars(t_scene *scene)
 	scene->num_objects = 0;
 	scene->camera = malloc(sizeof(t_camera));
 	scene->light = malloc(sizeof(t_light));
-
 }
 
 /// @brief Initiallize mlx.

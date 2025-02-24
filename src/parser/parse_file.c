@@ -53,7 +53,8 @@ int	check_args(int argc, char **argv)
 
 static void	fill_structs(t_scene *scene, char **args)
 {
-	printf("%s\n", args[0]);
+	t_object	*new_obj;
+
 	if (!ft_strncmp(args[0], "A", 2))
 		fill_ambient(args, scene);
 	else if (!ft_strncmp(args[0], "C", 2))
@@ -64,12 +65,13 @@ static void	fill_structs(t_scene *scene, char **args)
 		|| !ft_strncmp(args[0], "cy", 3))
 	{
 		scene->num_objects++;
+		new_obj = add_object(&scene->objects);
 		if (!ft_strncmp(args[0], "sp", 3))
-			fill_sphere(args, add_object(&scene->objects));
+			fill_sphere(args, new_obj);
 		else if (!ft_strncmp(args[0], "cy", 3))
-			fill_cylinder(args, add_object(&scene->objects));
+			fill_cylinder(args, new_obj);
 		else if (!ft_strncmp(args[0], "pl", 3))
-		 	fill_plane(args, add_object(&scene->objects));
+		 	fill_plane(args, new_obj);
 	}
 	else
 		return (printf("Error during parsing!\n"), exit(1));

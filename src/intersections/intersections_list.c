@@ -26,23 +26,6 @@ t_intersections *last_inters_node(t_intersections *inters)
 	return (inters);
 }
 
-/*t_intersections *add_intersect_list(t_intersections **intersections, t_object *object, float *t, t_ray *ray)
-{
-    t_intersections *last;
-    t_intersections *new;
-
-    new = new_inters_node(object, t, ray);
-    if (!new)
-        return NULL;
-    if (*intersections && (*intersections)->t[0] != INFINITY && (*intersections)->t[1] != INFINITY)
-    {
-        last = last_inters_node(*intersections);
-        last->next = new;
-    }
-    else
-		*intersections = new;
-	return (*intersections);
-}*/
 t_intersections *add_intersect_list(t_intersections **intersections, t_object *object, float *t, t_ray *ray)
 {
     t_intersections *new;
@@ -59,13 +42,16 @@ t_intersections *add_intersect_list(t_intersections **intersections, t_object *o
 		return (*intersections);
 	}
 	if (t[0] > temp->t[0])
+	{
 		temp->next = new;
+		return (*intersections);
+	}
 	else
 	{
 		*intersections = new;
 		new->next = temp;
+		return (*intersections);
 	}
-	return (*intersections);
 	while (temp)
 	{
 		if (!temp->next)
@@ -96,8 +82,8 @@ void	free_intersections(t_intersections *intersections)
 	while (current != NULL)
 	{
 		temp = current->next;
-		free(current);
+		if (current)
+			free(current);
 		current = temp;
 	}
-	intersections = NULL;
 }

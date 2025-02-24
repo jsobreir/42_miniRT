@@ -4,24 +4,23 @@ int	color_pixel(int x, int y, t_scene *world)
 {
 	t_ray			ray;
 	t_vec3			ambient_rgb;
-	t_intersections	intersections;
 	t_vec3 			diffuse;
 	t_vec3 			specular;
-	int final_color;
+	int 			final_color;
 
-	init_intersections(&intersections);
-	ray.intersections = &intersections;
+	ray.intersections = NULL;
+	// init_intersections(ray.intersections);
 	generate_ray(x, y, world->camera, &ray);
-	intersections = *intersect(&ray, world);
-	if (intersections.t[0] != INFINITY && intersections.t[0] != -INFINITY)
+	ray.intersections = intersect(&ray, world);
+	if (ray.intersections && ray.intersections->t[0] != INFINITY && ray.intersections->t[0] != -INFINITY)
 	{
 		ambient_rgb = change_brightness(&world->light->ambient_color_rgb, world->light->ambient_lighting_ratio);
-		if (is_shadow(&intersections, world))
+		if (is_shadow(ray.intersections, world))
 			return (free_intersections(ray.intersections), rgb_to_hex(&ambient_rgb));
-		diffuse = calculate_diffuse(&intersections, *world);
+		diffuse = calculate_diffuse(ray.intersections, *world);
 		diffuse = change_brightness(&diffuse, world->light->brightness);
 		if (diffuse.r || diffuse.g || diffuse.b)
-			specular = calculate_specular(&intersections, *world, &ray);
+			specular = calculate_specular(ray.intersections, *world, &ray);
 		else
 			set_color(&specular, 0, 0, 0);
 	}
@@ -34,6 +33,7 @@ int	color_pixel(int x, int y, t_scene *world)
 	ambient_rgb = add_colors(&ambient_rgb, &diffuse);
 	ambient_rgb = add_colors(&ambient_rgb, &specular);
 	final_color = rgb_to_hex(&ambient_rgb);
+	if (ray.intersections)
 	free_intersections(ray.intersections);
 	return (final_color);
 }
@@ -52,7 +52,6 @@ int	is_shadow(t_intersections *inter1, t_scene *world)
 		normal = normalize(&inter1->object->orientation);
 	else
 		normal = normal_object(&inter1->point, inter1->object);
-	//normal = normal_object(&inter1->point, inter1->object);
 	if (inter1->object->type == PLANE && dot_product(normal, subtract_vec3s(world->light->position, inter1->point)) < 0)
 		normal = mult_byscalar(&normal, -EPSILON);
 	else
@@ -65,9 +64,9 @@ int	is_shadow(t_intersections *inter1, t_scene *world)
 	ray.origin = overpoint;
 	ray.direction = direction;
 	ray.intersections = &inter2;
-	inter2 = *intersect(&ray, world);
-	if (inter2.t[0] != INFINITY && inter2.t[0] < distance)
-		return (1);
+	intersect(&ray, world);
+	if (ray.intersections->t[0] != INFINITY && ray.intersections->t[0] < distance)
+		return (free_intersections(ray.intersections), 1);
 	else
 		return (0);
 }

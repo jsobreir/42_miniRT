@@ -3,7 +3,8 @@
 static void	clean_objects(t_object *obj)
 {
 	t_object	*temp;
-	while (obj && obj->type != NONE)
+
+	while (obj)
 	{
 		temp = obj;
 		if (obj->cached_transform)
@@ -11,20 +12,25 @@ static void	clean_objects(t_object *obj)
 		obj = obj->next;
 		free(temp);
 	}
+	free(obj);
 }
 /// @brief Window clean exit.
 /// @param scene 
 /// @return 
 int	clean_exit(t_scene *scene, char *msg)
 {
-	if (scene->objects)
-		clean_objects(scene->objects);
 	if (!msg)
 		ft_putstr_fd("Exiting program cleanly.\n", 1);
 	else
 		ft_putstr_fd(msg, 2);
 	if (!scene)
 		exit(0);
+	if (scene->objects)
+		clean_objects(scene->objects);
+	if (scene->camera)
+		free(scene->camera);
+	if (scene->light)
+		free(scene->light);
 	if (scene->img.img)
 		mlx_destroy_image(scene->mlx, scene->img.img);
 	if (scene->mlx_win && scene->mlx)
