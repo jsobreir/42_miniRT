@@ -12,21 +12,19 @@ static void	clean_objects(t_object *obj)
 		obj = obj->next;
 		free(temp);
 	}
-	free(obj);
 }
 /// @brief Window clean exit.
 /// @param scene 
 /// @return 
 int	clean_exit(t_scene *scene, char *msg)
 {
-	if (!msg)
-		ft_putstr_fd("Exiting program cleanly.\n", 1);
-	else
-		ft_putstr_fd(msg, 2);
 	if (!scene)
 		exit(0);
 	if (scene->objects)
+	{
 		clean_objects(scene->objects);
+		free(scene->objects);
+	}
 	if (scene->camera)
 		free(scene->camera);
 	if (scene->light)
@@ -41,6 +39,10 @@ int	clean_exit(t_scene *scene, char *msg)
 		mlx_destroy_display(scene->mlx);
 		free(scene->mlx);
 	}
+	if (!msg)
+		ft_putstr_fd("Exiting program cleanly.\n", 1);
+	else
+		ft_putstr_fd(msg, 2);
 	if (!msg)
 		exit(0);
 	else
