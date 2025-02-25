@@ -17,6 +17,9 @@ void	init_vars(t_scene *scene)
 	scene->num_objects = 0;
 	scene->camera = malloc(sizeof(t_camera));
 	scene->light = malloc(sizeof(t_light));
+	scene->light->ambient_set = false;
+	scene->light->light_set = false;
+	scene->camera->cam_set = false;
 }
 
 /// @brief Initiallize mlx.
@@ -28,13 +31,13 @@ void	init(t_scene *scene)
 	if (scene->mlx_win == NULL)
 	{
 		ft_putstr_fd("Error creating window\n", 2);
-		exit(EXIT_FAILURE);
+		return ;
 	}
 	scene->img.img = mlx_new_image(scene->mlx, WIDTH, HEIGHT);
 	if (scene->img.img == NULL)
 	{
 		ft_putstr_fd("Error creating image\n", 2);
-		exit(EXIT_FAILURE);
+		return ;
 	}
 	scene->img.addr = mlx_get_data_addr(scene->img.img,
 			&scene->img.bpp, &scene->img.line_len, &scene->img.endian);
@@ -43,7 +46,7 @@ void	init(t_scene *scene)
 		ft_putstr_fd("Error getting data address\n", 2);
 		mlx_destroy_image(scene->mlx, scene->img.img);
 		mlx_destroy_window(scene->mlx, scene->mlx_win);
-		exit(EXIT_FAILURE);
+		return ;
 	}
 }
 

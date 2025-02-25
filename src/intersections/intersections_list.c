@@ -37,20 +37,13 @@ t_intersections *add_intersect_list(t_intersections **intersections, t_object *o
 	if (!new)
 		return NULL;
 	if (!temp || temp->t[0] == INFINITY)
-	{
-		*intersections = new;
-		return (*intersections);
-	}
+		return (*intersections = new, *intersections);
 	if (t[0] > temp->t[0])
-	{
-		temp->next = new;
-		return (*intersections);
-	}
+		return (temp->next = new, *intersections);
 	else
 	{
 		*intersections = new;
-		new->next = temp;
-		return (*intersections);
+		return (new->next = temp, *intersections);
 	}
 	while (temp)
 	{
@@ -82,8 +75,7 @@ void	free_intersections(t_intersections *intersections)
 	while (current != NULL)
 	{
 		temp = current->next;
-		if (current)
-			free(current);
+		free(current);
 		current = temp;
 	}
 }

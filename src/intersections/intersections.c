@@ -80,23 +80,13 @@ t_ray	*transform_ray(t_object *obj, t_scene *scene, t_ray *ray)
 	new_ray = calloc(1, sizeof(t_ray));
 	if (!obj->cached_transform)
 	{
-		// printf("=====Object=====\n");
-		// printf("position: x = %f, y = %f, z = %f\n", obj->position.x, obj->position.y, obj->position.z);
-		// printf("orientation: x = %f, y = %f, z = %f\n", obj->orientation.x, obj->orientation.y, obj->orientation.z);
 		trans = translate(obj->position.x, obj->position.y, obj->position.z);
-		// printf("trans:\n");
-		// mtx_print(trans);
 		if (obj->type == SPHERE)
 			rot_transform = mtx_identity(4,4);
 		else
 			rot_transform = rotation_matrix(obj);
 		temp = mtx_multiply(*trans, *rot_transform);
 		obj->cached_transform = mtx_inverse(scene, temp);
-		// printf("rotation:\n");
-		// mtx_print(rot_transform);
-		// printf("trans final:\n");
-		// mtx_print(obj->cached_transform);
-		// printf("\n");
 		mtx_free(temp);
 		mtx_free(trans);
 		mtx_free(rot_transform);

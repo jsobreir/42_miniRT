@@ -78,6 +78,7 @@ typedef struct s_object
 
 typedef struct s_camera
 {
+	bool		cam_set;
 	t_point3	position;
 	t_vec3		orientation;
 	float		viewport_height;
@@ -88,6 +89,8 @@ typedef struct s_camera
 
 typedef struct s_light
 {
+	bool		ambient_set;
+	bool		light_set;
 	float		ambient_lighting_ratio;
 	t_vec3		ambient_color_rgb;
 	t_point3	position;

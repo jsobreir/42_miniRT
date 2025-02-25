@@ -11,7 +11,6 @@ static t_object	*add_object(t_object **object_node)
 	ft_memset(new, 0, sizeof(t_object));
 	new->next = NULL;
 	new->type = NONE;
-	// new->cached_transform = NULL;
 	if (*object_node)
 	{
 		current = *object_node;
@@ -74,32 +73,41 @@ static void	fill_structs(t_scene *scene, char **args)
 		 	fill_plane(args, new_obj);
 	}
 	else
-		return (printf("Error during parsing!\n"), exit(1));
+		return ;
 }
 
-static void print_args(t_scene *scene)
+// static void print_args(t_scene *scene)
+// {
+// 	printf("camera pos x = %f\n", scene->camera->position.x);
+// 	printf("camera pos y = %f\n", scene->camera->position.y);
+// 	printf("camera pos z = %f\n", scene->camera->position.z);
+
+// 	printf("camera orientation x = %f\n", scene->camera->orientation.x);
+// 	printf("camera orientation y = %f\n", scene->camera->orientation.y);
+// 	printf("camera orientation z = %f\n", scene->camera->orientation.z);
+
+// 	t_object	*obj = scene->objects;
+
+// 	while (obj->next)
+// 	{
+// 		printf("-------------OBJECT-------------\n");
+// 		printf("type = %u\n", obj->type);
+// 		printf("position = (%f, %f, %f)\n", obj->position.x, obj->position.y, obj->position.z);
+// 		printf("orientation = (%f, %f, %f)\n", obj->orientation.x, obj->orientation.y, obj->orientation.z);
+// 		printf("rgb = (%f, %f, %f)\n", obj->rgb.r, obj->rgb.g, obj->rgb.b);
+// 		obj = obj->next;
+// 		printf("\n\n");
+// 	}
+// 	printf("fov = %d\n", scene->camera->fov);
+// }
+
+static int	check_all_structs(t_scene *scene)
 {
-	printf("camera pos x = %f\n", scene->camera->position.x);
-	printf("camera pos y = %f\n", scene->camera->position.y);
-	printf("camera pos z = %f\n", scene->camera->position.z);
-
-	printf("camera orientation x = %f\n", scene->camera->orientation.x);
-	printf("camera orientation y = %f\n", scene->camera->orientation.y);
-	printf("camera orientation z = %f\n", scene->camera->orientation.z);
-
-	t_object	*obj = scene->objects;
-
-	while (obj->next)
-	{
-		printf("-------------OBJECT-------------\n");
-		printf("type = %u\n", obj->type);
-		printf("position = (%f, %f, %f)\n", obj->position.x, obj->position.y, obj->position.z);
-		printf("orientation = (%f, %f, %f)\n", obj->orientation.x, obj->orientation.y, obj->orientation.z);
-		printf("rgb = (%f, %f, %f)\n", obj->rgb.r, obj->rgb.g, obj->rgb.b);
-		obj = obj->next;
-		printf("\n\n");
-	}
-	printf("fov = %d\n", scene->camera->fov);
+	if (scene->light->ambient_set == false || scene->light->light_set == false)
+		return (1);
+	if (scene->camera->cam_set == false)
+		return (1);
+	return (0);
 }
 
 /// @brief Main parsing handling function.
@@ -123,11 +131,15 @@ int	parse_file(int argc, char **argv, t_scene *scene)
 		free(line);
 		line = get_next_line(fd);
 		while (line && *line == '\n')
+		{
+			free(line);
 			line = get_next_line(fd);
+		}
 		free_array(args_line, arr_len(args_line));
 	}
 	if (!scene->num_objects)
 		return (ft_putstr_fd("No objects to draw!\n", 2), 1);
-	print_args(scene);
+	if (check_all_structs(scene))
+		return (ft_putstr_fd("Incomplete world description!\n", 2), 1);
 	return (0);
 }

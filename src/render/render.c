@@ -9,7 +9,6 @@ int	color_pixel(int x, int y, t_scene *world)
 	int 			final_color;
 
 	ray.intersections = NULL;
-	// init_intersections(ray.intersections);
 	generate_ray(x, y, world->camera, &ray);
 	ray.intersections = intersect(&ray, world);
 	if (ray.intersections && ray.intersections->t[0] != INFINITY && ray.intersections->t[0] != -INFINITY)
@@ -34,7 +33,7 @@ int	color_pixel(int x, int y, t_scene *world)
 	ambient_rgb = add_colors(&ambient_rgb, &specular);
 	final_color = rgb_to_hex(&ambient_rgb);
 	if (ray.intersections)
-	free_intersections(ray.intersections);
+		free_intersections(ray.intersections);
 	return (final_color);
 }
 

@@ -24,7 +24,7 @@ void	my_mlx_pixel_put(t_img *img, int x, int y, int color)
 	*(unsigned int *)(img->addr + offset) = color;
 }
 
-void	print_intersect_ray(int x, int y, t_intersections *intersections)
+void	_intersect_ray(int x, int y, t_intersections *intersections)
 {
 	while (intersections != NULL)
 	{
@@ -60,13 +60,13 @@ float	ft_atof1(char *nbr)
 	while (*nbr && *nbr != '.')
 	{
 		if (!nbr)
-			return (printf("%i\n", int_part), (float) int_part);
+			return ((float) int_part);
 		nbr++;
 	}
 	if (nbr && *nbr && *nbr == '.')
 		nbr++;
 	else
-		return (printf("%i\n", int_part), (float) int_part);
+		return ((float) int_part);
 	frac_part = ft_atoi(nbr);
 	while (nbr && *nbr && (*nbr >= '0' && *nbr <= '9'))
 	{
