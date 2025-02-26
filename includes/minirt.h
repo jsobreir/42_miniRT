@@ -95,10 +95,9 @@ typedef struct s_light
 	t_vec3		ambient_color_rgb;
 	t_point3	position;
 	float		brightness;
-	t_vec3		color_rgb; // isto é so para o bonus :)
+	t_vec3		color_rgb;
 }	t_light;
 
-/// Livro pagina 64
 typedef struct s_intersections
 {
 	t_point3				point;

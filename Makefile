@@ -10,7 +10,7 @@ NAME = minirt
 MAKE = make
 # -L flag indicates which directories need to be searched for libraries (.a files)
 # -I flad adds a directory that needs to be searched for Header files (.h files)
-FLAGS = -g -L$(MLX_DIR) -lmlx_Linux -L/usr/lib -I$(MLX_DIR) -lXext -lX11 -lm -lz -I./includes -L$(LIBFT_DIR) -lft
+FLAGS = -g -L$(MLX_DIR) -lmlx_Linux -L/usr/lib -I$(MLX_DIR) -lXext -lX11 -lm -lz -I./includes -L$(LIBFT_DIR) -lft -fsanitize=address
 CC = cc
 
 # ------------------------------------------------------------------- #
