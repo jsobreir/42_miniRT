@@ -1,8 +1,20 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   parse_file.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: bpaiva-f <bpaiva-f@student.42porto.com>    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/02/26 13:57:11 by bpaiva-f          #+#    #+#             */
+/*   Updated: 2025/02/26 13:57:12 by bpaiva-f         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minirt.h"
 
 static t_object	*add_object(t_object **object_node)
 {
-	t_object 	*new;
+	t_object	*new;
 	t_object	*current;
 
 	new = malloc(sizeof(t_object));
@@ -23,7 +35,8 @@ static t_object	*add_object(t_object **object_node)
 	return (new);
 }
 
-/// @brief Check if the arg provided as parameter is of the right format (.rt file) and if it exists.
+/// @brief Check if the arg provided as parameter is 
+///of the right format (.rt file) and if it exists.
 /// @param argc 
 /// @param argv 
 /// @return -1 if error, file descriptor is success
@@ -34,7 +47,8 @@ int	check_args(int argc, char **argv)
 
 	if (argc != 2)
 	{
-		ft_putstr_fd("Please enter the correct arguments!\n\n./minirt path_to_.rt_file\n", 2);
+		ft_putstr_fd("Please enter the correct arguments!\n\n"
+			"./minirt path_to_.rt_file\n", 2);
 		fd = -1;
 		return (fd);
 	}
@@ -70,36 +84,11 @@ static void	fill_structs(t_scene *scene, char **args)
 		else if (!ft_strncmp(args[0], "cy", 3))
 			fill_cylinder(args, new_obj);
 		else if (!ft_strncmp(args[0], "pl", 3))
-		 	fill_plane(args, new_obj);
+			fill_plane(args, new_obj);
 	}
 	else
 		return ;
 }
-
-// static void print_args(t_scene *scene)
-// {
-// 	printf("camera pos x = %f\n", scene->camera->position.x);
-// 	printf("camera pos y = %f\n", scene->camera->position.y);
-// 	printf("camera pos z = %f\n", scene->camera->position.z);
-
-// 	printf("camera orientation x = %f\n", scene->camera->orientation.x);
-// 	printf("camera orientation y = %f\n", scene->camera->orientation.y);
-// 	printf("camera orientation z = %f\n", scene->camera->orientation.z);
-
-// 	t_object	*obj = scene->objects;
-
-// 	while (obj->next)
-// 	{
-// 		printf("-------------OBJECT-------------\n");
-// 		printf("type = %u\n", obj->type);
-// 		printf("position = (%f, %f, %f)\n", obj->position.x, obj->position.y, obj->position.z);
-// 		printf("orientation = (%f, %f, %f)\n", obj->orientation.x, obj->orientation.y, obj->orientation.z);
-// 		printf("rgb = (%f, %f, %f)\n", obj->rgb.r, obj->rgb.g, obj->rgb.b);
-// 		obj = obj->next;
-// 		printf("\n\n");
-// 	}
-// 	printf("fov = %d\n", scene->camera->fov);
-// }
 
 static int	check_all_structs(t_scene *scene)
 {
@@ -128,7 +117,6 @@ int	parse_file(int argc, char **argv, t_scene *scene)
 	{
 		args_line = ft_split_multiple(line, " \t");
 		fill_structs(scene, args_line);
-		free(line);
 		line = get_next_line(fd);
 		while (line && *line == '\n')
 		{

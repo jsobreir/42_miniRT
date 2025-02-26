@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   split.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: bpaiva-f <bpaiva-f@student.42porto.com>    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/02/26 13:57:30 by bpaiva-f          #+#    #+#             */
+/*   Updated: 2025/02/26 13:57:31 by bpaiva-f         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minirt.h"
 
 static int	count_words_multiple(const char *s, char *tokens)
@@ -58,7 +70,8 @@ static char	**generate_ret_multiple(char const *s, char *tokens, int counter)
 	return (ret);
 }
 
-static char	**put_split_words_multiple(const char *s, char **ret, char *tokens, int counter)
+static char	**put_split_words_multiple(const char *s, char **ret,
+	char *tokens, int counter)
 {
 	int		j;
 	int		i;
@@ -82,7 +95,7 @@ static char	**put_split_words_multiple(const char *s, char **ret, char *tokens, 
 	return (ret);
 }
 
-char	**ft_split_multiple(char const *s, char *tokens)
+char	**ft_split_multiple(char *s, char *tokens)
 {
 	char	**ret;
 	int		counter;
@@ -94,5 +107,6 @@ char	**ft_split_multiple(char const *s, char *tokens)
 	if (!ret)
 		return (0);
 	ret = put_split_words_multiple(s, ret, tokens, counter);
+	free(s);
 	return (ret);
 }

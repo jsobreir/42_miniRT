@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   minirt.h                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: bpaiva-f <bpaiva-f@student.42porto.com>    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/02/26 13:56:12 by bpaiva-f          #+#    #+#             */
+/*   Updated: 2025/02/26 13:56:13 by bpaiva-f         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef MINIRT_H
 # define MINIRT_H
 
@@ -136,6 +148,15 @@ typedef struct s_mtx_minor
 	int	m;
 }	t_mtx_minor;
 
+typedef struct s_atof
+{
+	float	ret;
+	int		int_part;
+	float	frac_part;
+	int		frac_pow;
+	int		neg;
+}	t_atof;
+
 // Windows
 int					handle_keys(int key, t_scene *scene);
 int					clean_exit(t_scene *solid, char *msg);
@@ -211,7 +232,7 @@ t_intersections		*add_intersect_list(t_intersections **intersections,
 						t_object *object, float *t, t_ray *ray);
 t_intersections		*new_inters_node(t_object *object, float *t, t_ray *ray);
 t_intersections		*last_inters_node(t_intersections *inters);
-void				free_intersections(t_intersections *intersections);
+void				free_t(t_intersections *intersections);
 int					check_intersections(float t1[], t_intersections **inter,
 						t_object *object, t_ray *ray);
 t_ray				*transform_ray(t_object *obj, t_scene *scen, t_ray *ray);
@@ -224,7 +245,7 @@ int					arr_len(char **arr);
 void				my_mlx_pixel_put(t_img *img, int x, int y, int color);
 void				print_intersect_ray(int x, int y, t_intersections *inter);
 void				print_vec3(t_vec3 *vector);
-char				**ft_split_multiple(char const *s, char *tokens);
+char				**ft_split_multiple(char *s, char *tokens);
 float				ft_atof1(char *nbr);
 void				ft_swap(float *a, float *b);
 
@@ -234,6 +255,7 @@ t_vec3				calculate_diffuse(t_intersections *inter, t_scene world);
 t_vec3				calculate_specular(t_intersections *inter,
 						t_scene world, t_ray *ray);
 int					is_shadow(t_intersections *inter1, t_scene *world);
+int					color_pixel(int x, int y, t_scene *world);
 
 // Colors
 int					rgb_to_hex(t_vec3 *rgb);

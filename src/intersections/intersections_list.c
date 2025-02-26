@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   intersections_list.c                               :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: bpaiva-f <bpaiva-f@student.42porto.com>    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/02/26 13:56:25 by bpaiva-f          #+#    #+#             */
+/*   Updated: 2025/02/26 13:56:26 by bpaiva-f         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minirt.h"
 
 t_intersections	*new_inters_node(t_object *object, float *t, t_ray *ray)
@@ -67,7 +79,7 @@ t_intersections	*add_intersect_list(t_intersections **inter,
 	return (*inter);
 }
 
-void	free_intersections(t_intersections *intersections)
+void	free_t(t_intersections *intersections)
 {
 	t_intersections	*current;
 	t_intersections	*temp;

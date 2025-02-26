@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   utils.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: bpaiva-f <bpaiva-f@student.42porto.com>    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/02/26 13:57:33 by bpaiva-f          #+#    #+#             */
+/*   Updated: 2025/02/26 13:57:34 by bpaiva-f         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minirt.h"
 
 int	arr_len(char **arr)
@@ -14,25 +26,12 @@ int	arr_len(char **arr)
 	return (i);
 }
 
-//TODO: void	convert_color()
-
 void	my_mlx_pixel_put(t_img *img, int x, int y, int color)
 {
 	int	offset;
 
 	offset = ((y * img->line_len) + (x * (img->bpp / 8)));
 	*(unsigned int *)(img->addr + offset) = color;
-}
-
-void	_intersect_ray(int x, int y, t_intersections *intersections)
-{
-	while (intersections != NULL)
-	{
-		printf("x = %i | y = %i: t[0] = %f, t[1] = %f\n", x, y, intersections->t[0], intersections->t[1]);
-		intersections = intersections->next;
-	}
-	// if (intersections && intersections->t && x == WIDTH/2 && y == HEIGHT/2)
-	// 	printf("xxx = %i | y = %i: t[0] = %f, t[1] = %f\n", x, y, intersections->t[0], intersections->t[1]);
 }
 
 void	print_vec3(t_vec3 *vector)
@@ -42,37 +41,38 @@ void	print_vec3(t_vec3 *vector)
 	printf("%f\n", vector->z);
 }
 
+static void	init_vars_atof(t_atof *a, char *nbr)
+{
+	a->frac_part = 0.1;
+	a->int_part = 0;
+	a->frac_pow = 1;
+	a->neg = 1;
+	a->int_part = ft_atoi(nbr);
+}
+
 float	ft_atof1(char *nbr)
 {
-	float	ret;
-	int		int_part;
-	float	frac_part;
-	int		frac_pow;
-	int		neg;
+	t_atof	a;
 
-	frac_part = 0.1;
-	int_part = 0;
-	frac_pow = 1;
-	neg = 1;
-	int_part = ft_atoi(nbr);
+	init_vars_atof(&a, nbr);
 	if (nbr[0] == '-')
-		neg = -1;
+		a.neg = -1;
 	while (*nbr && *nbr != '.')
 	{
 		if (!nbr)
-			return ((float) int_part);
+			return ((float) a.int_part);
 		nbr++;
 	}
 	if (nbr && *nbr && *nbr == '.')
 		nbr++;
 	else
-		return ((float) int_part);
-	frac_part = ft_atoi(nbr);
+		return ((float) a.int_part);
+	a.frac_part = ft_atoi(nbr);
 	while (nbr && *nbr && (*nbr >= '0' && *nbr <= '9'))
 	{
 		nbr++;
-		frac_pow *= 10;
+		a.frac_pow *= 10;
 	}
-	ret = int_part + (frac_part/frac_pow * neg);
-	return (ret);
+	a.ret = a.int_part + (a.frac_part / a.frac_pow * a.neg);
+	return (a.ret);
 }
