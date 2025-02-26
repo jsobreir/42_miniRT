@@ -55,16 +55,16 @@
   "C_Cpp_Runner.useLeakSanitizer": false,
   "C_Cpp_Runner.showCompilationTime": false,
   "C_Cpp_Runner.useLinkTimeOptimization": false,
-"C_Cpp_Runner.msvcSecureNoWarnings": false,
-"files.associations": {
-	"array": "c",
-	"string": "c",
-	"string_view": "c",
-	"span": "c",
-	"optional": "c",
-	"vector": "c",
-	"math.h": "c",
-	"minirt.h": "c",
-	"cstdlib": "c"
-}
+  "C_Cpp_Runner.msvcSecureNoWarnings": false,
+  "files.associations": {
+    "array": "c",
+    "string": "c",
+    "string_view": "c",
+    "span": "c",
+    "optional": "c",
+    "vector": "c",
+    "math.h": "c",
+    "minirt.h": "c",
+    "cstdlib": "c"
+  }
 }
