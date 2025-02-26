@@ -82,7 +82,7 @@ static char	**put_split_words_multiple(const char *s, char **ret, char *tokens, 
 	return (ret);
 }
 
-char	**ft_split_multiple(char const *s, char *tokens)
+char	**ft_split_multiple(char *s, char *tokens)
 {
 	char	**ret;
 	int		counter;
@@ -94,5 +94,6 @@ char	**ft_split_multiple(char const *s, char *tokens)
 	if (!ret)
 		return (0);
 	ret = put_split_words_multiple(s, ret, tokens, counter);
+	free(s);
 	return (ret);
 }

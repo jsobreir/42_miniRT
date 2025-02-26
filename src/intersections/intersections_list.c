@@ -67,7 +67,7 @@ t_intersections	*add_intersect_list(t_intersections **inter,
 	return (*inter);
 }
 
-void	free_intersections(t_intersections *intersections)
+void	free_t(t_intersections *intersections)
 {
 	t_intersections	*current;
 	t_intersections	*temp;
