@@ -16,7 +16,6 @@
 # define WIDTH 800
 # define PI 3.14159265358979323846
 # define EPSILON  0.0001
-# define ASPECT_RATIO ((float)HEIGHT / (float)WIDTH) // isto nao e permitido
 
 typedef enum e_obj_type
 {
@@ -112,6 +111,11 @@ typedef struct s_ray
 	t_point3			origin;
 	t_vec3				direction;
 	t_intersections		*intersections;
+	t_vec3				forward;
+	t_vec3				up;
+	t_vec3				right;
+	float				px;
+	float				py;
 }	t_ray;
 
 typedef struct s_scene
