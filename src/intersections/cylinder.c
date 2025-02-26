@@ -1,6 +1,6 @@
 #include "minirt.h"
 
-int	cyl_cap_plane_check(t_ray *ray, float cap_y, float	t[2])
+int	cyl_cap_plane_check(t_ray *ray, float cap_y, float t[2])
 {
 	t_point3	point;
 
@@ -34,12 +34,13 @@ static void	check_cyl_cap(t_ray *trans_ray, t_object *cyl, t_ray *ray)
 {
 	float	t[2];
 
-	t[0] = cyl_cap_inters(trans_ray, cyl, cyl->height/2);
-	t[1] = cyl_cap_inters(trans_ray, cyl, -cyl->height/2);
+	t[0] = cyl_cap_inters(trans_ray, cyl, cyl->height / 2);
+	t[1] = cyl_cap_inters(trans_ray, cyl, -cyl->height / 2);
 	check_intersections(t, &ray->intersections, cyl, ray);
 }
 
-void	hit_cylinder(t_object *cyl, t_ray *trans_ray, t_intersections **inters, t_ray *ray)
+void	hit_cylinder(t_object *cyl, t_ray *trans_ray,
+			t_intersections **inters, t_ray *ray)
 {
 	float	a;
 	float	b;
@@ -48,9 +49,12 @@ void	hit_cylinder(t_object *cyl, t_ray *trans_ray, t_intersections **inters, t_r
 	float	i[2];
 
 	check_cyl_cap(trans_ray, cyl, ray);
-	a = trans_ray->direction.x * trans_ray->direction.x + trans_ray->direction.z * trans_ray->direction.z;
-	b = 2 * (trans_ray->origin.x * trans_ray->direction.x + trans_ray->origin.z * trans_ray->direction.z);
-	c = trans_ray->origin.x * trans_ray->origin.x + trans_ray->origin.z * trans_ray->origin.z - cyl->radius * cyl->radius;
+	a = trans_ray->direction.x * trans_ray->direction.x
+		+ trans_ray->direction.z * trans_ray->direction.z;
+	b = 2 * (trans_ray->origin.x * trans_ray->direction.x
+			+ trans_ray->origin.z * trans_ray->direction.z);
+	c = trans_ray->origin.x * trans_ray->origin.x
+		+ trans_ray->origin.z * trans_ray->origin.z - cyl->radius * cyl->radius;
 	if (a == 0)
 		return ;
 	discriminant = b * b - 4 * a * c;
@@ -63,9 +67,10 @@ void	hit_cylinder(t_object *cyl, t_ray *trans_ray, t_intersections **inters, t_r
 	check_intersections(i, inters, cyl, ray);
 }
 
-int	hit_plane(t_object *plane, t_ray *original, t_ray *ray, t_intersections **inter)
+int	hit_plane(t_object *plane, t_ray *original,
+	t_ray *ray, t_intersections **inter)
 {
-	float i[2];
+	float	i[2];
 
 	if (fabs(ray->direction.y) < 1e-6)
 		return (0);

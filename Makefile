@@ -22,7 +22,7 @@ WINDOWS = hooks free init
 MATHS = maths maths1 maths2 matrix matrix_transform matrix2 matrix3
 UTILS = utils split
 RENDER = render colors
-INTERSECTIONS = intersections intersections_list cylinder
+INTERSECTIONS = intersections intersections2 intersections_list cylinder
 CAMERA = camera
 PARSER = parse_file fill_data_structs
 
