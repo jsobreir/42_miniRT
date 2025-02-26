@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   colors.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: bpaiva-f <bpaiva-f@student.42porto.com>    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/02/26 13:57:17 by bpaiva-f          #+#    #+#             */
+/*   Updated: 2025/02/26 14:17:12 by bpaiva-f         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minirt.h"
 
 t_vec3	get_light_vec(t_intersections *intersection, t_scene world,
@@ -40,7 +52,8 @@ t_vec3	calculate_diffuse(t_intersections *intersection, t_scene world)
 		normal = intersection->object->orientation;
 	else
 		normal = normal_object(&intersection->point, intersection->object);
-	if (dot_product(normal, point_to_light) < 0)
+	if (dot_product(normal, point_to_light) < 0
+		&& intersection->object->type == PLANE)
 		normal = mult_byscalar(&normal, -1);
 	light_dot_normal = dot_product(point_to_light, normal);
 	light_dot_normal = fmax(light_dot_normal, 0.0);

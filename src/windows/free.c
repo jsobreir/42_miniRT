@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   free.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: bpaiva-f <bpaiva-f@student.42porto.com>    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/02/26 13:57:38 by bpaiva-f          #+#    #+#             */
+/*   Updated: 2025/02/26 13:57:39 by bpaiva-f         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minirt.h"
 
 static void	clean_objects(t_object *obj)
@@ -13,13 +25,9 @@ static void	clean_objects(t_object *obj)
 		free(temp);
 	}
 }
-/// @brief Window clean exit.
-/// @param scene 
-/// @return 
-int	clean_exit(t_scene *scene, char *msg)
+
+static void	free_everything(t_scene *scene)
 {
-	if (!scene)
-		return (1);
 	if (scene->objects)
 		clean_objects(scene->objects);
 	if (scene->camera)
@@ -36,6 +44,16 @@ int	clean_exit(t_scene *scene, char *msg)
 		mlx_destroy_display(scene->mlx);
 		free(scene->mlx);
 	}
+}
+
+/// @brief Window clean exit.
+/// @param scene 
+/// @return 
+int	clean_exit(t_scene *scene, char *msg)
+{
+	if (!scene)
+		return (1);
+	free_everything(scene);
 	if (!msg)
 		ft_putstr_fd("Exiting program cleanly.\n", 1);
 	else
@@ -47,7 +65,7 @@ int	clean_exit(t_scene *scene, char *msg)
 	return (0);
 }
 
-int handle_keys(int key, t_scene *scene)
+int	handle_keys(int key, t_scene *scene)
 {
 	if (key == XK_Escape)
 	{

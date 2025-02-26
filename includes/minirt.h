@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   minirt.h                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: bpaiva-f <bpaiva-f@student.42porto.com>    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/02/26 13:56:12 by bpaiva-f          #+#    #+#             */
+/*   Updated: 2025/02/26 13:56:13 by bpaiva-f         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef MINIRT_H
 # define MINIRT_H
 
@@ -136,6 +148,15 @@ typedef struct s_mtx_minor
 	int	k;
 	int	m;
 }	t_mtx_minor;
+
+typedef struct s_atof
+{
+	float	ret;
+	int		int_part;
+	float	frac_part;
+	int		frac_pow;
+	int		neg;
+}	t_atof;
 
 // Windows
 int					handle_keys(int key, t_scene *scene);

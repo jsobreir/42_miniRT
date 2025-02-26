@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   render.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: bpaiva-f <bpaiva-f@student.42porto.com>    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/02/26 13:57:23 by bpaiva-f          #+#    #+#             */
+/*   Updated: 2025/02/26 14:10:33 by bpaiva-f         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minirt.h"
 
 float	fill_ray(t_vec3 *normal, t_intersections *inter1,
@@ -30,7 +42,7 @@ int	is_shadow(t_intersections *inter1, t_scene *world)
 	if (inter1->object->type == PLANE && dot_product(normal,
 			subtract_vec3s(world->light->position, inter1->point)) < 0)
 		normal = mult_byscalar(&normal, -EPSILON);
-	else
+	else if (inter1->object->type != CYLINDER)
 		normal = mult_byscalar(&normal, EPSILON);
 	distance = fill_ray(&normal, inter1, world, &ray);
 	ray.intersections = &inter2;
