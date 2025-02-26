@@ -1,6 +1,6 @@
 #include "minirt.h"
 
-int	cylinder_cap_plane_check(t_ray *ray, float cap_y, float	t[2])
+int	cyl_cap_plane_check(t_ray *ray, float cap_y, float	t[2])
 {
 	t_point3	point;
 
@@ -16,7 +16,7 @@ int	cylinder_cap_plane_check(t_ray *ray, float cap_y, float	t[2])
 	return (0);
 }
 
-float	cylinder_cap_intersection(t_ray *ray, t_object *cyl, float cap_y)
+float	cyl_cap_inters(t_ray *ray, t_object *cyl, float cap_y)
 {
 	float		t;
 	t_point3	point;
@@ -34,9 +34,9 @@ static void	check_cyl_cap(t_ray *trans_ray, t_object *cyl, t_ray *ray)
 {
 	float	t[2];
 
-	t[0] = cylinder_cap_intersection(trans_ray, cyl, cyl->height/2);
-	t[1] = cylinder_cap_intersection(trans_ray, cyl, -cyl->height/2);
-	check_intersections(t[0], t[1], &ray->intersections, cyl, ray);
+	t[0] = cyl_cap_inters(trans_ray, cyl, cyl->height/2);
+	t[1] = cyl_cap_inters(trans_ray, cyl, -cyl->height/2);
+	check_intersections(t, &ray->intersections, cyl, ray);
 }
 
 void	hit_cylinder(t_object *cyl, t_ray *trans_ray, t_intersections **inters, t_ray *ray)
@@ -58,9 +58,9 @@ void	hit_cylinder(t_object *cyl, t_ray *trans_ray, t_intersections **inters, t_r
 		return ;
 	i[0] = (-b - sqrtf(discriminant)) / (2 * a);
 	i[1] = (-b + sqrtf(discriminant)) / (2 * a);
-	if (!cylinder_cap_plane_check(trans_ray, cyl->height / 2, i))
+	if (!cyl_cap_plane_check(trans_ray, cyl->height / 2, i))
 		return ;
-	check_intersections(i[0], i[1], inters, cyl, ray);
+	check_intersections(i, inters, cyl, ray);
 }
 
 int	hit_plane(t_object *plane, t_ray *original, t_ray *ray, t_intersections **inter)

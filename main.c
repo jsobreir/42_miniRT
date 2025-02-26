@@ -1,9 +1,8 @@
 #include "minirt.h"
 
-int main(int argc, char **argv)
+int	main(int argc, char **argv)
 {
-	(void)argv;
-	t_scene scene;
+	t_scene	scene;
 
 	init(&scene);
 	if (parse_file(argc, argv, &scene))

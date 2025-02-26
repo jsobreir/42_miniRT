@@ -9,30 +9,29 @@ void	ft_swap(float *a, float *b)
 	*b = *temp;
 }
 
-int	check_intersections(float t1, float t2, t_intersections **intersections, t_object *object, t_ray *ray)
+int	check_intersections(float t1[], t_intersections **inter, t_object *obj, t_ray *ray)
 {
 	float	t[2];
 
-	if (t1 > t2)
-		ft_swap(&t1, &t2);
-	if (t2 < 0)
+	if (t1[0] > t1[1])
+		ft_swap(&t1[0], &t1[1]);
+	if (t1[1] < 0)
 		return (0);
-	if (t1 < 0)
+	if (t1[0] < 0)
 	{
-		t[0] = t2;
-		add_intersect_list(intersections, object, t, ray);
+		t[0] = t1[1];
+		add_intersect_list(inter, obj, t, ray);
 		return (1);
 	}
-	t[0] = t1;
-	t[1] = t2;
-	add_intersect_list(intersections, object, t, ray);
+	t[0] = t1[0];
+	t[1] = t1[1];
+	add_intersect_list(inter, obj, t, ray);
 	return (2);
 }
 
 int	hit_sphere(t_object *sphere, t_ray *ray, t_ray *trans_ray, t_intersections **intersections)
 {
-	float	t1;
-	float	t2;
+	float	t1[2];
 	t_vec3 	oc;
 	int		check_int;
 
@@ -43,9 +42,9 @@ int	hit_sphere(t_object *sphere, t_ray *ray, t_ray *trans_ray, t_intersections *
 	float discriminant = b*b - 4*a*c;
 	if (discriminant < 0)
 		return (0);
-	t1 = (-b - sqrtf(discriminant)) / (2 * a);
-	t2 = (-b + sqrtf(discriminant)) / (2 * a);
-	check_int = check_intersections(t1, t2, intersections, sphere, ray);
+	t1[0] = (-b - sqrtf(discriminant)) / (2 * a);
+	t1[1] = (-b + sqrtf(discriminant)) / (2 * a);
+	check_int = check_intersections(t1, intersections, sphere, ray);
 	return (check_int);
 }
 

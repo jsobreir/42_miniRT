@@ -57,14 +57,15 @@
   "C_Cpp_Runner.useLinkTimeOptimization": false,
   "C_Cpp_Runner.msvcSecureNoWarnings": false,
   "files.associations": {
-    "array": "c",
-    "string": "c",
-    "string_view": "c",
-    "span": "c",
-    "optional": "c",
-    "vector": "c",
-    "math.h": "c",
-    "minirt.h": "c",
-    "cstdlib": "c"
-  }
+	"array": "c",
+	"string": "c",
+	"string_view": "c",
+	"span": "c",
+	"optional": "c",
+	"vector": "c",
+	"math.h": "c",
+	"minirt.h": "c",
+	"cstdlib": "c",
+	"unistd.h": "c"
+}
 }
