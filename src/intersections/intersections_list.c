@@ -2,7 +2,7 @@
 
 t_intersections	*new_inters_node(t_object *object, float *t, t_ray *ray)
 {
-	t_intersections *new;
+	t_intersections	*new;
 
 	new = malloc(sizeof(t_intersections));
 	new->object = object;
@@ -13,7 +13,7 @@ t_intersections	*new_inters_node(t_object *object, float *t, t_ray *ray)
 	return (new);
 }
 
-t_intersections *last_inters_node(t_intersections *inters)
+t_intersections	*last_inters_node(t_intersections *inters)
 {
 	if (!inters)
 		return (NULL);
@@ -26,19 +26,12 @@ t_intersections *last_inters_node(t_intersections *inters)
 	return (inters);
 }
 
-t_intersections *add_intersect_list(t_intersections **intersections, t_object *object, float *t, t_ray *ray)
+void	add_inter(t_intersections **inter, t_intersections *new,
+		t_intersections *prev, float t[])
 {
-	t_intersections *new;
-	t_intersections *temp;
-	t_intersections *prev;
+	t_intersections	*temp;
 
-	new = new_inters_node(object, t, ray);
-	temp = *intersections;
-	prev = NULL;
-	if (!new)
-		return NULL;
-	if (!temp || temp->t[0] == INFINITY)
-		return (*intersections = new, new);
+	temp = *inter;
 	while (temp && t[0] > temp->t[0])
 	{
 		prev = temp;
@@ -46,21 +39,38 @@ t_intersections *add_intersect_list(t_intersections **intersections, t_object *o
 	}
 	if (!prev)
 	{
-		new->next = *intersections;
-		*intersections = new;
+		new->next = *inter;
+		*inter = new;
 	}
 	else
 	{
 		prev->next = new;
 		new->next = temp;
 	}
-	return *intersections;
+}
+
+t_intersections	*add_intersect_list(t_intersections **inter,
+	t_object *obj, float *t, t_ray *ray)
+{
+	t_intersections	*new;
+	t_intersections	*prev;
+	t_intersections	*temp;
+
+	new = new_inters_node(obj, t, ray);
+	temp = *inter;
+	prev = NULL;
+	if (!new)
+		return (NULL);
+	if (!temp || temp->t[0] == INFINITY)
+		return (*inter = new, new);
+	add_inter(inter, new, prev, t);
+	return (*inter);
 }
 
 void	free_intersections(t_intersections *intersections)
 {
-	t_intersections *current;
-	t_intersections *temp;
+	t_intersections	*current;
+	t_intersections	*temp;
 
 	if (!intersections)
 		return ;

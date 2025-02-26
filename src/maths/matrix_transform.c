@@ -24,17 +24,6 @@ void	mtx_rotate_z(t_matrix *mtx, float degrees)
 	mtx->matrix[1][1] = cosf(degrees);
 }
 
-t_matrix	*translate(float dx, float dy, float dz)
-{
-	t_matrix	*t;
-
-	t = mtx_identity(4, 4);
-	t->matrix[0][3] = dx;
-	t->matrix[1][3] = dy;
-	t->matrix[2][3] = dz;
-	return (t);
-}
-
 t_matrix	*mtx_skew_symmetric(t_vec3 axis)
 {
 	t_matrix	*sk;
@@ -55,7 +44,7 @@ t_matrix	*mtx_skew_symmetric(t_vec3 axis)
 	sk->matrix[3][0] = 0;
 	sk->matrix[3][1] = 0;
 	sk->matrix[3][2] = 0;
-	sk->matrix[3][3] = 1; // Identity for homogeneous coordinates
+	sk->matrix[3][3] = 1;
 	return (sk);
 }
 
@@ -79,6 +68,6 @@ t_matrix	*mtx_skew_symmetric_squared(t_vec3 axis)
 	sk->matrix[3][0] = 0;
 	sk->matrix[3][1] = 0;
 	sk->matrix[3][2] = 0;
-	sk->matrix[3][3] = 1; // Identity for homogeneous coordinates
+	sk->matrix[3][3] = 1;
 	return (sk);
 }

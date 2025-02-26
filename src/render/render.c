@@ -66,6 +66,8 @@ int	is_shadow(t_intersections *inter1, t_scene *world)
 	intersect(&ray, world);
 	if (ray.intersections->t[0] != INFINITY && ray.intersections->t[0] < distance)
 		return (free_intersections(ray.intersections), 1);
+	else if (ray.intersections->t[0] != INFINITY)
+		return (free_intersections(ray.intersections), 0);
 	else
 		return (0);
 }
