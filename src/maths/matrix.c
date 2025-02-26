@@ -2,7 +2,7 @@
 
 t_matrix	*new_mtx(int rows, int cols)
 {
-	t_matrix 	*new;
+	t_matrix	*new;
 	int			i;
 
 	new = malloc(sizeof(t_matrix));
@@ -42,23 +42,23 @@ t_matrix	*mtx_create_fill(float **data, int rows, int cols)
 	return (new);
 }
 
-void mtx_free(t_matrix *mtx)
+void	mtx_free(t_matrix *mtx)
 {
-    int i;
+	int	i;
 
-    if (!mtx)
-        return;
-    i = mtx->n_rows - 1;
-    while (i >= 0)
-    {
-        free(mtx->matrix[i]);
-        i--;
-    }
-    free(mtx->matrix);
-    free(mtx); // Free the struct itself
+	if (!mtx)
+		return ;
+	i = mtx->n_rows - 1;
+	while (i >= 0)
+	{
+		free(mtx->matrix[i]);
+		i--;
+	}
+	free(mtx->matrix);
+	free(mtx);
 }
 
-t_matrix *mtx_multiply(t_matrix a, t_matrix b)
+t_matrix	*mtx_multiply(t_matrix a, t_matrix b)
 {
 	int			i;
 	int			j;
@@ -68,7 +68,7 @@ t_matrix *mtx_multiply(t_matrix a, t_matrix b)
 
 	i = 0;
 	if (a.n_cols != b.n_rows)
-		return (NULL); // Ensure valid multiplication
+		return (NULL);
 	c = new_mtx(a.n_rows, b.n_cols);
 	while (i < a.n_rows)
 	{
@@ -80,31 +80,42 @@ t_matrix *mtx_multiply(t_matrix a, t_matrix b)
 			while (++k < a.n_cols)
 				sum += a.matrix[i][k] * b.matrix[k][j];
 			c->matrix[i][j] = sum;
-			j++;  
+			j++;
 		}
 		i++;
 	}
 	return (c);
 }
 
-void	mtx_print(t_matrix *mtx)
+t_matrix	*translate(float dx, float dy, float dz)
 {
-	int	i = 0;
-	int	j = 0;
+	t_matrix	*t;
 
-	printf("[  ");
-	while (i < mtx->n_rows)
-	{
-		j = 0;
-		while (j < mtx->n_cols)
-		{
-			printf("%f", mtx->matrix[i][j]);
-			printf("  ");
-			j++;
-		}
-		if (i != mtx->n_rows - 1 && j != mtx->n_cols - 1)
-			printf("\n");
-		i++;
-	}
-	printf("]\n");
+	t = mtx_identity(4, 4);
+	t->matrix[0][3] = dx;
+	t->matrix[1][3] = dy;
+	t->matrix[2][3] = dz;
+	return (t);
 }
+
+// void	mtx_print(t_matrix *mtx)
+// {
+// 	int	i = 0;
+// 	int	j = 0;
+
+// 	printf("[  ");
+// 	while (i < mtx->n_rows)
+// 	{
+// 		j = 0;
+// 		while (j < mtx->n_cols)
+// 		{
+// 			printf("%f", mtx->matrix[i][j]);
+// 			printf("  ");
+// 			j++;
+// 		}
+// 		if (i != mtx->n_rows - 1 && j != mtx->n_cols - 1)
+// 			printf("\n");
+// 		i++;
+// 	}
+// 	printf("]\n");
+// }

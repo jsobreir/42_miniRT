@@ -67,10 +67,10 @@ typedef struct s_object
 	t_matrix		*cached_transform;
 	t_obj_type		type;
 	t_vec3			rgb;
-	t_point3		position; // centro?
-	t_point3		orientation; // ??
-	float			radius; // Spheres and cylinders
-	float			height; // Only cylinders
+	t_point3		position;
+	t_point3		orientation;
+	float			radius;
+	float			height;
 	struct s_object	*next;
 }	t_object;
 
@@ -128,6 +128,14 @@ typedef struct s_scene
 	t_object	*objects;
 	t_camera	*camera;
 }	t_scene;
+
+typedef struct s_mtx_minor
+{
+	int	i;
+	int	j;
+	int	k;
+	int	m;
+}	t_mtx_minor;
 
 // Windows
 int					handle_keys(int key, t_scene *scene);

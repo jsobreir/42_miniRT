@@ -1,12 +1,13 @@
 #include "minirt.h"
-/// @brief Returns a new matrix corresponding to the transpose of the matrix passed.
+/// @brief Returns a new matrix corresponding 
+///to the transpose of the matrix passed.
 /// @param mtx
 /// @return 
 t_matrix	*mtx_transpose(t_matrix *mtx)
 {
-	int	i;
-	int	j;
-	t_matrix *new;
+	t_matrix	*new;
+	int			i;
+	int			j;
 
 	new = new_mtx(mtx->n_cols, mtx->n_rows);
 	i = 0;
@@ -26,30 +27,27 @@ t_matrix	*mtx_transpose(t_matrix *mtx)
 t_matrix	*mtx_minor(int row, int col, t_matrix *mtx)
 {
 	t_matrix	*minor;
-	int			i;
-	int			j;
-	int			k;
-	int			m;
+	t_mtx_minor	m;
 
 	minor = new_mtx(mtx->n_rows - 1, mtx->n_cols - 1);
-	i = 0;
-	k = 0;
-	while (k < minor->n_rows)
+	m.i = 0;
+	m.k = 0;
+	while (m.k < minor->n_rows)
 	{
-		if (i == row)
-			i++;
-		j = 0;
-		m = 0;
-		while (m < minor->n_cols)
+		if (m.i == row)
+			m.i++;
+		m.j = 0;
+		m.m = 0;
+		while (m.m < minor->n_cols)
 		{
-			if (j == col)
-				j++;
-			minor->matrix[k][m] = mtx->matrix[i][j];
-			j++;
-			m++;
+			if (m.j == col)
+				m.j++;
+			minor->matrix[m.k][m.m] = mtx->matrix[m.i][m.j];
+			m.j++;
+			m.m++;
 		}
-		i++;
-		k++;
+		m.i++;
+		m.k++;
 	}
 	return (minor);
 }
@@ -78,7 +76,7 @@ t_matrix	*mtx_cofactor(t_matrix *mtx)
 	return (c);
 }
 
-t_matrix *mtx_inverse(t_scene *scene, t_matrix *mtx)
+t_matrix	*mtx_inverse(t_scene *scene, t_matrix *mtx)
 {
 	t_matrix	*inv;
 	t_matrix	*cof;
@@ -91,21 +89,22 @@ t_matrix *mtx_inverse(t_scene *scene, t_matrix *mtx)
 	inv = mtx_transpose(cof);
 	mtx_free(cof);
 	det = mtx_determinant(mtx);
-	ret = mtx_mult_by_float(inv, 1/det);
+	ret = mtx_mult_by_float(inv, 1 / det);
 	return (ret);
 }
 
 float	mtx_determinant(t_matrix *mtx)
 {
-	int		j;
-	float	det;
-	float	minor_det;
+	int			j;
+	float		det;
+	float		minor_det;
 	t_matrix	*minor;
 
 	j = 0;
 	det = 0.0f;
 	if (mtx->n_cols == 2)
-		det = mtx->matrix[0][0] * mtx->matrix[1][1] - mtx->matrix[1][0] * mtx->matrix[0][1];
+		det = mtx->matrix[0][0] * mtx->matrix[1][1]
+			- mtx->matrix[1][0] * mtx->matrix[0][1];
 	else if (mtx->n_cols == 1)
 		det = mtx->matrix[0][0];
 	else
