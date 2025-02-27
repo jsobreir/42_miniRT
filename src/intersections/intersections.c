@@ -6,7 +6,7 @@
 /*   By: bpaiva-f <bpaiva-f@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/26 13:56:27 by bpaiva-f          #+#    #+#             */
-/*   Updated: 2025/02/26 13:56:28 by bpaiva-f         ###   ########.fr       */
+/*   Updated: 2025/02/27 19:41:13 by bpaiva-f         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,7 @@ int	hit_sphere(t_object *sphere, t_ray *ray,
 	t_vec3	oc;
 	int		check_int;
 	float	discriminant;
+	(void)ray;
 
 	oc = trans_ray->origin;
 	a[0] = dot_product(trans_ray->direction, trans_ray->direction);
@@ -60,7 +61,7 @@ int	hit_sphere(t_object *sphere, t_ray *ray,
 		return (0);
 	t1[0] = (-a[1] - sqrtf(discriminant)) / (2 * a[0]);
 	t1[1] = (-a[1] + sqrtf(discriminant)) / (2 * a[0]);
-	check_int = check_intersections(t1, intersections, sphere, ray);
+	check_int = check_intersections(t1, intersections, sphere, trans_ray);
 	return (check_int);
 }
 
@@ -110,5 +111,6 @@ t_ray	*transform_ray(t_object *obj, t_scene *scene, t_ray *ray)
 	new_ray->origin = mtx_mult_point3(obj->cached_transform, &ray->origin);
 	new_ray->intersections = NULL;
 	new_ray->direction = mtx_mult_vec3(obj->cached_transform, &ray->direction);
+	new_ray->direction = normalize(&new_ray->direction);
 	return (new_ray);
 }

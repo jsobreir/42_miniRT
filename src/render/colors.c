@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   colors.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jsobreir <jsobreir@student.42porto.fr>     +#+  +:+       +#+        */
+/*   By: bpaiva-f <bpaiva-f@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/26 13:57:17 by bpaiva-f          #+#    #+#             */
-/*   Updated: 2025/02/26 14:24:02 by jsobreir         ###   ########.fr       */
+/*   Updated: 2025/02/27 17:15:15 by bpaiva-f         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,8 +52,7 @@ t_vec3	calculate_diffuse(t_intersections *intersection, t_scene world)
 		normal = intersection->object->orientation;
 	else
 		normal = normal_object(&intersection->point, intersection->object);
-	if (dot_product(normal, point_to_light) < 0
-		&& intersection->object->type == PLANE)
+	if (dot_product(normal, point_to_light) < 0)
 		normal = mult_byscalar(&normal, -1);
 	light_dot_normal = dot_product(point_to_light, normal);
 	light_dot_normal = fmax(light_dot_normal, 0.0);

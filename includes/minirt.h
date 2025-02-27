@@ -6,7 +6,7 @@
 /*   By: bpaiva-f <bpaiva-f@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/26 13:56:12 by bpaiva-f          #+#    #+#             */
-/*   Updated: 2025/02/26 13:56:13 by bpaiva-f         ###   ########.fr       */
+/*   Updated: 2025/02/27 19:41:51 by bpaiva-f         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -228,6 +228,7 @@ void				hit_cylinder(t_object *cyl, t_ray *trans_ray,
 int					hit_plane(t_object *plane, t_ray *original,
 						t_ray *ray, t_intersections **inter);
 t_intersections		*intersect(t_ray *ray, t_scene *world);
+t_intersections		*intersect_light(t_ray *ray, t_scene *world);
 t_intersections		*add_intersect_list(t_intersections **intersections,
 						t_object *object, float *t, t_ray *ray);
 t_intersections		*new_inters_node(t_object *object, float *t, t_ray *ray);

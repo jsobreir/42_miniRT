@@ -6,7 +6,7 @@
 /*   By: bpaiva-f <bpaiva-f@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/26 13:56:46 by bpaiva-f          #+#    #+#             */
-/*   Updated: 2025/02/26 13:56:47 by bpaiva-f         ###   ########.fr       */
+/*   Updated: 2025/02/27 17:37:58 by bpaiva-f         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,25 +38,43 @@ float	magnitude(t_vec3 a)
 	return (mag);
 }
 
-t_vec3	normal_cyl(t_point3 *point, t_vec3 op, t_object *object)
-{
-	t_vec3	axis;
-	t_vec3	projection;
-	t_vec3	normal;
-	double	t;
+// t_vec3	normal_cyl(t_point3 *point, t_vec3 op, t_object *object)
+// {
+// 	t_vec3	axis;
+// 	t_vec3	projection;
+// 	t_vec3	normal;
+// 	t_vec3 	res;
+// 	double	t;
 
-	axis = normalize(&object->orientation);
-	op.x = point->x - object->position.x;
-	op.y = point->y - object->position.y;
-	op.z = point->z - object->position.z;
-	t = dot_product(op, axis);
-	projection.x = object->position.x + t * axis.x;
-	projection.y = object->position.y + t * axis.y;
-	projection.z = object->position.z + t * axis.z;
-	normal.x = point->x - projection.x;
-	normal.y = point->y - projection.y;
-	normal.z = point->z - projection.z;
-	return (normal);
+// 	axis = normalize(&object->orientation);
+// 	op.x = point->x - object->position.x;
+// 	op.y = point->y - object->position.y;
+// 	op.z = point->z - object->position.z;
+// 	t = dot_product(op, axis);
+// 	projection.x = object->position.x + t * axis.x;
+// 	projection.y = object->position.y + t * axis.y;
+// 	projection.z = object->position.z + t * axis.z;
+// 	normal.x = point->x - projection.x;
+// 	normal.y = point->y - projection.y;
+// 	normal.z = point->z - projection.z;
+// 	if (fabs(t - (object->height / 2)) < EPSILON)
+// 		return (fill_vec3(&res, axis.x, axis.y, axis.z));
+// 	else if (fabs(t + (object->height / 2)) < EPSILON)
+// 		return (fill_vec3(&res, -axis.x, -axis.y, -axis.z));
+// 	return (normal);
+// }
+
+t_vec3	normal_cyl(t_object *object, t_point3 *point)
+{
+	float	dist;
+	t_vec3 	res;
+
+	dist = point->x * point->x + point->z * point->z;
+	if (dist < (object->radius * object->radius) && point->y >= (object->height / 2) - EPSILON)
+		return (fill_vec3(&res,0, -1, 0));
+	else if (dist < (object->radius * object->radius) && point->y <= -(object->height / 2) + EPSILON)
+		return (fill_vec3(&res, 0, 1, 0));	
+	return (fill_vec3(&res, point->x, 0, point->z));
 }
 
 t_vec3	normal_object(t_point3 *point, t_object *object)
@@ -76,7 +94,8 @@ t_vec3	normal_object(t_point3 *point, t_object *object)
 	}
 	else if (object->type == CYLINDER)
 	{
-		normal = normal_cyl(point, op, object);
+		//normal = normal_cyl(point, op, object);
+		normal = normal_cyl(object, point);
 		return (normalize(&normal));
 	}
 	return (op);

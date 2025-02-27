@@ -6,7 +6,7 @@
 /*   By: bpaiva-f <bpaiva-f@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/26 13:57:23 by bpaiva-f          #+#    #+#             */
-/*   Updated: 2025/02/26 14:10:33 by bpaiva-f         ###   ########.fr       */
+/*   Updated: 2025/02/27 19:42:30 by bpaiva-f         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,8 @@ int	is_shadow(t_intersections *inter1, t_scene *world)
 	t_ray			ray;
 	t_vec3			normal;
 	t_intersections	inter2;
-
+	(void)inter1;
+	
 	init_intersections(&inter2);
 	if (inter1->object->type == PLANE)
 		normal = normalize(&inter1->object->orientation);
@@ -42,10 +43,10 @@ int	is_shadow(t_intersections *inter1, t_scene *world)
 	if (inter1->object->type == PLANE && dot_product(normal,
 			subtract_vec3s(world->light->position, inter1->point)) < 0)
 		normal = mult_byscalar(&normal, -EPSILON);
-	else if (inter1->object->type != CYLINDER)
+	if (inter1->object->type != CYLINDER)
 		normal = mult_byscalar(&normal, EPSILON);
-	distance = fill_ray(&normal, inter1, world, &ray);
 	ray.intersections = &inter2;
+	distance = fill_ray(&normal, inter1, world, &ray);
 	intersect(&ray, world);
 	if (ray.intersections->t[0] != INFINITY
 		&& ray.intersections->t[0] < distance)

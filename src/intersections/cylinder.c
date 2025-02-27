@@ -6,7 +6,7 @@
 /*   By: bpaiva-f <bpaiva-f@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/26 13:56:23 by bpaiva-f          #+#    #+#             */
-/*   Updated: 2025/02/26 13:56:24 by bpaiva-f         ###   ########.fr       */
+/*   Updated: 2025/02/27 19:41:36 by bpaiva-f         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,13 +76,14 @@ void	hit_cylinder(t_object *cyl, t_ray *trans_ray,
 	i[1] = (-b + sqrtf(discriminant)) / (2 * a);
 	if (!cyl_cap_plane_check(trans_ray, cyl->height / 2, i))
 		return ;
-	check_intersections(i, inters, cyl, ray);
+	check_intersections(i, inters, cyl, trans_ray);
 }
 
 int	hit_plane(t_object *plane, t_ray *original,
 	t_ray *ray, t_intersections **inter)
 {
 	float	i[2];
+	(void)original;
 
 	if (fabs(ray->direction.y) < 1e-6)
 		return (0);
