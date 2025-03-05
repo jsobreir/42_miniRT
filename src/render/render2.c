@@ -6,7 +6,7 @@
 /*   By: bpaiva-f <bpaiva-f@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/26 13:57:26 by bpaiva-f          #+#    #+#             */
-/*   Updated: 2025/02/27 17:47:28 by bpaiva-f         ###   ########.fr       */
+/*   Updated: 2025/03/05 16:36:13 by bpaiva-f         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,8 +45,8 @@ int	color_pixel(int x, int y, t_scene *world)
 	if (ray.intersections && ray.intersections->t[0] != INFINITY
 		&& ray.intersections->t[0] != -INFINITY)
 	{
-		ambient = change_brightness(&world->light->ambient_color_rgb,
-				world->light->ambient_lighting_ratio);
+		ambient = multiply_colors(world, ray.intersections);
+		ambient = change_brightness(&ambient, world->light->amb_ratio);
 		if (is_shadow(ray.intersections, world))
 			return (free_t(ray.intersections), rgb_to_hex(&ambient));
 		diffuse = calculate_diffuse(ray.intersections, *world);

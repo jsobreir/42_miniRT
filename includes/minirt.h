@@ -6,7 +6,7 @@
 /*   By: bpaiva-f <bpaiva-f@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/26 13:56:12 by bpaiva-f          #+#    #+#             */
-/*   Updated: 2025/03/05 15:27:16 by bpaiva-f         ###   ########.fr       */
+/*   Updated: 2025/03/05 16:36:13 by bpaiva-f         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,7 +101,7 @@ typedef struct s_light
 {
 	bool		ambient_set;
 	bool		light_set;
-	float		ambient_lighting_ratio;
+	float		amb_ratio;
 	t_vec3		ambient_color_rgb;
 	t_point3	position;
 	float		brightness;
@@ -184,6 +184,7 @@ int					free_array(char	**arr, int len);
 t_vec3				add_vectors(t_vec3 *one, t_vec3 *two);
 t_vec3				subtract_vec3s(t_vec3 one, t_vec3 two);
 t_vec3				multiply_vectors(t_vec3 *one, t_vec3 *two);
+t_vec3				multiply_colors(t_scene *world, t_intersections *inters);
 t_vec3				divide_vectors(t_vec3 *one, t_vec3 *two);
 float				dot_product(t_vec3 a, t_vec3 b);
 t_vec3				normalize(t_vec3 *a);
@@ -264,7 +265,6 @@ int					rgb_to_hex(t_vec3 *rgb);
 t_vec3				change_brightness(t_vec3 *color, float factor);
 t_vec3				add_colors(t_vec3 *color1, t_vec3 *color2);
 void				set_color(t_vec3 *color, int red, int green, int blue);
-t_vec3				multiply_colors(t_vec3 *color1, t_vec3 *color2);
 t_vec3				get_light_vec(t_intersections *intersection, t_scene world);
 
 #endif

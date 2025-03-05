@@ -6,7 +6,7 @@
 /*   By: bpaiva-f <bpaiva-f@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/26 13:56:44 by bpaiva-f          #+#    #+#             */
-/*   Updated: 2025/02/26 13:56:45 by bpaiva-f         ###   ########.fr       */
+/*   Updated: 2025/03/05 16:36:33 by bpaiva-f         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,4 +54,18 @@ t_vec3	reflect(t_vec3 in, t_vec3 normal)
 	temp = mult_byscalar(&normal, k);
 	ret = subtract_vec3s(in, temp);
 	return (ret);
+}
+
+t_vec3	multiply_colors(t_scene *world, t_intersections *inters)
+{
+	t_vec3	one;
+	t_vec3	two;
+	t_vec3	new;
+
+	one = world->light->ambient_color_rgb;
+	two = inters->object->rgb;
+	new.x = one.r * two.r;
+	new.y = one.g * two.g;
+	new.z = one.b * two.b;
+	return (new);
 }
