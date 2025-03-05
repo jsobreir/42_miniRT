@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   cylinder.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bpaiva-f <bpaiva-f@student.42porto.com>    +#+  +:+       +#+        */
+/*   By: jsobreir <jsobreir@student.42porto.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/26 13:56:23 by bpaiva-f          #+#    #+#             */
-/*   Updated: 2025/03/05 15:43:32 by bpaiva-f         ###   ########.fr       */
+/*   Updated: 2025/03/05 18:05:30 by jsobreir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minirt.h"
 
-int	cyl_cap_plane_check(t_ray *ray, float cap_y, float t[2])
+int	cyl_limits_check(t_ray *ray, float cap_y, float t[2])
 {
 	t_point3	point;
 
@@ -42,13 +42,13 @@ float	cyl_cap_inters(t_ray *ray, t_object *cyl, float cap_y)
 	return (-INFINITY);
 }
 
-static void	check_cyl_cap(t_ray *trans_ray, t_object *cyl, t_ray *ray)
+static void	check_cyl_cap(t_intersections **inters, t_object *cyl, t_ray *rays)
 {
 	float	t[2];
 
-	t[0] = cyl_cap_inters(trans_ray, cyl, cyl->height / 2);
-	t[1] = cyl_cap_inters(trans_ray, cyl, -cyl->height / 2);
-	check_intersections(t, &ray->intersections, cyl, ray);
+	t[0] = cyl_cap_inters(&rays[1], cyl, cyl->height / 2);
+	t[1] = cyl_cap_inters(&rays[1], cyl, -cyl->height / 2);
+	check_intersections(t, inters, cyl, rays);
 }
 
 void	hit_cylinder(t_object *cyl, t_ray *trans_ray,
@@ -61,7 +61,7 @@ void	hit_cylinder(t_object *cyl, t_ray *trans_ray,
 
 	save[0] = *ray;
 	save[1] = *trans_ray;
-	check_cyl_cap(trans_ray, cyl, ray);
+	check_cyl_cap(inters, cyl, save);
 	a[0] = trans_ray->direction.x * trans_ray->direction.x
 		+ trans_ray->direction.z * trans_ray->direction.z;
 	a[1] = 2 * (trans_ray->origin.x * trans_ray->direction.x
@@ -75,7 +75,7 @@ void	hit_cylinder(t_object *cyl, t_ray *trans_ray,
 		return ;
 	i[0] = (-a[1] - sqrtf(discriminant)) / (2 * a[0]);
 	i[1] = (-a[1] + sqrtf(discriminant)) / (2 * a[0]);
-	if (!cyl_cap_plane_check(trans_ray, cyl->height / 2, i))
+	if (!cyl_limits_check(trans_ray, cyl->height / 2, i))
 		return ;
 	check_intersections(i, inters, cyl, save);
 }

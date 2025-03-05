@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_file.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bpaiva-f <bpaiva-f@student.42porto.com>    +#+  +:+       +#+        */
+/*   By: jsobreir <jsobreir@student.42porto.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/26 13:57:11 by bpaiva-f          #+#    #+#             */
-/*   Updated: 2025/02/26 13:57:12 by bpaiva-f         ###   ########.fr       */
+/*   Updated: 2025/03/05 19:18:41 by jsobreir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,9 +80,9 @@ static void	fill_structs(t_scene *scene, char **args)
 		scene->num_objects++;
 		new_obj = add_object(&scene->objects);
 		if (!ft_strncmp(args[0], "sp", 3))
-			fill_sphere(args, new_obj);
+			fill_sphere(scene, args, new_obj);
 		else if (!ft_strncmp(args[0], "cy", 3))
-			fill_cylinder(args, new_obj);
+			fill_cylinder(scene, args, new_obj);
 		else if (!ft_strncmp(args[0], "pl", 3))
 			fill_plane(args, new_obj);
 	}

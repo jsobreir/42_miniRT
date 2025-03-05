@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   fill_objects.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bpaiva-f <bpaiva-f@student.42porto.com>    +#+  +:+       +#+        */
+/*   By: jsobreir <jsobreir@student.42porto.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/26 13:57:09 by bpaiva-f          #+#    #+#             */
-/*   Updated: 2025/02/26 13:57:10 by bpaiva-f         ###   ########.fr       */
+/*   Updated: 2025/03/05 19:18:29 by jsobreir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minirt.h"
 
-void	fill_sphere(char **args, t_object *sphere)
+void	fill_sphere(t_scene *scene, char **args, t_object *sphere)
 {
 	char	**sp;
 
@@ -26,9 +26,10 @@ void	fill_sphere(char **args, t_object *sphere)
 	sp = ft_split(args[3], ',');
 	set_color(&sphere->rgb, ft_atoi(sp[0]), ft_atoi(sp[1]), ft_atoi(sp[2]));
 	free_array(sp, arr_len(sp));
+	sphere->light_inside = light_inside(sphere, scene);
 }
 
-void	fill_cylinder(char **args, t_object *cylinder)
+void	fill_cylinder(t_scene *scene, char **args, t_object *cylinder)
 {
 	char	**sp;
 
@@ -49,6 +50,7 @@ void	fill_cylinder(char **args, t_object *cylinder)
 	set_color(&cylinder->rgb, ft_atoi(sp[0]), ft_atoi(sp[1]), ft_atoi(sp[2]));
 	cylinder->orientation = normalize(&cylinder->orientation);
 	free_array(sp, arr_len(sp));
+	cylinder->light_inside = light_inside(cylinder, scene);
 }
 
 void	fill_plane(char **args, t_object *plane)
@@ -70,4 +72,5 @@ void	fill_plane(char **args, t_object *plane)
 	sp = ft_split(args[3], ',');
 	set_color(&plane->rgb, ft_atoi(sp[0]), ft_atoi(sp[1]), ft_atoi(sp[2]));
 	free_array(sp, arr_len(sp));
+	plane->light_inside = false;
 }

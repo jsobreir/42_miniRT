@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minirt.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bpaiva-f <bpaiva-f@student.42porto.com>    +#+  +:+       +#+        */
+/*   By: jsobreir <jsobreir@student.42porto.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/26 13:56:12 by bpaiva-f          #+#    #+#             */
-/*   Updated: 2025/03/05 16:36:13 by bpaiva-f         ###   ########.fr       */
+/*   Updated: 2025/03/05 19:18:00 by jsobreir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,6 +76,7 @@ typedef struct s_matrix
 
 typedef struct s_object
 {
+	bool			light_inside;
 	t_matrix		*cached_transform;
 	t_obj_type		type;
 	t_vec3			rgb;
@@ -173,8 +174,8 @@ int					parse_file(int argc, char **argv, t_scene *scene);
 void				fill_ambient(char **args, t_scene *scene);
 void				fill_light(char **args, t_scene *scene);
 void				fill_camera(char **args, t_scene *scene);
-void				fill_sphere(char **args, t_object *sphere);
-void				fill_cylinder(char **args, t_object *cylinder);
+void				fill_sphere(t_scene *scene, char **args, t_object *sphere);
+void				fill_cylinder(t_scene *scene, char **args, t_object *cylinder);
 void				fill_plane(char **args, t_object *plane);
 
 // Free
@@ -240,7 +241,7 @@ int					check_intersections(float t1[], t_intersections **inter,
 						t_object *object, t_ray *ray);
 t_ray				*transform_ray(t_object *obj, t_scene *scen, t_ray *ray);
 t_matrix			*rotation_matrix(t_object *obj);
-int					cyl_cap_plane_check(t_ray *ray, float cap_y, float t[2]);
+int					cyl_limits_check(t_ray *ray, float cap_y, float t[2]);
 float				cyl_cap_inters(t_ray *ray, t_object *cyl, float cap_y);
 
 // Utils
@@ -254,11 +255,12 @@ void				ft_swap(float *a, float *b);
 
 // Rendering
 void				render_img(t_scene *scene);
-t_vec3				calculate_diffuse(t_intersections *inter, t_scene world);
+t_vec3				calculate_diffuse(t_ray *ray, t_intersections *inter, t_scene world);
 t_vec3				calculate_specular(t_intersections *inter,
 						t_scene world, t_ray *ray);
-int					is_shadow(t_intersections *inter1, t_scene *world);
+int					is_shadow(t_ray *ray, t_intersections *inter1, t_scene *world);
 int					color_pixel(int x, int y, t_scene *world);
+int					light_inside(t_object *obj, t_scene *world);
 
 // Colors
 int					rgb_to_hex(t_vec3 *rgb);

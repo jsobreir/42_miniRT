@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   colors.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bpaiva-f <bpaiva-f@student.42porto.com>    +#+  +:+       +#+        */
+/*   By: jsobreir <jsobreir@student.42porto.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/26 13:57:17 by bpaiva-f          #+#    #+#             */
-/*   Updated: 2025/03/05 15:35:07 by bpaiva-f         ###   ########.fr       */
+/*   Updated: 2025/03/05 19:54:56 by jsobreir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,35 @@ t_vec3	get_reflect_vec(t_vec3 vec, t_vec3 normal)
 	return (ret);
 }
 
-t_vec3	calculate_diffuse(t_intersections *intersection, t_scene world)
+int	light_inside(t_object *obj, t_scene *world)
+{
+	float	dx;
+	float	dz;
+	float	distance_squared;
+	t_light	*light;
+
+	light = world->light;
+	if (obj->type == SPHERE)
+	{
+		distance_squared = pow(light->position.x - obj->position.x, 2) +
+							pow(light->position.y - obj->position.y, 2) +
+							pow(light->position.z - obj->position.z, 2);
+		if (distance_squared < obj->radius * obj->radius)
+			return (1);
+	}
+	else if (obj->type == CYLINDER)
+	{
+		dx = light->position.x - obj->position.x;
+		dz = light->position.z - obj->position.z;
+		distance_squared = dx * dx + dz * dz;
+		if (distance_squared < obj->radius * obj->radius &&
+			light->position.y >= (obj->position.y - obj->height / 2) && light->position.y <= (obj->position.y + obj->height / 2))
+			return (1);	
+	}
+	return (0);
+}
+
+t_vec3	calculate_diffuse(t_ray *ray, t_intersections *intersection, t_scene world)
 {
 	t_vec3	point_to_light;
 	t_light	light;
@@ -50,8 +78,13 @@ t_vec3	calculate_diffuse(t_intersections *intersection, t_scene world)
 		normal = intersection->object->orientation;
 	else
 		normal = normal_object(intersection, intersection->object);
-	if (dot_product(normal, point_to_light) < 0)
-		normal = mult_byscalar(&normal, -1);
+	if (dot_product(ray->direction, normal) > 0)
+	{
+			normal = mult_byscalar(&normal, -1);
+			if (intersection->object->light_inside == false &&
+				intersection->object->type != PLANE)
+				return (change_brightness(&object_color, 0));	
+	}
 	light_dot_normal = dot_product(point_to_light, normal);
 	light_dot_normal = fmax(light_dot_normal, 0.0);
 	return (change_brightness(&object_color, light_dot_normal));
@@ -85,8 +118,16 @@ t_vec3	calculate_specular(t_intersections *inter, t_scene world, t_ray *ray)
 		normal = normalize(&inter->object->orientation);
 	else
 		normal = normal_object(inter, inter->object);
-	if (dot_product(normal, inverse_light) < 0)
+	if (dot_product(ray->direction, normal) > 0)
+	{
 		normal = mult_byscalar(&normal, -1);
+		if (inter->object->light_inside == false &&
+				inter->object->type != PLANE)
+		{
+			set_color(&specular, 0, 0, 0);	
+			return (specular);
+		}
+	}
 	reflect_dot_eye = calculate_reflect(inverse_light, normal, ray);
 	if (reflect_dot_eye <= 0)
 		set_color(&specular, 0, 0, 0);

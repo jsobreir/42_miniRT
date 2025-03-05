@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   render.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bpaiva-f <bpaiva-f@student.42porto.com>    +#+  +:+       +#+        */
+/*   By: jsobreir <jsobreir@student.42porto.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/26 13:57:23 by bpaiva-f          #+#    #+#             */
-/*   Updated: 2025/03/05 15:40:14 by bpaiva-f         ###   ########.fr       */
+/*   Updated: 2025/03/05 18:40:56 by jsobreir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ float	fill_ray(t_vec3 *normal, t_intersections *inter1,
 	return (magnitude(v));
 }
 
-int	is_shadow(t_intersections *inter1, t_scene *world)
+int	is_shadow(t_ray *ray1, t_intersections *inter1, t_scene *world)
 {
 	float			distance;
 	t_ray			ray;
@@ -45,6 +45,8 @@ int	is_shadow(t_intersections *inter1, t_scene *world)
 	else if (inter1->object->type != CYLINDER)
 		normal = mult_byscalar(&normal, EPSILON);
 	ray.intersections = &inter2;
+	if (dot_product(ray1->direction, normal) > 0)
+		return (0);
 	distance = fill_ray(&normal, inter1, world, &ray);
 	intersect(&ray, world);
 	if (ray.intersections->t[0] != INFINITY
