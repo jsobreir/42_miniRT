@@ -6,21 +6,19 @@
 /*   By: bpaiva-f <bpaiva-f@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/26 13:57:17 by bpaiva-f          #+#    #+#             */
-/*   Updated: 2025/02/27 17:15:15 by bpaiva-f         ###   ########.fr       */
+/*   Updated: 2025/03/05 15:35:07 by bpaiva-f         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minirt.h"
 
-t_vec3	get_light_vec(t_intersections *intersection, t_scene world,
-			t_vec3 point, t_ray *ray)
+t_vec3	get_light_vec(t_intersections *intersection, t_scene world)
 {
 	t_light	light;
 	t_vec3	point_to_light;
 
 	light = *world.light;
-	point = point_on_vec3(intersection->t[0], ray);
-	point_to_light = subtract_vec3s(light.position, point);
+	point_to_light = subtract_vec3s(light.position, intersection->poriginal);
 	point_to_light = normalize(&point_to_light);
 	return (point_to_light);
 }
@@ -44,14 +42,14 @@ t_vec3	calculate_diffuse(t_intersections *intersection, t_scene world)
 
 	object_color = intersection->object->rgb;
 	light = *world.light;
-	point_to_light.x = light.position.x - intersection->point.x;
-	point_to_light.y = light.position.y - intersection->point.y;
-	point_to_light.z = light.position.z - intersection->point.z;
+	point_to_light.x = light.position.x - intersection->poriginal.x;
+	point_to_light.y = light.position.y - intersection->poriginal.y;
+	point_to_light.z = light.position.z - intersection->poriginal.z;
 	point_to_light = normalize(&point_to_light);
 	if (intersection->object->type == PLANE)
 		normal = intersection->object->orientation;
 	else
-		normal = normal_object(&intersection->point, intersection->object);
+		normal = normal_object(intersection, intersection->object);
 	if (dot_product(normal, point_to_light) < 0)
 		normal = mult_byscalar(&normal, -1);
 	light_dot_normal = dot_product(point_to_light, normal);
@@ -81,12 +79,12 @@ t_vec3	calculate_specular(t_intersections *inter, t_scene world, t_ray *ray)
 	t_vec3	normal;
 	t_vec3	white;
 
-	inverse_light = get_light_vec(inter, world, inter->point, ray);
+	inverse_light = get_light_vec(inter, world);
 	inverse_light = mult_byscalar(&inverse_light, -1);
 	if (inter->object->type == PLANE)
 		normal = normalize(&inter->object->orientation);
 	else
-		normal = normal_object(&inter->point, inter->object);
+		normal = normal_object(inter, inter->object);
 	if (dot_product(normal, inverse_light) < 0)
 		normal = mult_byscalar(&normal, -1);
 	reflect_dot_eye = calculate_reflect(inverse_light, normal, ray);

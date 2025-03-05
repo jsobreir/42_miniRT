@@ -6,7 +6,7 @@
 /*   By: bpaiva-f <bpaiva-f@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/26 13:56:12 by bpaiva-f          #+#    #+#             */
-/*   Updated: 2025/02/27 19:41:51 by bpaiva-f         ###   ########.fr       */
+/*   Updated: 2025/03/05 15:27:16 by bpaiva-f         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,6 +111,7 @@ typedef struct s_light
 typedef struct s_intersections
 {
 	t_point3				point;
+	t_point3				poriginal;
 	float					t[2];
 	t_object				*object;
 	struct s_intersections	*next;
@@ -188,7 +189,7 @@ float				dot_product(t_vec3 a, t_vec3 b);
 t_vec3				normalize(t_vec3 *a);
 t_vec3				mult_byscalar(t_vec3 *vec, float scalar);
 t_vec3				cross_product(t_vec3 a, t_vec3 b);
-t_vec3				normal_object(t_point3 *point, t_object *object);
+t_vec3				normal_object(t_intersections *inter, t_object *object);
 t_vec3				reflect(t_vec3 in, t_vec3 normal);
 t_point3			point_on_vec3(float t, t_ray *ray);
 t_vec3				fill_vec3(t_vec3 *vector, float x, float y, float z);
@@ -264,7 +265,6 @@ t_vec3				change_brightness(t_vec3 *color, float factor);
 t_vec3				add_colors(t_vec3 *color1, t_vec3 *color2);
 void				set_color(t_vec3 *color, int red, int green, int blue);
 t_vec3				multiply_colors(t_vec3 *color1, t_vec3 *color2);
-t_vec3				get_light_vec(t_intersections *intersection,
-						t_scene world, t_vec3 point, t_ray *ray);
+t_vec3				get_light_vec(t_intersections *intersection, t_scene world);
 
 #endif

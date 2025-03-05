@@ -6,7 +6,7 @@
 /*   By: bpaiva-f <bpaiva-f@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/26 13:56:25 by bpaiva-f          #+#    #+#             */
-/*   Updated: 2025/02/27 19:41:56 by bpaiva-f         ###   ########.fr       */
+/*   Updated: 2025/03/05 14:54:40 by bpaiva-f         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,8 @@ t_intersections	*new_inters_node(t_object *object, float *t, t_ray *ray)
 	new->t[0] = t[0];
 	new->t[1] = t[1];
 	new->next = NULL;
-	new->point = point_on_vec3(t[0], ray);
+	new->poriginal = point_on_vec3(t[0], &ray[0]);
+	new->point = point_on_vec3(t[0], &ray[1]);
 	return (new);
 }
 

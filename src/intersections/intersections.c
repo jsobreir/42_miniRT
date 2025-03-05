@@ -6,7 +6,7 @@
 /*   By: bpaiva-f <bpaiva-f@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/26 13:56:27 by bpaiva-f          #+#    #+#             */
-/*   Updated: 2025/02/27 19:41:13 by bpaiva-f         ###   ########.fr       */
+/*   Updated: 2025/03/05 15:41:51 by bpaiva-f         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,10 +48,11 @@ int	hit_sphere(t_object *sphere, t_ray *ray,
 	float	t1[2];
 	float	a[3];
 	t_vec3	oc;
-	int		check_int;
 	float	discriminant;
-	(void)ray;
+	t_ray	save[2];
 
+	save[0] = *ray;
+	save[1] = *trans_ray;
 	oc = trans_ray->origin;
 	a[0] = dot_product(trans_ray->direction, trans_ray->direction);
 	a[1] = 2 * dot_product(trans_ray->direction, oc);
@@ -61,8 +62,7 @@ int	hit_sphere(t_object *sphere, t_ray *ray,
 		return (0);
 	t1[0] = (-a[1] - sqrtf(discriminant)) / (2 * a[0]);
 	t1[1] = (-a[1] + sqrtf(discriminant)) / (2 * a[0]);
-	check_int = check_intersections(t1, intersections, sphere, trans_ray);
-	return (check_int);
+	return (check_intersections(t1, intersections, sphere, save));
 }
 
 t_intersections	*intersect(t_ray *ray, t_scene *world)

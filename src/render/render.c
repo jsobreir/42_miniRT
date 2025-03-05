@@ -6,7 +6,7 @@
 /*   By: bpaiva-f <bpaiva-f@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/26 13:57:23 by bpaiva-f          #+#    #+#             */
-/*   Updated: 2025/02/27 19:42:30 by bpaiva-f         ###   ########.fr       */
+/*   Updated: 2025/03/05 15:40:14 by bpaiva-f         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,8 @@ float	fill_ray(t_vec3 *normal, t_intersections *inter1,
 	t_vec3			direction;
 	t_vec3			v;
 
-	overpoint = add_vectors(&inter1->point, normal);
-	v = subtract_vec3s(world->light->position, inter1->point);
+	overpoint = add_vectors(&inter1->poriginal, normal);
+	v = subtract_vec3s(world->light->position, inter1->poriginal);
 	direction = normalize(&v);
 	ray->origin = overpoint;
 	ray->direction = direction;
@@ -33,17 +33,16 @@ int	is_shadow(t_intersections *inter1, t_scene *world)
 	t_ray			ray;
 	t_vec3			normal;
 	t_intersections	inter2;
-	(void)inter1;
-	
+
 	init_intersections(&inter2);
 	if (inter1->object->type == PLANE)
 		normal = normalize(&inter1->object->orientation);
 	else
-		normal = normal_object(&inter1->point, inter1->object);
+		normal = normal_object(inter1, inter1->object);
 	if (inter1->object->type == PLANE && dot_product(normal,
-			subtract_vec3s(world->light->position, inter1->point)) < 0)
+			subtract_vec3s(world->light->position, inter1->poriginal)) < 0)
 		normal = mult_byscalar(&normal, -EPSILON);
-	if (inter1->object->type != CYLINDER)
+	else if (inter1->object->type != CYLINDER)
 		normal = mult_byscalar(&normal, EPSILON);
 	ray.intersections = &inter2;
 	distance = fill_ray(&normal, inter1, world, &ray);

@@ -6,7 +6,7 @@
 /*   By: bpaiva-f <bpaiva-f@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/26 13:56:23 by bpaiva-f          #+#    #+#             */
-/*   Updated: 2025/02/27 19:41:36 by bpaiva-f         ###   ########.fr       */
+/*   Updated: 2025/03/05 15:43:32 by bpaiva-f         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,37 +54,40 @@ static void	check_cyl_cap(t_ray *trans_ray, t_object *cyl, t_ray *ray)
 void	hit_cylinder(t_object *cyl, t_ray *trans_ray,
 			t_intersections **inters, t_ray *ray)
 {
-	float	a;
-	float	b;
-	float	c;
+	float	a[3];
 	float	discriminant;
 	float	i[2];
+	t_ray	save[2];
 
+	save[0] = *ray;
+	save[1] = *trans_ray;
 	check_cyl_cap(trans_ray, cyl, ray);
-	a = trans_ray->direction.x * trans_ray->direction.x
+	a[0] = trans_ray->direction.x * trans_ray->direction.x
 		+ trans_ray->direction.z * trans_ray->direction.z;
-	b = 2 * (trans_ray->origin.x * trans_ray->direction.x
+	a[1] = 2 * (trans_ray->origin.x * trans_ray->direction.x
 			+ trans_ray->origin.z * trans_ray->direction.z);
-	c = trans_ray->origin.x * trans_ray->origin.x
+	a[2] = trans_ray->origin.x * trans_ray->origin.x
 		+ trans_ray->origin.z * trans_ray->origin.z - cyl->radius * cyl->radius;
-	if (a == 0)
+	if (a[0] == 0)
 		return ;
-	discriminant = b * b - 4 * a * c;
+	discriminant = a[1] * a[1] - 4 * a[0] * a[2];
 	if (discriminant < 0)
 		return ;
-	i[0] = (-b - sqrtf(discriminant)) / (2 * a);
-	i[1] = (-b + sqrtf(discriminant)) / (2 * a);
+	i[0] = (-a[1] - sqrtf(discriminant)) / (2 * a[0]);
+	i[1] = (-a[1] + sqrtf(discriminant)) / (2 * a[0]);
 	if (!cyl_cap_plane_check(trans_ray, cyl->height / 2, i))
 		return ;
-	check_intersections(i, inters, cyl, trans_ray);
+	check_intersections(i, inters, cyl, save);
 }
 
 int	hit_plane(t_object *plane, t_ray *original,
 	t_ray *ray, t_intersections **inter)
 {
 	float	i[2];
-	(void)original;
+	t_ray	save[2];
 
+	save[0] = *original;
+	save[1] = *ray;
 	if (fabs(ray->direction.y) < 1e-6)
 		return (0);
 	i[0] = -ray->origin.y / ray->direction.y;
@@ -92,6 +95,6 @@ int	hit_plane(t_object *plane, t_ray *original,
 	if (i[0] < 0)
 		return (0);
 	if (i[0] > 0)
-		add_intersect_list(inter, plane, i, original);
+		add_intersect_list(inter, plane, i, save);
 	return (1);
 }
