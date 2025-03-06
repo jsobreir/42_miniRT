@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cylinder.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jsobreir <jsobreir@student.42porto.fr>     +#+  +:+       +#+        */
+/*   By: bpaiva-f <bpaiva-f@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/26 13:56:23 by bpaiva-f          #+#    #+#             */
-/*   Updated: 2025/03/05 18:05:30 by jsobreir         ###   ########.fr       */
+/*   Updated: 2025/03/06 11:34:17 by bpaiva-f         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,11 +44,15 @@ float	cyl_cap_inters(t_ray *ray, t_object *cyl, float cap_y)
 
 static void	check_cyl_cap(t_intersections **inters, t_object *cyl, t_ray *rays)
 {
-	float	t[2];
+	float	t1[2];
+	float	t2[2];
 
-	t[0] = cyl_cap_inters(&rays[1], cyl, cyl->height / 2);
-	t[1] = cyl_cap_inters(&rays[1], cyl, -cyl->height / 2);
-	check_intersections(t, inters, cyl, rays);
+	t1[0] = cyl_cap_inters(&rays[1], cyl, -cyl->height / 2);
+	t1[1] = t1[0];
+	t2[0] = cyl_cap_inters(&rays[1], cyl, cyl->height / 2);
+	t2[1] = t2[0];
+	check_intersections(t1, inters, cyl, rays);
+	check_intersections(t2, inters, cyl, rays);
 }
 
 void	hit_cylinder(t_object *cyl, t_ray *trans_ray,

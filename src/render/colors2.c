@@ -6,7 +6,7 @@
 /*   By: bpaiva-f <bpaiva-f@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/26 13:57:21 by bpaiva-f          #+#    #+#             */
-/*   Updated: 2025/03/05 16:33:07 by bpaiva-f         ###   ########.fr       */
+/*   Updated: 2025/03/06 11:30:45 by bpaiva-f         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,4 +61,33 @@ void	set_color(t_vec3 *color, int red, int green, int blue)
 	color->r = (float)red / 255.0f;
 	color->g = (float)green / 255.0f;
 	color->b = (float)blue / 255.0f;
+}
+
+int	light_inside(t_object *obj, t_scene *world)
+{
+	float	dx;
+	float	dz;
+	float	distance_squared;
+	t_light	*light;
+
+	light = world->light;
+	if (obj->type == SPHERE)
+	{
+		distance_squared = pow(light->position.x - obj->position.x, 2)
+			+ pow(light->position.y - obj->position.y, 2)
+			+ pow(light->position.z - obj->position.z, 2);
+		if (distance_squared < obj->radius * obj->radius)
+			return (1);
+	}
+	else if (obj->type == CYLINDER)
+	{
+		dx = light->position.x - obj->position.x;
+		dz = light->position.z - obj->position.z;
+		distance_squared = dx * dx + dz * dz;
+		if (distance_squared < obj->radius * obj->radius
+			&& light->position.y >= (obj->position.y - obj->height / 2)
+			&& light->position.y <= (obj->position.y + obj->height / 2))
+			return (1);
+	}
+	return (0);
 }

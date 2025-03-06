@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minirt.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jsobreir <jsobreir@student.42porto.fr>     +#+  +:+       +#+        */
+/*   By: bpaiva-f <bpaiva-f@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/26 13:56:12 by bpaiva-f          #+#    #+#             */
-/*   Updated: 2025/03/05 19:18:00 by jsobreir         ###   ########.fr       */
+/*   Updated: 2025/03/06 13:17:18 by bpaiva-f         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -171,12 +171,17 @@ void				init_intersections(t_intersections *inter);
 
 // Parser
 int					parse_file(int argc, char **argv, t_scene *scene);
-void				fill_ambient(char **args, t_scene *scene);
-void				fill_light(char **args, t_scene *scene);
-void				fill_camera(char **args, t_scene *scene);
-void				fill_sphere(t_scene *scene, char **args, t_object *sphere);
-void				fill_cylinder(t_scene *scene, char **args, t_object *cylinder);
-void				fill_plane(char **args, t_object *plane);
+int					fill_ambient(char **args, t_scene *scene);
+int					fill_light(char **args, t_scene *scene);
+int					fill_camera(char **args, t_scene *scene);
+int					fill_sphere(t_scene *scene, char **args, t_object *sphere);
+int					fill_cylinder(t_scene *scene, char **args,
+						t_object *cylinder);
+int					fill_plane(char **args, t_object *plane);
+int					fill_them(t_scene *scene, char **args);
+int					fill_objects(t_scene *scene, char **args, t_object *obj);
+int					fill_structs(t_scene *scene, char **args);
+t_object			*add_object(t_object **object_node);
 
 // Free
 int					free_array(char	**arr, int len);
@@ -255,10 +260,11 @@ void				ft_swap(float *a, float *b);
 
 // Rendering
 void				render_img(t_scene *scene);
-t_vec3				calculate_diffuse(t_ray *ray, t_intersections *inter, t_scene world);
+t_vec3				calculate_diffuse(t_ray *ray, t_intersections *inter,
+						t_scene world);
 t_vec3				calculate_specular(t_intersections *inter,
 						t_scene world, t_ray *ray);
-int					is_shadow(t_ray *ray, t_intersections *inter1, t_scene *world);
+int					is_shadow(t_intersections *inter1, t_scene *world);
 int					color_pixel(int x, int y, t_scene *world);
 int					light_inside(t_object *obj, t_scene *world);
 

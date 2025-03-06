@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   parse_file.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jsobreir <jsobreir@student.42porto.fr>     +#+  +:+       +#+        */
+/*   By: bpaiva-f <bpaiva-f@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/26 13:57:11 by bpaiva-f          #+#    #+#             */
-/*   Updated: 2025/03/05 19:18:41 by jsobreir         ###   ########.fr       */
+/*   Updated: 2025/03/06 13:16:29 by bpaiva-f         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minirt.h"
 
-static t_object	*add_object(t_object **object_node)
+t_object	*add_object(t_object **object_node)
 {
 	t_object	*new;
 	t_object	*current;
@@ -53,41 +53,17 @@ int	check_args(int argc, char **argv)
 		return (fd);
 	}
 	file_extension = ft_strrchr(argv[1], '.');
+	if (!file_extension)
+		return (printf("Please enter a .rt file!\n"), -1);
 	fd = open(argv[1], O_RDONLY);
 	if (fd < 0)
 		return (printf("Could't open file %s!\n", argv[1]), fd);
 	else if (ft_strncmp(file_extension, ".rt", 3))
-		return (printf("Please enter a .rt file!\n"));
+		return (printf("Please enter a .rt file!\n"), -1);
 	else if (fd && !ft_strncmp(file_extension, ".rt", 3))
 		return (fd);
 	else
 		return (printf("Error occured during parsing!\n"));
-}
-
-static void	fill_structs(t_scene *scene, char **args)
-{
-	t_object	*new_obj;
-
-	if (!ft_strncmp(args[0], "A", 2))
-		fill_ambient(args, scene);
-	else if (!ft_strncmp(args[0], "C", 2))
-		fill_camera(args, scene);
-	else if (!ft_strncmp(args[0], "L", 2))
-		fill_light(args, scene);
-	else if (!ft_strncmp(args[0], "sp", 3) || !ft_strncmp(args[0], "pl", 3)
-		|| !ft_strncmp(args[0], "cy", 3))
-	{
-		scene->num_objects++;
-		new_obj = add_object(&scene->objects);
-		if (!ft_strncmp(args[0], "sp", 3))
-			fill_sphere(scene, args, new_obj);
-		else if (!ft_strncmp(args[0], "cy", 3))
-			fill_cylinder(scene, args, new_obj);
-		else if (!ft_strncmp(args[0], "pl", 3))
-			fill_plane(args, new_obj);
-	}
-	else
-		return ;
 }
 
 static int	check_all_structs(t_scene *scene)
@@ -96,6 +72,24 @@ static int	check_all_structs(t_scene *scene)
 		return (1);
 	if (scene->camera->cam_set == false)
 		return (1);
+	return (0);
+}
+
+static int	read_lines(char *line, char **args_line, t_scene *scene, int fd)
+{
+	while (line)
+	{
+		args_line = ft_split_multiple(line, " \t");
+		if (fill_structs(scene, args_line) == -1)
+			return (1);
+		line = get_next_line(fd);
+		while (line && *line == '\n')
+		{
+			free(line);
+			line = get_next_line(fd);
+		}
+		free_array(args_line, arr_len(args_line));
+	}
 	return (0);
 }
 
@@ -109,22 +103,13 @@ int	parse_file(int argc, char **argv, t_scene *scene)
 	char	**args_line;
 	int		fd;
 
+	args_line = NULL;
 	fd = check_args(argc, argv);
 	if (fd <= 0)
 		clean_exit(scene, NULL);
 	line = get_next_line(fd);
-	while (line)
-	{
-		args_line = ft_split_multiple(line, " \t");
-		fill_structs(scene, args_line);
-		line = get_next_line(fd);
-		while (line && *line == '\n')
-		{
-			free(line);
-			line = get_next_line(fd);
-		}
-		free_array(args_line, arr_len(args_line));
-	}
+	if (read_lines(line, args_line, scene, fd))
+		return (1);
 	if (!scene->num_objects)
 		return (ft_putstr_fd("No objects to draw!\n", 2), 1);
 	if (check_all_structs(scene))

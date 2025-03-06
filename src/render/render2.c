@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   render2.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jsobreir <jsobreir@student.42porto.fr>     +#+  +:+       +#+        */
+/*   By: bpaiva-f <bpaiva-f@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/26 13:57:26 by bpaiva-f          #+#    #+#             */
-/*   Updated: 2025/03/05 19:37:50 by jsobreir         ###   ########.fr       */
+/*   Updated: 2025/03/06 11:47:58 by bpaiva-f         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,6 @@ int	color_pixel(int x, int y, t_scene *world)
 	t_vec3	diffuse;
 	t_vec3	specular;
 
-	
 	ray.intersections = NULL;
 	generate_ray(x, y, world->camera, &ray);
 	ray.intersections = intersect(&ray, world);
@@ -48,7 +47,7 @@ int	color_pixel(int x, int y, t_scene *world)
 	{
 		ambient = multiply_colors(world, ray.intersections);
 		ambient = change_brightness(&ambient, world->light->amb_ratio);
-		if (is_shadow(&ray, ray.intersections, world))
+		if (is_shadow(ray.intersections, world))
 			return (free_t(ray.intersections), rgb_to_hex(&ambient));
 		diffuse = calculate_diffuse(&ray, ray.intersections, *world);
 		diffuse = change_brightness(&diffuse, world->light->brightness);
