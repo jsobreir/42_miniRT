@@ -51,15 +51,15 @@ OBJ = $(SRC:%.c=$(OBJ_DIR)/%.o)
 # ------------------------------------------------------------------- #
 vpath %.c $(VPATHS)
 
-all: $(NAME)
-
-$(NAME): $(OBJ_DIR) $(LIBFT) $(MLX) $(OBJ)
-	$(CC) $(OBJ) -o $(NAME) $(FLAGS) $(LIBFT)
+all: $(OBJ_DIR) $(LIBFT_A)  $(NAME)
 
 $(OBJ_DIR):
 	mkdir -p $(OBJ_DIR)
 
-$(OBJ_DIR)/%.o: %.c $(OBJ_DIR)
+$(NAME): $(OBJ) $(OBJ_DIR) $(LIBFT) $(MLX)
+	$(CC) $(OBJ) -o $(NAME) $(FLAGS) $(LIBFT)
+
+$(OBJ_DIR)/%.o: %.c
 	$(CC) -Wall -Wextra -Werror -g -c -I$(MLX_DIR) -I./includes $< -o $@
 
 $(LIBFT):
@@ -79,7 +79,7 @@ clean:
 fclean: clean
 	rm -f $(NAME)
 	$(MAKE) -C $(LIBFT_DIR) fclean
-	$(MAKE) -C $(MLX_DIR) clean
+	$(MAKE) -C $(MLX_DIR) fclean
 
 re: fclean all
 
