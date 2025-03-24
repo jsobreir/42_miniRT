@@ -6,7 +6,7 @@ MLX = $(MLX_DIR)/libmlx_Linux.a
 LIBFT_DIR = includes/libft
 LIBFT = $(LIBFT_DIR)/libft.a
 
-NAME = minirt
+NAME = miniRT
 MAKE = make
 # -L flag indicates which directories need to be searched for libraries (.a files)
 # -I flad adds a directory that needs to be searched for Header files (.h files)

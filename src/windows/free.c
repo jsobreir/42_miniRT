@@ -6,7 +6,7 @@
 /*   By: bpaiva-f <bpaiva-f@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/26 13:57:38 by bpaiva-f          #+#    #+#             */
-/*   Updated: 2025/02/27 16:55:15 by bpaiva-f         ###   ########.fr       */
+/*   Updated: 2025/03/24 14:21:38 by bpaiva-f         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,10 @@ int	clean_exit(t_scene *scene, char *msg)
 	if (!msg || !*msg)
 		ft_putstr_fd("Exiting program cleanly.\n", 1);
 	else
+	{
+		ft_putstr_fd("Error\n", 2);
 		ft_putstr_fd(msg, 2);
+	}
 	if (!msg)
 		exit(0);
 	else

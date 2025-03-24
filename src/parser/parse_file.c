@@ -6,7 +6,7 @@
 /*   By: bpaiva-f <bpaiva-f@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/26 13:57:11 by bpaiva-f          #+#    #+#             */
-/*   Updated: 2025/03/06 13:16:29 by bpaiva-f         ###   ########.fr       */
+/*   Updated: 2025/03/24 14:20:54 by bpaiva-f         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,9 +58,9 @@ int	check_args(int argc, char **argv)
 	fd = open(argv[1], O_RDONLY);
 	if (fd < 0)
 		return (printf("Could't open file %s!\n", argv[1]), fd);
-	else if (ft_strncmp(file_extension, ".rt", 3))
+	else if (ft_strncmp(file_extension, ".rt", 4))
 		return (printf("Please enter a .rt file!\n"), -1);
-	else if (fd && !ft_strncmp(file_extension, ".rt", 3))
+	else if (fd && !ft_strncmp(file_extension, ".rt", 4))
 		return (fd);
 	else
 		return (printf("Error occured during parsing!\n"));
@@ -111,8 +111,8 @@ int	parse_file(int argc, char **argv, t_scene *scene)
 	if (read_lines(line, args_line, scene, fd))
 		return (1);
 	if (!scene->num_objects)
-		return (ft_putstr_fd("No objects to draw!\n", 2), 1);
+		clean_exit(scene, "No objects to draw!\n");
 	if (check_all_structs(scene))
-		return (ft_putstr_fd("Incomplete world description!\n", 2), 1);
+		clean_exit(scene, "Incomplete world description!\n");
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: bpaiva-f <bpaiva-f@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/26 13:57:06 by bpaiva-f          #+#    #+#             */
-/*   Updated: 2025/03/06 13:16:39 by bpaiva-f         ###   ########.fr       */
+/*   Updated: 2025/03/24 14:13:20 by bpaiva-f         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,10 +53,12 @@ int	fill_ambient(char **args, t_scene *scene)
 {
 	char	**sp;
 
+	if (!args || !args[1] || !args[2])
+		return (-1);
 	scene->light->ambient_set = true;
 	scene->light->amb_ratio = ft_atof1(args[1]);
 	sp = ft_split(args[2], ',');
-	if (!sp || !*sp || !sp[1] || !sp[2])
+	if (!sp || !sp[0] || !sp[1] || !sp[2] || *sp[2] == '\n')
 		return (-1);
 	set_color(&scene->light->ambient_color_rgb, ft_atoi(sp[0]),
 		ft_atoi(sp[1]), ft_atoi(sp[2]));
@@ -68,9 +70,11 @@ int	fill_light(char **args, t_scene *scene)
 {
 	char	**sp;
 
+	if (!args || !args[1] || !args[2])
+		return (-1);
 	scene->light->light_set = true;
 	sp = ft_split(args[1], ',');
-	if (!sp || !*sp || !sp[1] || !sp[2])
+	if (!sp || !sp[0] || !sp[1] || !sp[2])
 		return (-1);
 	scene->light->position.x = ft_atof1(sp[0]);
 	scene->light->position.y = ft_atof1(sp[1]);
@@ -78,7 +82,7 @@ int	fill_light(char **args, t_scene *scene)
 	free_array(sp, arr_len(sp));
 	scene->light->brightness = ft_atof1(args[2]);
 	sp = ft_split(args[3], ',');
-	if (!sp || !*sp || !sp[1] || !sp[2])
+	if (!sp || !sp[0] || !sp[1] || !sp[2] || *sp[2] == '\n')
 		return (-1);
 	set_color(&scene->light->color_rgb, ft_atoi(sp[0]),
 		ft_atoi(sp[1]), ft_atoi(sp[2]));
@@ -90,16 +94,18 @@ int	fill_camera(char **args, t_scene *scene)
 {
 	char	**sp;
 
+	if (!args || !args[1] || !args[2])
+		return (-1);
 	scene->camera->cam_set = true;
 	sp = ft_split(args[1], ',');
-	if (!sp || !*sp || !sp[1] || !sp[2])
+	if (!sp || !sp[0] || !sp[1] || !sp[2])
 		return (-1);
 	scene->camera->position.x = ft_atof1(sp[0]);
 	scene->camera->position.y = ft_atof1(sp[1]);
 	scene->camera->position.z = ft_atof1(sp[2]);
 	free_array(sp, arr_len(sp));
 	sp = ft_split(args[2], ',');
-	if (!sp || !*sp || !sp[1] || !sp[2])
+	if (!sp || !sp[0] || !sp[1] || !sp[2] || *sp[2] == '\n')
 		return (-1);
 	scene->camera->orientation.x = ft_atof1(sp[0]);
 	scene->camera->orientation.y = ft_atof1(sp[1]);
