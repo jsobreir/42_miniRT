@@ -6,7 +6,7 @@
 /*   By: bpaiva-f <bpaiva-f@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/26 13:57:11 by bpaiva-f          #+#    #+#             */
-/*   Updated: 2025/03/24 14:20:54 by bpaiva-f         ###   ########.fr       */
+/*   Updated: 2025/03/25 11:53:56 by bpaiva-f         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,11 +77,14 @@ static int	check_all_structs(t_scene *scene)
 
 static int	read_lines(char *line, char **args_line, t_scene *scene, int fd)
 {
+	int flag;
+
+	flag = 0;
 	while (line)
 	{
 		args_line = ft_split_multiple(line, " \t");
 		if (fill_structs(scene, args_line) == -1)
-			return (1);
+			flag = 1;
 		line = get_next_line(fd);
 		while (line && *line == '\n')
 		{
@@ -90,7 +93,7 @@ static int	read_lines(char *line, char **args_line, t_scene *scene, int fd)
 		}
 		free_array(args_line, arr_len(args_line));
 	}
-	return (0);
+	return (flag);
 }
 
 /// @brief Main parsing handling function.
