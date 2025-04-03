@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   fill_data_structs.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bpaiva-f <bpaiva-f@student.42porto.com>    +#+  +:+       +#+        */
+/*   By: jsobreir <jsobreir@student.42porto.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/26 13:57:06 by bpaiva-f          #+#    #+#             */
-/*   Updated: 2025/03/25 11:57:38 by bpaiva-f         ###   ########.fr       */
+/*   Updated: 2025/04/01 14:31:34 by jsobreir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,10 @@ int	fill_structs(t_scene *scene, char **args)
 		if (fill_objects(scene, args, new_obj) == -1)
 			return (-1);
 	}
+	else if (ft_strncmp(args[0], "sp", 3) && ft_strncmp(args[0], "pl", 3)
+		&& ft_strncmp(args[0], "cy", 3) && ft_strncmp(args[0], "C", 2)
+		&& ft_strncmp(args[0], "L", 2) && ft_strncmp(args[0], "A", 2))
+		return (-1);
 	return (0);
 }
 
@@ -94,7 +98,7 @@ int	fill_camera(char **args, t_scene *scene)
 {
 	char	**sp;
 
-	if (!args || !args[1] || !args[2])
+	if (!args || !args[1] || !args[2] || !args[3] || *args[3] == '\n')
 		return (-1);
 	scene->camera->cam_set = true;
 	sp = ft_split(args[1], ',');

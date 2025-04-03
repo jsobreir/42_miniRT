@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_file.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bpaiva-f <bpaiva-f@student.42porto.com>    +#+  +:+       +#+        */
+/*   By: jsobreir <jsobreir@student.42porto.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/26 13:57:11 by bpaiva-f          #+#    #+#             */
-/*   Updated: 2025/03/25 11:53:56 by bpaiva-f         ###   ########.fr       */
+/*   Updated: 2025/04/01 14:31:56 by jsobreir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,7 @@ static int	check_all_structs(t_scene *scene)
 
 static int	read_lines(char *line, char **args_line, t_scene *scene, int fd)
 {
-	int flag;
+	int	flag;
 
 	flag = 0;
 	while (line)
